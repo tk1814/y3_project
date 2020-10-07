@@ -1,0 +1,61 @@
+/* body,html */
+
+.App {
+  text-align: center;
+  color: #9AEDED;
+  
+  background-image: url(./bg.jpg);
+  height: 900px;
+  width: 100%;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo {
+  height: 67px;
+  /* float: left; */
+}
+
+.subtitle {
+  /* color: rgb(145, 145, 145); */
+  color: #9AEDED;
+  font-size: 1.5em;
+}
+
+p, h2 {
+  color: #9AEDED;
+}
+
+.nav {
+  /* background-color:  rgb(19,  115, 161); */
+  /* background-color: #C0C0C0; */
+   /* #414141; */
+  /* #C0C0C0 */
+  /* 99FFFF */
+
+  background-color: #222;
+  height: 80px;
+  /* padding: 40px; */
+  /* color: white; */
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-title {
+  color: #9AEDED;
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
