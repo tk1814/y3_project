@@ -9,7 +9,7 @@ const Header = (props) => (
         <div className="col-md-5">  
             <img src={logo} className="logo" alt="logo" />
         </div>
-        <div className="col-md-7 mt-3 subtitle">
+        <div className="col-md-7  subtitle">
             {props.subtitle}
         </div>
     </header>

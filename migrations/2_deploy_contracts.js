@@ -1,5 +1,5 @@
-const Addition = artifacts.require("Addition");
+const Meme = artifacts.require("./Meme.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Addition);
+  deployer.deploy(Meme);
 };
