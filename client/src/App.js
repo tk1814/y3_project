@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearchPlus, faHome, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import Web3 from "web3";
 import Meme from './contracts/Meme.json';
+import bs58 from 'bs58';
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }) 
@@ -22,16 +23,22 @@ const Root = () => (
 
 class App extends Component {
 
-  // TO DO 1: Authenticate user and acc
-  // TO DO 2: Create footer
-  // TO DO 3: Create circular logo
+  // TO DO 1.0: Authenticate user and acc
+  // TO DO 1.3: avoid duplicate images in smart contract? preferably
+  // TO DO 1.5: fix image layout, create mapping Image name->image
+  // TO DO 1.7: create more components and fix implications from this
+  // TO DO 2.0: fix internal/abstract function definitions in smart contract
+  // TO DO 3.0: Create footer
+  // TO DO 4.0: Create circular logo
 
   constructor(props) {
     super(props)
 
     this.state = {
+      imageItems: [],
       fileName: 'Choose file',
       memeHash: '',
+      imageArr: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -66,11 +73,43 @@ class App extends Component {
     const networkId = await web3.eth.net.getId()
     const networkData = Meme.networks[networkId]
 
-    if(networkData) {
+    if(networkData) { 
       const contract = new web3.eth.Contract(Meme.abi, networkData.address)
       this.setState({ contract })
-      const memeHash = await contract.methods.get().call()    // GETS
-      this.setState({ memeHash })
+      // const memeHash = await contract.methods.get().call()    // GETS
+      // this.setState({ memeHash })
+
+      // ***********&&&&&&&&&&&&************
+      // Display all images 
+      let imageSolArray = await contract.methods.get().call() 
+      console.log(imageSolArray)
+
+      if (imageSolArray !== undefined) {
+        console.log('Did the hashes, imageArr is ready to display')
+
+        let imageHashes = imageSolArray.slice();
+        imageSolArray.forEach(function(item, index) {
+          let hashHex = "1220" + item.slice(2)
+          let hashBytes = Buffer.from(hashHex, 'hex');
+          let hashStr = bs58.encode(hashBytes)
+          imageHashes[index] = hashStr;
+
+        });
+
+        // imageHashes.forEach(item => {
+        //   console.log('item ', item)
+        // });
+
+        this.setState({imageArr: imageHashes})
+
+        let imageItems
+        imageItems = this.state.imageArr.map((image,index) => (
+          <div key={index}>
+          <img style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile"/> 
+          </div>
+        ))
+        this.setState({imageItems: imageItems})
+      }
     } else {
       window.alert('Smart contract not deployed to detected network.')
     }
@@ -83,7 +122,6 @@ class App extends Component {
     event.preventDefault()
     const file = event.target.files[0]     // access file from user input
     const fileName = event.target.files[0].name;
-    // this.props.fileName = fileName;
     this.setState({ fileName: fileName }) 
     console.log(fileName);
     const reader = new window.FileReader() // convert file to array for buffer
@@ -96,7 +134,7 @@ class App extends Component {
   } 
 
   // uploads the buffer file stored in state to IPFS using ipfs API
-  // store the IPFS hash in contract
+  // store the IPFS hash in the smart contract
   onSubmit = async (event) => {
     event.preventDefault()
     console.log("Submitting file to ipfs...")
@@ -105,11 +143,18 @@ class App extends Component {
     if (buffer_data) {
       try {
         const file = await ipfs.add(this.state.buffer)
-        let file_hash = file.path // https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72
-        this.state.contract.methods.set(file_hash).send({ from: this.state.account }).then((r) => {
-          return this.setState({ memeHash: file_hash }) 
+        let file_hash = file.path // https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
+     
+        let hash_decoded = bs58.decode(file_hash).slice(2);
+        console.log('Bytes32/store: ' + hash_decoded.toString('hex')) // 32 length
+        this.state.contract.methods.set(hash_decoded).send({ from: this.state.account }).then((r) => {
+          // return this.setState({ memeHash: file_hash }) 
+          this.setState({ memeHash: file_hash }) 
+          // ***************&&&&&&&&&&&&************
+          // add refresh or sg to get the new image array from get() of smart contract
+          window.location.reload();
         })
-
+        
       } catch(e) {
           console.log("Error: ", e)
       }
@@ -117,13 +162,26 @@ class App extends Component {
         alert("No file was submitted. Please try again.")
         console.log('ERROR: No data to submit')
     }
-  }
+  } 
   
   render() {
-  // if (this.state.loading) return "Loading Drizzle...";
-  // if (!this.state.web3) {
-  //   return <div>Loading Web3, accounts, and contract...</div>;
-  // }
+  
+  // if (!this.state.loading) {
+      // let { images } = this.state.imageArr
+      // let imageItems
+      // if (images === undefined) {
+      //   console.log('undefined')
+      //   imageItems = <h4>No images found</h4>
+      // } else {
+      //   console.log('not undefined');
+      //   if (images.size > 0) {
+      //     imageItems = images.map((image) => (
+      //       <img style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile"/> 
+      //     ))
+      //   } 
+      // }
+  // } else return "Loading image Array...";
+
     return (
       <div className="App" data={this.state}>
         <BrowserRouter>  
@@ -164,7 +222,7 @@ class App extends Component {
                     <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Submit</button>
                 </form>
                 <p>&nbsp;</p>
-                  <img style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${this.state.memeHash}`} alt="inputFile"/>
+                {this.state.imageItems}
                 <br></br>
                 <br></br>
               </div>
@@ -180,18 +238,6 @@ class App extends Component {
 }
 
 export default App;
-
-
-                {/* <h2>Change Image</h2>                 */}
-
-                {/* <form onSubmit={this.onSubmit} > 
-                  <input type='file' onChange={this.captureFile} />
-                  <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"Large, 1.5em"}}  class="btn submit-btn ">Submit</button>
-                  </form>  
-                <p>&nbsp;</p> */}
-
-                {/* className="mx-sm-3" */}
-
 
 // class App extends Component {
 
