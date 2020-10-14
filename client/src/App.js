@@ -35,6 +35,7 @@ class App extends Component {
     super(props)
 
     this.state = {
+      loggedIn: false,
       imageItems: [],
       fileName: 'Choose file',
       memeHash: '',
@@ -46,11 +47,25 @@ class App extends Component {
     }
   }
 
-  // Lifecycle
-  async componentWillMount() {
+  async componentWillMount() { // Lifecycle
     await this.loadWeb3()
     await this.loadBlockchainData()
+
+    // Detects eth wallet account change 
+    this.ethereum = window.ethereum
+    if (this.ethereum) {
+      // already happens from the other function // window.ethereum.enable(); // important: do not change window.eth
+      console.log('Window: '+ window.ethereum.selectedAddress)
+
+      this.ethereum.on('accountsChanged', function (accounts) {
+        this.setState({account: accounts[0]})
+        // this.setState({ loggedIn: false }) 
+        window.location.reload();
+      }.bind(this))
+    }
+    
   }
+
 
   async loadWeb3() {
     if (window.ethereum) {
@@ -73,50 +88,75 @@ class App extends Component {
     const networkId = await web3.eth.net.getId()
     const networkData = Meme.networks[networkId]
 
-    if(networkData) { 
+    if (networkData) { 
       const contract = new web3.eth.Contract(Meme.abi, networkData.address)
       this.setState({ contract })
       // const memeHash = await contract.methods.get().call()    // GETS
       // this.setState({ memeHash })
 
-      // ***********&&&&&&&&&&&&************
-      // Display all images 
-      let imageSolArray = await contract.methods.get().call() 
-      console.log(imageSolArray)
+      // Display all images if user is logged in **********downloads images but doesn't display****************
+      // if (this.state.loggedIn) {
+        let imageSolArray = await contract.methods.get(this.state.account).call() 
+        console.log(imageSolArray)
 
-      if (imageSolArray !== undefined) {
-        console.log('Did the hashes, imageArr is ready to display')
+        if (imageSolArray !== undefined) {
+          // Did the hashes, imageArr is ready to display
+          let imageHashes = imageSolArray.slice();
+          imageSolArray.forEach(function(item, index) {
+            let hashHex = "1220" + item.slice(2)
+            let hashBytes = Buffer.from(hashHex, 'hex');
+            let hashStr = bs58.encode(hashBytes)
+            imageHashes[index] = hashStr;
 
-        let imageHashes = imageSolArray.slice();
-        imageSolArray.forEach(function(item, index) {
-          let hashHex = "1220" + item.slice(2)
-          let hashBytes = Buffer.from(hashHex, 'hex');
-          let hashStr = bs58.encode(hashBytes)
-          imageHashes[index] = hashStr;
+          });
 
-        });
+          // imageHashes.forEach(item => {
+          //   console.log('item ', item)
+          // });
 
-        // imageHashes.forEach(item => {
-        //   console.log('item ', item)
-        // });
+          this.setState({imageArr: imageHashes})
 
-        this.setState({imageArr: imageHashes})
+          let imageItems
+          imageItems = this.state.imageArr.map((image,index) => (
+            <img key={index} className="mr-3" style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile"/> 
+          ))
+          this.setState({imageItems: imageItems})
+        } 
+      // } else {
+      //   const imageItems = <p>User not logged in to display images</p>
+      //   this.setState({imageItems: imageItems}) 
+      // }
 
-        let imageItems
-        imageItems = this.state.imageArr.map((image,index) => (
-          <div key={index}>
-          <img style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile"/> 
-          </div>
-        ))
-        this.setState({imageItems: imageItems})
-      }
+      //      console.log(accounts[0])
+      //       web3.eth.sign(this.state.acc, 
+      //         web3.utils.sha3('test'), 
+      //         function (err, signature) {
+      //         console.log(signature);  // But maybe do some error checking. :-)
+      //      });
+      
     } else {
       window.alert('Smart contract not deployed to detected network.')
     }
   }
 
-  // this method is called whenever a file is uploaded
-  // gets uploaded file and converts it to appropriate format for IPFS
+  onSignUp = async (event) => {
+
+    // sign up or login   NOOO await - double click 
+    let authenticated = this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
+      
+      // maybe good for contract to return TRUE that was authenticated and save in state
+      // and maintain that state
+      // ******************&&&&&&&&&&&&&&&&&  BECAUSE WHEN IMAGE IS UPLOADED THE PAGE REFRESHES SO
+      // %%%%%%%%%%%%%%%%%%% LOGGED IN STATE IS LOST, SO USER IS ASKED TO SIGN IN AGAIN 
+      // (((((((((()))))))))) REDUUUX PLS TO MAINTAIN THE STATE
+      // this.setState({ loggedIn: authenticated }) return auth & REDUX &&
+      // this.setState({ loggedIn: true })  
+    })  
+    // prevent refresh to prevent losing logged in state
+    event.preventDefault()
+  }
+
+  // Called whenever a file is uploaded, converts it to appropriate format for IPFS
   // stores the file in this component's state
   captureFile = (event) => {
     event.preventDefault()
@@ -143,15 +183,15 @@ class App extends Component {
     if (buffer_data) {
       try {
         const file = await ipfs.add(this.state.buffer)
-        let file_hash = file.path // https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
+        let file_hash = file.path //https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
      
         let hash_decoded = bs58.decode(file_hash).slice(2);
         console.log('Bytes32/store: ' + hash_decoded.toString('hex')) // 32 length
-        this.state.contract.methods.set(hash_decoded).send({ from: this.state.account }).then((r) => {
+        this.state.contract.methods.set(this.state.account, hash_decoded).send({ from: this.state.account }).then((r) => {
           // return this.setState({ memeHash: file_hash }) 
           this.setState({ memeHash: file_hash }) 
-          // ***************&&&&&&&&&&&&************
-          // add refresh or sg to get the new image array from get() of smart contract
+
+          // refresh the page to get the new image array with get() of smart contract
           window.location.reload();
         })
         
@@ -215,6 +255,12 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
+
+              <p>&nbsp;</p>
+              <form className="input-group" onSubmit={this.onSignUp}>
+              <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Sign up/Login</button>
+              </form>
+
                 <p>&nbsp;</p>
                 <form className="input-group" onSubmit={this.onSubmit} >
                     <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input mx-sm-3" />
@@ -222,6 +268,9 @@ class App extends Component {
                     <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Submit</button>
                 </form>
                 <p>&nbsp;</p>
+                {this.state.loggedIn && this.state.imageItems}
+                {this.state.loggedIn && this.state.imageItems.length===0 && <p>No images found</p>}
+                {/* {!this.state.loggedIn && <p>User not logged in to display images</p>} */}
                 {this.state.imageItems}
                 <br></br>
                 <br></br>
