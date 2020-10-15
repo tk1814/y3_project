@@ -12,6 +12,11 @@ import Web3 from "web3";
 import Meme from './contracts/Meme.json';
 import bs58 from 'bs58';
 
+import { useDispatch } from 'react-redux'; 
+import { increment, decrement, loggedIn } from './actions';
+import LogInButton from './LogInButton';
+import Gallery from './Gallery';
+
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }) 
 
@@ -22,11 +27,13 @@ const Root = () => (
 );
 
 class App extends Component {
+  // TO DO 0.7: create more components and fix implications from this
 
   // TO DO 1.0: Authenticate user and acc
+  // TO DO 1.2: redirections
   // TO DO 1.3: avoid duplicate images in smart contract? preferably
   // TO DO 1.5: fix image layout, create mapping Image name->image
-  // TO DO 1.7: create more components and fix implications from this
+
   // TO DO 2.0: fix internal/abstract function definitions in smart contract
   // TO DO 3.0: Create footer
   // TO DO 4.0: Create circular logo
@@ -45,6 +52,7 @@ class App extends Component {
       buffer: null,
       account: null
     }
+    this.onSignUp = this.onSignUp.bind(this);
   }
 
   async componentWillMount() { // Lifecycle
@@ -63,7 +71,7 @@ class App extends Component {
         window.location.reload();
       }.bind(this))
     }
-    
+
   }
 
 
@@ -90,13 +98,11 @@ class App extends Component {
 
     if (networkData) { 
       const contract = new web3.eth.Contract(Meme.abi, networkData.address)
-      this.setState({ contract })
-      // const memeHash = await contract.methods.get().call()    // GETS
-      // this.setState({ memeHash })
-
-      // Display all images if user is logged in **********downloads images but doesn't display****************
+      this.setState({ contract }) 
+      
+      // Display all images if user is logged in downloads images but doesn't display
       // if (this.state.loggedIn) {
-        let imageSolArray = await contract.methods.get(this.state.account).call() 
+        let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
         console.log(imageSolArray)
 
         if (imageSolArray !== undefined) {
@@ -109,11 +115,7 @@ class App extends Component {
             imageHashes[index] = hashStr;
 
           });
-
-          // imageHashes.forEach(item => {
-          //   console.log('item ', item)
-          // });
-
+          
           this.setState({imageArr: imageHashes})
 
           let imageItems
@@ -126,33 +128,30 @@ class App extends Component {
       //   const imageItems = <p>User not logged in to display images</p>
       //   this.setState({imageItems: imageItems}) 
       // }
-
-      //      console.log(accounts[0])
-      //       web3.eth.sign(this.state.acc, 
-      //         web3.utils.sha3('test'), 
-      //         function (err, signature) {
-      //         console.log(signature);  // But maybe do some error checking. :-)
-      //      });
-      
-    } else {
+    } 
+    else {
       window.alert('Smart contract not deployed to detected network.')
     }
   }
 
   onSignUp = async (event) => {
 
-    // sign up or login   NOOO await - double click 
-    let authenticated = this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
-      
-      // maybe good for contract to return TRUE that was authenticated and save in state
-      // and maintain that state
-      // ******************&&&&&&&&&&&&&&&&&  BECAUSE WHEN IMAGE IS UPLOADED THE PAGE REFRESHES SO
-      // %%%%%%%%%%%%%%%%%%% LOGGED IN STATE IS LOST, SO USER IS ASKED TO SIGN IN AGAIN 
-      // (((((((((()))))))))) REDUUUX PLS TO MAINTAIN THE STATE
-      // this.setState({ loggedIn: authenticated }) return auth & REDUX &&
-      // this.setState({ loggedIn: true })  
+    this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
     })  
-    // prevent refresh to prevent losing logged in state
+    // await 
+    event.preventDefault()
+  }
+
+  onSignUpORIGINAL = async (event) => {
+// state not maintained when uploading image
+// ****************
+    // sign up or login - NO await - double click 
+    this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
+    // maybe good for contract to return TRUE that was authenticated and save in state and maintain that state
+    // BECAUSE WHEN IMAGE IS UPLOADED THE PAGE REFRESHES SO LOGGED IN STATE IS LOST, SO USER IS ASKED TO SIGN IN AGAIN 
+    // MAINTAIN THE STATE while refresh _ or not do refresh
+    })  
+
     event.preventDefault()
   }
 
@@ -164,7 +163,7 @@ class App extends Component {
     const fileName = event.target.files[0].name;
     this.setState({ fileName: fileName }) 
     console.log(fileName);
-    const reader = new window.FileReader() // convert file to array for buffer
+    const reader = new window.FileReader() 
     reader.readAsArrayBuffer(file)
     // after reader finishes, initialise buffer and store in component state
     reader.onloadend = () => {
@@ -194,7 +193,7 @@ class App extends Component {
           // refresh the page to get the new image array with get() of smart contract
           window.location.reload();
         })
-        
+
       } catch(e) {
           console.log("Error: ", e)
       }
@@ -206,22 +205,6 @@ class App extends Component {
   
   render() {
   
-  // if (!this.state.loading) {
-      // let { images } = this.state.imageArr
-      // let imageItems
-      // if (images === undefined) {
-      //   console.log('undefined')
-      //   imageItems = <h4>No images found</h4>
-      // } else {
-      //   console.log('not undefined');
-      //   if (images.size > 0) {
-      //     imageItems = images.map((image) => (
-      //       <img style={{height:"100px"}} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile"/> 
-      //     ))
-      //   } 
-      // }
-  // } else return "Loading image Array...";
-
     return (
       <div className="App" data={this.state}>
         <BrowserRouter>  
@@ -257,10 +240,12 @@ class App extends Component {
               <div className="content mr-auto ml-auto">
 
               <p>&nbsp;</p>
-              <form className="input-group" onSubmit={this.onSignUp}>
-              <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Sign up/Login</button>
-              </form>
+              <LogInButton onSignUp={this.onSignUp}></LogInButton>
 
+              {/* <form className="input-group" onSubmit={this.onSignUp}>
+              <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Sign up/Login</button>
+              </form> */}
+ 
                 <p>&nbsp;</p>
                 <form className="input-group" onSubmit={this.onSubmit} >
                     <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input mx-sm-3" />
@@ -268,10 +253,13 @@ class App extends Component {
                     <button type='submit' style={{backgroundColor:"#222", color:"#9AEDED", fontSize:"1.5em" }} className="btn mt-3 container">Submit</button>
                 </form>
                 <p>&nbsp;</p>
-                {this.state.loggedIn && this.state.imageItems}
-                {this.state.loggedIn && this.state.imageItems.length===0 && <p>No images found</p>}
+                {/* {this.state.loggedIn && this.state.imageItems} */}
+                {/* {this.state.loggedIn && this.state.imageItems.length===0 && <p>No images found</p>} */}
                 {/* {!this.state.loggedIn && <p>User not logged in to display images</p>} */}
-                {this.state.imageItems}
+
+                {/* {this.props.isLogged ? this.state.imageItems : <p>User not logged in to display images</p>} */}
+             
+              <Gallery imageItems={this.state.imageItems}></Gallery>
                 <br></br>
                 <br></br>
               </div>
