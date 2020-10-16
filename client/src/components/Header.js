@@ -6,7 +6,7 @@ import logo from './ethereum-1.svg'
 const Header = (props) => (
     <header className="row">
         {/* logo spin  App-logo */}
-        <div className="col-md-5">  
+        <div className="col-md-5">
             <img src={logo} className="logo" alt="logo" />
         </div>
         <div className="col-md-7  subtitle">
