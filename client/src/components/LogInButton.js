@@ -10,17 +10,18 @@ function LogInButton(props) {
 
   function redirectToWhenLoggedIn() {
     history.push('/gallery');
+    window.location.reload(); // fix redirection for gallery navlink
   }
 
 
   return (
     <div>
-      <button type='submit' style={{ backgroundColor: "#222", color: "#9AEDED", fontSize: "1.5em" }} className="btn mt-3 container"
+      <button type='submit' style={{ backgroundColor: "#6e967a", color: "#fff", fontSize: "1.5em" }} className="btn mt-3 container"
         onClick={(e) => {
           props.onSignUp(e)
           dispatch(loggedIn());
-          redirectToWhenLoggedIn();
-        }}>Sign up/Login</button>
+          redirectToWhenLoggedIn(); //redirect when it answers yes
+        }}>Login</button>
     </div>
   );
 }

@@ -11,7 +11,6 @@ class LogIn extends Component {
 
         this.state = {
             imageItems: [],
-            // fileName: 'Choose file',
             imageArr: [],
             contract: null,
             web3: null,
@@ -82,17 +81,20 @@ class LogIn extends Component {
 
         return (
             <div className='login'>
-                <h2>Log In</h2>
-                <div className="container-fluid mt-5">
+                {/* <h2>Log In</h2> */}
+                <div className="container-fluid">
                     <div className="row">
                         <main role="main" className="col-lg-12 d-flex text-center">
-                            <div className="content mr-auto ml-auto">
-                                <LogInButton onSignUp={this.onSignUp}></LogInButton>
+                            <div className="content mr-auto ml-auto mt-5">
+                                {(!JSON.parse(localStorage.getItem('state'))) ?
+                                    <LogInButton onSignUp={this.onSignUp}></LogInButton>
+                                    : 'You are already logged in'}
                             </div>
                         </main>
                     </div>
                 </div>
             </div>
+
         );
     }
 }

@@ -7,25 +7,27 @@ import About from './components/About';
 import Contact from './components/Contact';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImages, faHome, faSignInAlt, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faImages, faHome, faSignInAlt, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { BsHouse, BsImages, BsLock, BsUnlock, BsQuestionDiamond } from "react-icons/bs";
 
 const Root = () => (
-  <div>
-    <h2>Home</h2>
+  <div className="general_bg">
+    <br></br>
+    <h2>Credential Store</h2>
     <p>What this web application is about...</p>
   </div>
 );
 
 
 class App extends Component {
-
+  // TO DO 0.4: change bg when logged in
+  // TO DO 0.8: Delete a photo from gallery
   // TO DO 1.0: Authenticate user and acc
-  // TO DO 1.2: redirections
-  // TO DO 1.3: avoid duplicate images in smart contract? preferably
-  // TO DO 1.5: fix image layout, create mapping Image name->image
+  // TO DO 1.2: log out redirection
 
+  // TO DO 1.4: avoid duplicate images in smart contract? preferably
+  // TO DO 1.7: fix image layout, create mapping Image name->image
   // TO DO 2.0: fix internal/abstract function definitions in smart contract
   // TO DO 3.0: Create footer
   // TO DO 4.0: Create circular logo
@@ -44,22 +46,30 @@ class App extends Component {
       buffer: null,
       account: null
     }
-
   }
 
   render() {
     return (
-      <div className="App" data={this.state}>
+      <div className="App">
         <BrowserRouter>
           <main>
             <Navbar className="nav" expand="md">
-              <NavbarBrand href="/"><Header subtitle="Credential Store" /></NavbarBrand>
-              <Nav className="mr-auto" navbar></Nav>
-              <NavItem><NavLink className="mr-auto" href="/"><FontAwesomeIcon icon={faHome} style={{ color: "#9AEDED" }} size="2x" /></NavLink></NavItem>
-              <NavItem><NavLink href="/login"><FontAwesomeIcon icon={faSignInAlt} style={{ color: "#9AEDED" }} size="2x" /></NavLink></NavItem>
-              <NavItem><NavLink href="/gallery/"><FontAwesomeIcon icon={faImages} style={{ color: "#9AEDED" }} size="2x" /></NavLink></NavItem>
-              <NavItem><NavLink href="/contact"><FontAwesomeIcon icon={faPaperPlane} style={{ color: "#9AEDED" }} size="2x" /></NavLink></NavItem>
-              <NavItem><NavLink onClick={() => localStorage.clear()} href="/about"><FontAwesomeIcon icon={faSignOutAlt} style={{ color: "#9AEDED" }} size="2x" /></NavLink></NavItem>
+              <NavbarBrand href="/"><Header /*subtitle="Credential Store"*/ /></NavbarBrand>
+              <Nav className="mr-auto" navbar></Nav>                               {/* 9AEDED CEF9F2 80C2AF 669073 */}
+              <NavItem><NavLink className="mr-auto" href="/"><BsHouse style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+
+              {(!JSON.parse(localStorage.getItem('state'))) ?
+                <NavItem><NavLink href="/login"><BsUnlock style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                : ''}
+              {(JSON.parse(localStorage.getItem('state'))) ?
+                <NavItem><NavLink href="/gallery/"><BsImages style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                : ''}
+              <NavItem><NavLink href="/contact"><BsQuestionDiamond style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+              {(JSON.parse(localStorage.getItem('state'))) ?
+                <NavItem><NavLink onClick={() => localStorage.clear()} href="/about"><BsLock style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                : ''}
+
+              {/* <NavItem><NavLink href="/contact"><FontAwesomeIcon icon={faPaperPlane} style={{ color: "#6e967a" }} size="2x" /></NavLink></NavItem> */}
             </Navbar>
             <Switch>
               <Route exact path='/' component={Root} />
@@ -71,7 +81,7 @@ class App extends Component {
           </main>
         </BrowserRouter>
 
-        <div className="container-fluid mt-5">
+        {/* <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
@@ -80,7 +90,7 @@ class App extends Component {
               </div>
             </main>
           </div>
-        </div>
+        </div> */}
 
       </div>
     );

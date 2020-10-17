@@ -3,15 +3,44 @@
 
 .App {
   text-align: center;
-  color: #9AEDED;
+  /* color: #CEF9F2; #C0C0C0; */
   
-  background-image: url(./bg.jpg);
-  /* height: 900px; */
   width: 100%;
+  height: 600px;
 
+  /* background-image: url(./bg/bridge-bg.jpg); */
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html {
+  background-color: #222;
+}
+
+.login {
+  background-image: url(./bg/fkioro-bg.jpg);
+  /* width: 100%; */
+  height: 900px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.general_bg {
+  background-image: url(./bg/bridge-bg.jpg);
+  width: 100%;
+  height: 600px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.space {
+  height: 300px;
+}
+
+.footer_space {
+  height: 200px;
 }
 
 .logo {
@@ -20,25 +49,20 @@
 }
 
 .subtitle {
-  /* color: rgb(145, 145, 145); */
-  color: #9AEDED;
+  color: #6e967a; /* CEF9F2 80C2AF rgb(145, 145, 145) */
   font-size: 1.5em;
 }
 
-
 p, h2 {
-  color: #9AEDED;
+  color: #6e967a;
 }
 
 .nav {
-  /* background-color:  rgb(19,  115, 161); */
-  /* background-color: #C0C0C0; */
-   /* #414141; */
-  /* #C0C0C0 */
-  /* 99FFFF */
-
-  background-color: #222;
+ /*222 2A2D34 2A2F3A*/
+  background-color: #1e1e1e; 
   height: 65px;
+
+  /* #414141 #C0C0C0 99FFFF rgb(19,  115, 161) */
   /* padding: 40px; */
   /* color: white; */
 }
@@ -49,7 +73,7 @@ p, h2 {
 }
 
 .App-title {
-  color: #9AEDED;
+  color: #80C2AF;
   font-size: 1.5em;
 }
 

@@ -89,7 +89,7 @@ class Gallery extends Component {
 
         let imageItems
         imageItems = this.state.imageArr.map((image, index) => (
-          <img key={index} className="mr-3" style={{ height: "100px" }} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          <img key={index} className="mr-3" style={{ height: "200px", width: "300px" }} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
         ))
         this.setState({ imageItems: imageItems })
       }
@@ -147,31 +147,45 @@ class Gallery extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Gallery</h2>
+      <div className="general_bg">
+        {(JSON.parse(localStorage.getItem('state'))) ?
+          <div>
+            <br></br>
+            <h2>Hello [User]</h2>
+            <h2 className="mt-3">Upload an image</h2>
+
+            <div className="container-fluid mt-5">
+              <div className="row">
+                <main role="main" className="col-lg-12 d-flex text-center">
+                  <div className="content mr-auto ml-auto">
+
+                    <form className="input-group mt-3" onSubmit={this.onSubmit} >
+                      <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input " /> {/* mx-sm-3 */}
+                      <label className="custom-file-label">{this.state.fileName}</label>
+                      <button type='submit' style={{ backgroundColor: "#6e967a", color: "#fff", fontSize: "1.5em" }} className="btn mt-4 container">Submit</button>
+                    </form>
+
+                  </div>
+                </main>
+              </div>
+            </div>
+            <div className="space"></div>
+          </div>
+          : ''}
+        {/* <p>&nbsp;</p> */}
 
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-
-                <p>&nbsp;</p>
-                <form className="input-group" onSubmit={this.onSubmit} >
-                  <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input mx-sm-3" />
-
-                  <label className="custom-file-label">{this.state.fileName}</label>
-
-                  <button type='submit' style={{ backgroundColor: "#222", color: "#9AEDED", fontSize: "1.5em" }} className="btn mt-3 container">Submit</button>
-                </form>
-                <p>&nbsp;</p>
-
+                <h2 className="mb-5">Gallery</h2>
                 <Images imageItems={this.state.imageItems}></Images>
-                <br></br>
-                <br></br>
+                <div className="footer_space"></div>
               </div>
             </main>
           </div>
         </div>
+
       </div>
     );
   }
