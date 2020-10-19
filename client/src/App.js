@@ -56,20 +56,20 @@ class App extends Component {
             <Navbar className="nav" expand="md">
               <NavbarBrand href="/"><Header /*subtitle="Credential Store"*/ /></NavbarBrand>
               <Nav className="mr-auto" navbar></Nav>                               {/* 9AEDED CEF9F2 80C2AF 669073 */}
-              <NavItem><NavLink className="mr-auto" href="/"><BsHouse style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+              <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /></NavLink></NavItem>
 
               {(!JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink href="/login"><BsUnlock style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink className="nav_btn" href="/login"><BsUnlock size="2em" /></NavLink></NavItem>
                 : ''}
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink href="/gallery/"><BsImages style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink className="nav_btn" href="/gallery/"><BsImages size="2em" /></NavLink></NavItem>
                 : ''}
-              <NavItem><NavLink href="/contact"><BsQuestionDiamond style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+              <NavItem><NavLink className="nav_btn" href="/contact"><BsQuestionDiamond size="2em" /></NavLink></NavItem>
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink onClick={() => localStorage.clear()} href="/about"><BsLock style={{ color: "#6e967a" }} size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink className="nav_btn" onClick={() => localStorage.clear()} href="/about"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}
 
-              {/* <NavItem><NavLink href="/contact"><FontAwesomeIcon icon={faPaperPlane} style={{ color: "#6e967a" }} size="2x" /></NavLink></NavItem> */}
+              {/* <NavItem><NavLink className="nav_btn" href="/contact"><FontAwesomeIcon icon={faPaperPlane} size="2x" /></NavLink></NavItem> */}
             </Navbar>
             <Switch>
               <Route exact path='/' component={Root} />

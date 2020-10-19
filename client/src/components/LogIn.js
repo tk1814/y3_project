@@ -72,7 +72,7 @@ class LogIn extends Component {
     }
 
     onSignUp = async (event) => {
-        this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
+        await this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
         }) // await 
         event.preventDefault()
     }

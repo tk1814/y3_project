@@ -16,7 +16,7 @@ function LogInButton(props) {
 
   return (
     <div>
-      <button type='submit' style={{ backgroundColor: "#6e967a", color: "#fff", fontSize: "1.5em" }} className="btn mt-3 container"
+      <button type='submit' className="btn mt-3 container log_in_btn"
         onClick={(e) => {
           props.onSignUp(e)
           dispatch(loggedIn());

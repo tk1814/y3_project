@@ -13,6 +13,27 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.submit_btn {
+  background-color: #6e967a;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.img_item {
+  height: 200px;
+  width: 300px;
+}
+
+.log_in_btn {
+  background-color: #6e967a;
+  color: #fff;
+  font-size: 1.5em;
+
+}
+
+.nav_btn {
+  color: #6e967a;
+}
 
 html {
   background-color: #222;

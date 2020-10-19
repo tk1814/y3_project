@@ -89,7 +89,7 @@ class Gallery extends Component {
 
         let imageItems
         imageItems = this.state.imageArr.map((image, index) => (
-          <img key={index} className="mr-3" style={{ height: "200px", width: "300px" }} src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          <img key={index} className="mr-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
         ))
         this.setState({ imageItems: imageItems })
       }
@@ -162,7 +162,7 @@ class Gallery extends Component {
                     <form className="input-group mt-3" onSubmit={this.onSubmit} >
                       <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input " /> {/* mx-sm-3 */}
                       <label className="custom-file-label">{this.state.fileName}</label>
-                      <button type='submit' style={{ backgroundColor: "#6e967a", color: "#fff", fontSize: "1.5em" }} className="btn mt-4 container">Submit</button>
+                      <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
                     </form>
 
                   </div>
