@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { loggedIn } from '../actions';
-import { useHistory } from 'react-router-dom'
 
 function LogInButton(props) {
 

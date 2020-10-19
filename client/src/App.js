@@ -20,12 +20,12 @@ const Root = () => (
 
 
 class App extends Component {
-  // TO DO 0.4: change bg when logged in
+
   // TO DO 0.8: Delete a photo from gallery
   // TO DO 1.0: Authenticate user and acc
+  // TO DO 1.7: fix image layout Gallery/imageItems, create mapping Image name->image
 
-  // TO DO 1.4: avoid duplicate images in smart contract? preferably
-  // TO DO 1.7: fix image layout, create mapping Image name->image
+  // TO DO 1.9: change bg when logged in | do styling
   // TO DO 2.0: fix internal/abstract function definitions in smart contract
   // TO DO 3.0: Create footer & circular logo
 
@@ -37,7 +37,7 @@ class App extends Component {
       imageItems: [],
       fileName: 'Choose file',
       memeHash: '',
-      imageArr: [],
+      imageHashes: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -52,7 +52,7 @@ class App extends Component {
           <main>
             <Navbar className="nav" expand="md">
               <NavbarBrand href="/"><Header /*subtitle="Credential Store"*/ /></NavbarBrand>
-              <Nav className="mr-auto" navbar></Nav>                 
+              <Nav className="mr-auto" navbar></Nav>
               <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /></NavLink></NavItem>
 
               {(!JSON.parse(localStorage.getItem('state'))) ?

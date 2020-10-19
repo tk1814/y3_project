@@ -14,7 +14,7 @@ class Gallery extends Component {
     this.state = {
       fileName: 'Choose a file',
       imageItems: [],
-      imageArr: [],
+      imageHashes: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -76,7 +76,7 @@ class Gallery extends Component {
       console.log(imageSolArray)
 
       if (imageSolArray !== undefined) {
-        // Did the hashes, imageArr is ready to display
+        // Did the hashes, imageHashes is ready to display
         let imageHashes = imageSolArray.slice();
         imageSolArray.forEach(function (item, index) {
           let hashHex = "1220" + item.slice(2)
@@ -85,11 +85,12 @@ class Gallery extends Component {
           imageHashes[index] = hashStr;
         });
 
-        this.setState({ imageArr: imageHashes })
+        this.setState({ imageHashes: imageHashes })
 
+        // FIX IMAGE LAYOUT
         let imageItems
-        imageItems = this.state.imageArr.map((image, index) => (
-          <img key={index} className="mr-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+        imageItems = this.state.imageHashes.map((image, index) => (
+          <img key={index} className="mr-3 mb-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
         ))
         this.setState({ imageItems: imageItems })
       }
@@ -128,14 +129,17 @@ class Gallery extends Component {
         const file = await ipfs.add(this.state.buffer)
         let file_hash = file.path //https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
 
-        let hash_decoded = bs58.decode(file_hash).slice(2);
-        // console.log('Bytes32/store: ' + hash_decoded.toString('hex')) // 32 length
+        // check if hash exists so the user does not pay to re-execute the contract
+        if (this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
+          alert('This image already exists. Please select a different one.');
+        } else {
 
-        this.state.contract.methods.set(this.state.account, hash_decoded).send({ from: this.state.account }).then((r) => {
-          // refresh the page to get the new image array with get() of smart contract
-          window.location.reload();
-        })
-
+          let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
+          this.state.contract.methods.set(this.state.account, hash_decoded).send({ from: this.state.account }).then((r) => {
+            // refresh to get the new image array with get() of smart contract
+            window.location.reload();
+          })
+        }
       } catch (e) {
         console.log("Error: ", e)
       }
@@ -174,7 +178,7 @@ class Gallery extends Component {
           : ''}
         {/* <p>&nbsp;</p> */}
 
-        <div className="container-fluid mt-5">
+        <div className="container-fluid">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
