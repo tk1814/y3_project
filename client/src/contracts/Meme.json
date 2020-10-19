@@ -11,13 +11,7 @@
         }
       ],
       "name": "signUpUserOrLogin",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
@@ -64,21 +58,21 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"get\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_imageHash\",\"type\":\"bytes32\"}],\"name\":\"set\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"signUpUserOrLogin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":\"Meme\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":{\"keccak256\":\"0xa0dcd9c40e19c19631dbb6ef5b953bec093ec1109bb4adbb2fd440cf99e8ad9a\",\"urls\":[\"bzz-raw://536f9b1bc5cddedeee351009022356068f20b2663473b70651b3192b52c6dc38\",\"dweb:/ipfs/QmahXuuQx3hYV5mPudL75Zo5X37yppCXbLGg4qKwwksxFT\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5061044d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806306673ad5146100465780633e7b8e71146100a2578063c2bc2efc146100f0575b600080fd5b6100886004803603602081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610189565b604051808215151515815260200191505060405180910390f35b6100ee600480360360408110156100b857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610299565b005b6101326004803603602081101561010657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610308565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b8381101561017557808201518184015260208101905061015a565b505050509050019250505060405180910390f35b600080600190506000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102905760016000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000019080546102349291906103a1565b5060016000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b80915050919050565b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561039557602002820191906000526020600020905b815481526020019060010190808311610381575b50505050509050919050565b8280548282559060005260206000209081019282156103e25760005260206000209182015b828111156103e15782548255916001019190600101906103c6565b5b5090506103ef91906103f3565b5090565b61041591905b808211156104115760008160009055506001016103f9565b5090565b9056fea265627a7a7231582045b5dff3f90faecbf71e36ad41d6421e882cd90e2e74ad7f31eb7e76714fac1864736f6c63430005100032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c806306673ad5146100465780633e7b8e71146100a2578063c2bc2efc146100f0575b600080fd5b6100886004803603602081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610189565b604051808215151515815260200191505060405180910390f35b6100ee600480360360408110156100b857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610299565b005b6101326004803603602081101561010657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610308565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b8381101561017557808201518184015260208101905061015a565b505050509050019250505060405180910390f35b600080600190506000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102905760016000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000019080546102349291906103a1565b5060016000808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b80915050919050565b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561039557602002820191906000526020600020905b815481526020019060010190808311610381575b50505050509050919050565b8280548282559060005260206000209081019282156103e25760005260206000209182015b828111156103e15782548255916001019190600101906103c6565b5b5090506103ef91906103f3565b5090565b61041591905b808211156104115760008160009055506001016103f9565b5090565b9056fea265627a7a7231582045b5dff3f90faecbf71e36ad41d6421e882cd90e2e74ad7f31eb7e76714fac1864736f6c63430005100032",
-  "sourceMap": "99:1108:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;99:1108:0;;;;;;;",
-  "deployedSourceMap": "99:1108:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;99:1108:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:325;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;303:325:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;634:144;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;634:144:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;784:158;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;784:158:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;784:158:0;;;;;;;;;;;;;;;;;303:325;364:4;377:18;398:4;377:25;;416:10;:20;427:8;416:20;;;;;;;;;;;;;;;:31;;;;;;;;;;;;411:144;;493:7;458:10;:20;469:8;458:20;;;;;;;;;;;;;;;:32;;:42;;;;;;;;:::i;:::-;;543:4;509:10;:20;520:8;509:20;;;;;;;;;;;;;;;:31;;;:38;;;;;;;;;;;;;;;;;;411:144;609:13;602:20;;;303:325;;;:::o;634:144::-;720:10;:23;731:11;720:23;;;;;;;;;;;;;;;:35;;761:10;720:52;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;720:52:0;;;;;;;;;;;;;;;;;;;;;;634:144;;:::o;784:158::-;839:16;886:10;:23;897:11;886:23;;;;;;;;;;;;;;;:35;;879:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;784:158;;;:::o;99:1108::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.0;\r\n// pragma experimental ABIEncoderV2;\r\n\r\ncontract Meme {\r\n\r\n// array of structs \r\n  struct userData {\r\n    bytes32[] imageHashes;\r\n    bool userExists; // 0 default \r\n  }\r\n\r\n  mapping (address => userData) idUserData;\r\n\r\n  bytes32[] initArr;\r\n  function signUpUserOrLogin(address _address) public returns (bool) {\r\n    bool authenticated = true;\r\n\r\n    if (!idUserData[_address].userExists) {\r\n      idUserData[_address].imageHashes = initArr;\r\n      idUserData[_address].userExists = true;\r\n    } // else user already exists  try catch\r\n\r\n    return authenticated;\r\n  }\r\n\r\n  function set(address userAddress, bytes32 _imageHash) public { // abstract 0.7.3\r\n    idUserData[userAddress].imageHashes.push(_imageHash);\r\n  }\r\n\r\n  function get(address userAddress) public view returns (bytes32[] memory) { //internal dwk\r\n    return idUserData[userAddress].imageHashes; //imageHashes;\r\n  }\r\n  // bytes32[] public imageHashes;\r\n  // function set(bytes32 _imageHash) public { // abstract 0.7.0\r\n  //   imageHashes.push(_imageHash);\r\n  // }\r\n\r\n  // function get() public view returns (bytes32[] memory) { //internal dw\r\n  //   return imageHashes;\r\n  // }\r\n}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"get\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_imageHash\",\"type\":\"bytes32\"}],\"name\":\"set\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"signUpUserOrLogin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":\"Meme\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":{\"keccak256\":\"0x66e877a2d09c7e7404725afc9f78aef6229465fde2a8c007a9e91cbb4f116cc6\",\"urls\":[\"bzz-raw://3330c28e5643773e74075dcd14815401e0b7468189009ed340abc6c4b5fb71cd\",\"dweb:/ipfs/QmaXVt3mBgNBLcsifGtbw9t4JN6YuXJzrS5Lsny312dUrt\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610428806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806306673ad5146100465780633e7b8e711461008a578063c2bc2efc146100d8575b600080fd5b6100886004803603602081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610171565b005b6100d6600480360360408110156100a057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610274565b005b61011a600480360360208110156100ee57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102e3565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b8381101561015d578082015181840152602081019050610142565b505050509050019250505060405180910390f35b6000808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102715760016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805461021592919061037c565b5060016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b50565b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561037057602002820191906000526020600020905b81548152602001906001019080831161035c575b50505050509050919050565b8280548282559060005260206000209081019282156103bd5760005260206000209182015b828111156103bc5782548255916001019190600101906103a1565b5b5090506103ca91906103ce565b5090565b6103f091905b808211156103ec5760008160009055506001016103d4565b5090565b9056fea265627a7a72315820660f98da97a24923bc1f6aeee232923fac166eb8855f4dd7991eab4fcecd86d564736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c806306673ad5146100465780633e7b8e711461008a578063c2bc2efc146100d8575b600080fd5b6100886004803603602081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610171565b005b6100d6600480360360408110156100a057600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610274565b005b61011a600480360360208110156100ee57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102e3565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b8381101561015d578082015181840152602081019050610142565b505050509050019250505060405180910390f35b6000808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102715760016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805461021592919061037c565b5060016000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b50565b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561037057602002820191906000526020600020905b81548152602001906001019080831161035c575b50505050509050919050565b8280548282559060005260206000209081019282156103bd5760005260206000209182015b828111156103bc5782548255916001019190600101906103a1565b5b5090506103ca91906103ce565b5090565b6103f091905b808211156103ec5760008160009055506001016103d4565b5090565b9056fea265627a7a72315820660f98da97a24923bc1f6aeee232923fac166eb8855f4dd7991eab4fcecd86d564736f6c63430005100032",
+  "sourceMap": "61:1038:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1038:0;;;;;;;",
+  "deployedSourceMap": "61:1038:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1038:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;267:249;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;267:249:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;522:144;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;522:144:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;672:158;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;672:158:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;672:158:0;;;;;;;;;;;;;;;;;267:249;333:10;:20;344:8;333:20;;;;;;;;;;;;;;;:31;;;;;;;;;;;;328:144;;410:7;375:10;:20;386:8;375:20;;;;;;;;;;;;;;;:32;;:42;;;;;;;;:::i;:::-;;460:4;426:10;:20;437:8;426:20;;;;;;;;;;;;;;;:31;;;:38;;;;;;;;;;;;;;;;;;328:144;267:249;:::o;522:144::-;608:10;:23;619:11;608:23;;;;;;;;;;;;;;;:35;;649:10;608:52;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;608:52:0;;;;;;;;;;;;;;;;;;;;;;522:144;;:::o;672:158::-;727:16;774:10;:23;785:11;774:23;;;;;;;;;;;;;;;:35;;767:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;672:158;;;:::o;61:1038::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.0;\r\n\r\ncontract Meme {\r\n\r\n  // array of structs \r\n  struct userData {\r\n    bytes32[] imageHashes;\r\n    bool userExists; // 0 default \r\n  }\r\n\r\n  mapping (address => userData) idUserData;\r\n\r\n  bytes32[] initArr;\r\n  function signUpUserOrLogin(address _address) public {\r\n\r\n    if (!idUserData[_address].userExists) {\r\n      idUserData[_address].imageHashes = initArr;\r\n      idUserData[_address].userExists = true;\r\n    } // else user already exists  try catch\r\n  }\r\n\r\n  function set(address userAddress, bytes32 _imageHash) public { // abstract 0.7.3\r\n    idUserData[userAddress].imageHashes.push(_imageHash);\r\n  }\r\n\r\n  function get(address userAddress) public view returns (bytes32[] memory) { //internal dwk\r\n    return idUserData[userAddress].imageHashes; //imageHashes;\r\n  }\r\n  \r\n  // bytes32[] public imageHashes;\r\n  // function set(bytes32 _imageHash) public { // abstract 0.7.0\r\n  //   imageHashes.push(_imageHash);\r\n  // }\r\n\r\n  // function get() public view returns (bytes32[] memory) { //internal dw\r\n  //   return imageHashes;\r\n  // }\r\n}",
   "sourcePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
   "ast": {
     "absolutePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
     "exportedSymbols": {
       "Meme": [
-        80
+        72
       ]
     },
-    "id": 81,
+    "id": 73,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -98,9 +92,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 80,
+        "id": 72,
         "linearizedBaseContracts": [
-          80
+          72
         ],
         "name": "Meme",
         "nodeType": "ContractDefinition",
@@ -115,7 +109,7 @@
                 "name": "imageHashes",
                 "nodeType": "VariableDeclaration",
                 "scope": 7,
-                "src": "165:21:0",
+                "src": "129:21:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -127,7 +121,7 @@
                     "id": 2,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "165:7:0",
+                    "src": "129:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -136,7 +130,7 @@
                   "id": 3,
                   "length": null,
                   "nodeType": "ArrayTypeName",
-                  "src": "165:9:0",
+                  "src": "129:9:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                     "typeString": "bytes32[]"
@@ -151,7 +145,7 @@
                 "name": "userExists",
                 "nodeType": "VariableDeclaration",
                 "scope": 7,
-                "src": "193:15:0",
+                "src": "157:15:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -162,7 +156,7 @@
                   "id": 5,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
-                  "src": "193:4:0",
+                  "src": "157:4:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bool",
                     "typeString": "bool"
@@ -174,8 +168,8 @@
             ],
             "name": "userData",
             "nodeType": "StructDefinition",
-            "scope": 80,
-            "src": "142:86:0",
+            "scope": 72,
+            "src": "106:86:0",
             "visibility": "public"
           },
           {
@@ -183,8 +177,8 @@
             "id": 11,
             "name": "idUserData",
             "nodeType": "VariableDeclaration",
-            "scope": 80,
-            "src": "234:40:0",
+            "scope": 72,
+            "src": "198:40:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -197,14 +191,14 @@
                 "id": 8,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "243:7:0",
+                "src": "207:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "234:29:0",
+              "src": "198:29:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                 "typeString": "mapping(address => struct Meme.userData)"
@@ -215,7 +209,7 @@
                 "name": "userData",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 7,
-                "src": "254:8:0",
+                "src": "218:8:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_userData_$7_storage_ptr",
                   "typeString": "struct Meme.userData"
@@ -230,8 +224,8 @@
             "id": 14,
             "name": "initArr",
             "nodeType": "VariableDeclaration",
-            "scope": 80,
-            "src": "281:17:0",
+            "scope": 72,
+            "src": "245:17:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -243,7 +237,7 @@
                 "id": 12,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
-                "src": "281:7:0",
+                "src": "245:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_bytes32",
                   "typeString": "bytes32"
@@ -252,7 +246,7 @@
               "id": 13,
               "length": null,
               "nodeType": "ArrayTypeName",
-              "src": "281:9:0",
+              "src": "245:9:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                 "typeString": "bytes32[]"
@@ -263,68 +257,14 @@
           },
           {
             "body": {
-              "id": 48,
+              "id": 40,
               "nodeType": "Block",
-              "src": "370:258:0",
+              "src": "319:197:0",
               "statements": [
-                {
-                  "assignments": [
-                    22
-                  ],
-                  "declarations": [
-                    {
-                      "constant": false,
-                      "id": 22,
-                      "name": "authenticated",
-                      "nodeType": "VariableDeclaration",
-                      "scope": 48,
-                      "src": "377:18:0",
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      },
-                      "typeName": {
-                        "id": 21,
-                        "name": "bool",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "377:4:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        }
-                      },
-                      "value": null,
-                      "visibility": "internal"
-                    }
-                  ],
-                  "id": 24,
-                  "initialValue": {
-                    "argumentTypes": null,
-                    "hexValue": "74727565",
-                    "id": 23,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": true,
-                    "kind": "bool",
-                    "lValueRequested": false,
-                    "nodeType": "Literal",
-                    "src": "398:4:0",
-                    "subdenomination": null,
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    },
-                    "value": "true"
-                  },
-                  "nodeType": "VariableDeclarationStatement",
-                  "src": "377:25:0"
-                },
                 {
                   "condition": {
                     "argumentTypes": null,
-                    "id": 29,
+                    "id": 23,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -332,33 +272,33 @@
                     "nodeType": "UnaryOperation",
                     "operator": "!",
                     "prefix": true,
-                    "src": "415:32:0",
+                    "src": "332:32:0",
                     "subExpression": {
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 25,
+                          "id": 19,
                           "name": "idUserData",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 11,
-                          "src": "416:10:0",
+                          "src": "333:10:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                             "typeString": "mapping(address => struct Meme.userData storage ref)"
                           }
                         },
-                        "id": 27,
+                        "id": 21,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 26,
+                          "id": 20,
                           "name": "_address",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 16,
-                          "src": "427:8:0",
+                          "src": "344:8:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -369,13 +309,13 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "416:20:0",
+                        "src": "333:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_userData_$7_storage",
                           "typeString": "struct Meme.userData storage ref"
                         }
                       },
-                      "id": 28,
+                      "id": 22,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -383,7 +323,7 @@
                       "memberName": "userExists",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 6,
-                      "src": "416:31:0",
+                      "src": "333:31:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
                         "typeString": "bool"
@@ -395,18 +335,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 45,
+                  "id": 39,
                   "nodeType": "IfStatement",
-                  "src": "411:144:0",
+                  "src": "328:144:0",
                   "trueBody": {
-                    "id": 44,
+                    "id": 38,
                     "nodeType": "Block",
-                    "src": "449:106:0",
+                    "src": "366:106:0",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 35,
+                          "id": 29,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -417,26 +357,26 @@
                               "argumentTypes": null,
                               "baseExpression": {
                                 "argumentTypes": null,
-                                "id": 30,
+                                "id": 24,
                                 "name": "idUserData",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 11,
-                                "src": "458:10:0",
+                                "src": "375:10:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                                   "typeString": "mapping(address => struct Meme.userData storage ref)"
                                 }
                               },
-                              "id": 32,
+                              "id": 26,
                               "indexExpression": {
                                 "argumentTypes": null,
-                                "id": 31,
+                                "id": 25,
                                 "name": "_address",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 16,
-                                "src": "469:8:0",
+                                "src": "386:8:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -447,13 +387,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "458:20:0",
+                              "src": "375:20:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_userData_$7_storage",
                                 "typeString": "struct Meme.userData storage ref"
                               }
                             },
-                            "id": 33,
+                            "id": 27,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -461,7 +401,7 @@
                             "memberName": "imageHashes",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 4,
-                            "src": "458:32:0",
+                            "src": "375:32:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                               "typeString": "bytes32[] storage ref"
@@ -471,31 +411,31 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 34,
+                            "id": 28,
                             "name": "initArr",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 14,
-                            "src": "493:7:0",
+                            "src": "410:7:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                               "typeString": "bytes32[] storage ref"
                             }
                           },
-                          "src": "458:42:0",
+                          "src": "375:42:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                             "typeString": "bytes32[] storage ref"
                           }
                         },
-                        "id": 36,
+                        "id": 30,
                         "nodeType": "ExpressionStatement",
-                        "src": "458:42:0"
+                        "src": "375:42:0"
                       },
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 42,
+                          "id": 36,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -506,26 +446,26 @@
                               "argumentTypes": null,
                               "baseExpression": {
                                 "argumentTypes": null,
-                                "id": 37,
+                                "id": 31,
                                 "name": "idUserData",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 11,
-                                "src": "509:10:0",
+                                "src": "426:10:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                                   "typeString": "mapping(address => struct Meme.userData storage ref)"
                                 }
                               },
-                              "id": 39,
+                              "id": 33,
                               "indexExpression": {
                                 "argumentTypes": null,
-                                "id": 38,
+                                "id": 32,
                                 "name": "_address",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 16,
-                                "src": "520:8:0",
+                                "src": "437:8:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -536,13 +476,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "509:20:0",
+                              "src": "426:20:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_userData_$7_storage",
                                 "typeString": "struct Meme.userData storage ref"
                               }
                             },
-                            "id": 40,
+                            "id": 34,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -550,7 +490,7 @@
                             "memberName": "userExists",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 6,
-                            "src": "509:31:0",
+                            "src": "426:31:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
@@ -561,14 +501,14 @@
                           "rightHandSide": {
                             "argumentTypes": null,
                             "hexValue": "74727565",
-                            "id": 41,
+                            "id": 35,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "bool",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "543:4:0",
+                            "src": "460:4:0",
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
@@ -576,42 +516,23 @@
                             },
                             "value": "true"
                           },
-                          "src": "509:38:0",
+                          "src": "426:38:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           }
                         },
-                        "id": 43,
+                        "id": 37,
                         "nodeType": "ExpressionStatement",
-                        "src": "509:38:0"
+                        "src": "426:38:0"
                       }
                     ]
                   }
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 46,
-                    "name": "authenticated",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 22,
-                    "src": "609:13:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "functionReturnParameters": 20,
-                  "id": 47,
-                  "nodeType": "Return",
-                  "src": "602:20:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 49,
+            "id": 41,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -626,8 +547,8 @@
                   "id": 16,
                   "name": "_address",
                   "nodeType": "VariableDeclaration",
-                  "scope": 49,
-                  "src": "330:16:0",
+                  "scope": 41,
+                  "src": "294:16:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -638,7 +559,7 @@
                     "id": 15,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "330:7:0",
+                    "src": "294:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -649,52 +570,25 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "329:18:0"
+              "src": "293:18:0"
             },
             "returnParameters": {
-              "id": 20,
+              "id": 18,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 19,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 49,
-                  "src": "364:4:0",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 18,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "364:4:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "363:6:0"
+              "parameters": [],
+              "src": "319:0:0"
             },
-            "scope": 80,
-            "src": "303:325:0",
+            "scope": 72,
+            "src": "267:249:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 64,
+              "id": 56,
               "nodeType": "Block",
-              "src": "695:83:0",
+              "src": "583:83:0",
               "statements": [
                 {
                   "expression": {
@@ -702,12 +596,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 61,
+                        "id": 53,
                         "name": "_imageHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 53,
-                        "src": "761:10:0",
+                        "referencedDeclaration": 45,
+                        "src": "649:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -727,26 +621,26 @@
                           "argumentTypes": null,
                           "baseExpression": {
                             "argumentTypes": null,
-                            "id": 56,
+                            "id": 48,
                             "name": "idUserData",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 11,
-                            "src": "720:10:0",
+                            "src": "608:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                               "typeString": "mapping(address => struct Meme.userData storage ref)"
                             }
                           },
-                          "id": 58,
+                          "id": 50,
                           "indexExpression": {
                             "argumentTypes": null,
-                            "id": 57,
+                            "id": 49,
                             "name": "userAddress",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 51,
-                            "src": "731:11:0",
+                            "referencedDeclaration": 43,
+                            "src": "619:11:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -757,13 +651,13 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "nodeType": "IndexAccess",
-                          "src": "720:23:0",
+                          "src": "608:23:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_userData_$7_storage",
                             "typeString": "struct Meme.userData storage ref"
                           }
                         },
-                        "id": 59,
+                        "id": 51,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -771,13 +665,13 @@
                         "memberName": "imageHashes",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 4,
-                        "src": "720:35:0",
+                        "src": "608:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                           "typeString": "bytes32[] storage ref"
                         }
                       },
-                      "id": 60,
+                      "id": 52,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -785,13 +679,13 @@
                       "memberName": "push",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "720:40:0",
+                      "src": "608:40:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_bytes32_$returns$_t_uint256_$",
                         "typeString": "function (bytes32) returns (uint256)"
                       }
                     },
-                    "id": 62,
+                    "id": 54,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -799,36 +693,36 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "720:52:0",
+                    "src": "608:52:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 63,
+                  "id": 55,
                   "nodeType": "ExpressionStatement",
-                  "src": "720:52:0"
+                  "src": "608:52:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 65,
+            "id": 57,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "set",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 54,
+              "id": 46,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51,
+                  "id": 43,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 65,
-                  "src": "647:19:0",
+                  "scope": 57,
+                  "src": "535:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -836,10 +730,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 50,
+                    "id": 42,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "647:7:0",
+                    "src": "535:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -851,11 +745,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 53,
+                  "id": 45,
                   "name": "_imageHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 65,
-                  "src": "668:18:0",
+                  "scope": 57,
+                  "src": "556:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -863,10 +757,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 52,
+                    "id": 44,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "668:7:0",
+                    "src": "556:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -876,25 +770,25 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "646:41:0"
+              "src": "534:41:0"
             },
             "returnParameters": {
-              "id": 55,
+              "id": 47,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "695:0:0"
+              "src": "583:0:0"
             },
-            "scope": 80,
-            "src": "634:144:0",
+            "scope": 72,
+            "src": "522:144:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 78,
+              "id": 70,
               "nodeType": "Block",
-              "src": "857:85:0",
+              "src": "745:85:0",
               "statements": [
                 {
                   "expression": {
@@ -903,26 +797,26 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 73,
+                        "id": 65,
                         "name": "idUserData",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 11,
-                        "src": "886:10:0",
+                        "src": "774:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                           "typeString": "mapping(address => struct Meme.userData storage ref)"
                         }
                       },
-                      "id": 75,
+                      "id": 67,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 74,
+                        "id": 66,
                         "name": "userAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 67,
-                        "src": "897:11:0",
+                        "referencedDeclaration": 59,
+                        "src": "785:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -933,13 +827,13 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "886:23:0",
+                      "src": "774:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userData_$7_storage",
                         "typeString": "struct Meme.userData storage ref"
                       }
                     },
-                    "id": 76,
+                    "id": 68,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
@@ -947,37 +841,37 @@
                     "memberName": "imageHashes",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 4,
-                    "src": "886:35:0",
+                    "src": "774:35:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                       "typeString": "bytes32[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 72,
-                  "id": 77,
+                  "functionReturnParameters": 64,
+                  "id": 69,
                   "nodeType": "Return",
-                  "src": "879:42:0"
+                  "src": "767:42:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 79,
+            "id": 71,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "get",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 68,
+              "id": 60,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 67,
+                  "id": 59,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 79,
-                  "src": "797:19:0",
+                  "scope": 71,
+                  "src": "685:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -985,10 +879,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 66,
+                    "id": 58,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "797:7:0",
+                    "src": "685:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -999,19 +893,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "796:21:0"
+              "src": "684:21:0"
             },
             "returnParameters": {
-              "id": 72,
+              "id": 64,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 71,
+                  "id": 63,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 79,
-                  "src": "839:16:0",
+                  "scope": 71,
+                  "src": "727:16:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1020,19 +914,19 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 69,
+                      "id": 61,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "839:7:0",
+                      "src": "727:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
                       }
                     },
-                    "id": 70,
+                    "id": 62,
                     "length": null,
                     "nodeType": "ArrayTypeName",
-                    "src": "839:9:0",
+                    "src": "727:9:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -1042,29 +936,29 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "838:18:0"
+              "src": "726:18:0"
             },
-            "scope": 80,
-            "src": "784:158:0",
+            "scope": 72,
+            "src": "672:158:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 81,
-        "src": "99:1108:0"
+        "scope": 73,
+        "src": "61:1038:0"
       }
     ],
-    "src": "33:1174:0"
+    "src": "33:1066:0"
   },
   "legacyAST": {
     "absolutePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
     "exportedSymbols": {
       "Meme": [
-        80
+        72
       ]
     },
-    "id": 81,
+    "id": 73,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -1084,9 +978,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 80,
+        "id": 72,
         "linearizedBaseContracts": [
-          80
+          72
         ],
         "name": "Meme",
         "nodeType": "ContractDefinition",
@@ -1101,7 +995,7 @@
                 "name": "imageHashes",
                 "nodeType": "VariableDeclaration",
                 "scope": 7,
-                "src": "165:21:0",
+                "src": "129:21:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1113,7 +1007,7 @@
                     "id": 2,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "165:7:0",
+                    "src": "129:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -1122,7 +1016,7 @@
                   "id": 3,
                   "length": null,
                   "nodeType": "ArrayTypeName",
-                  "src": "165:9:0",
+                  "src": "129:9:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                     "typeString": "bytes32[]"
@@ -1137,7 +1031,7 @@
                 "name": "userExists",
                 "nodeType": "VariableDeclaration",
                 "scope": 7,
-                "src": "193:15:0",
+                "src": "157:15:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1148,7 +1042,7 @@
                   "id": 5,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
-                  "src": "193:4:0",
+                  "src": "157:4:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bool",
                     "typeString": "bool"
@@ -1160,8 +1054,8 @@
             ],
             "name": "userData",
             "nodeType": "StructDefinition",
-            "scope": 80,
-            "src": "142:86:0",
+            "scope": 72,
+            "src": "106:86:0",
             "visibility": "public"
           },
           {
@@ -1169,8 +1063,8 @@
             "id": 11,
             "name": "idUserData",
             "nodeType": "VariableDeclaration",
-            "scope": 80,
-            "src": "234:40:0",
+            "scope": 72,
+            "src": "198:40:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1183,14 +1077,14 @@
                 "id": 8,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "243:7:0",
+                "src": "207:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "234:29:0",
+              "src": "198:29:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                 "typeString": "mapping(address => struct Meme.userData)"
@@ -1201,7 +1095,7 @@
                 "name": "userData",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 7,
-                "src": "254:8:0",
+                "src": "218:8:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_userData_$7_storage_ptr",
                   "typeString": "struct Meme.userData"
@@ -1216,8 +1110,8 @@
             "id": 14,
             "name": "initArr",
             "nodeType": "VariableDeclaration",
-            "scope": 80,
-            "src": "281:17:0",
+            "scope": 72,
+            "src": "245:17:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1229,7 +1123,7 @@
                 "id": 12,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
-                "src": "281:7:0",
+                "src": "245:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_bytes32",
                   "typeString": "bytes32"
@@ -1238,7 +1132,7 @@
               "id": 13,
               "length": null,
               "nodeType": "ArrayTypeName",
-              "src": "281:9:0",
+              "src": "245:9:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                 "typeString": "bytes32[]"
@@ -1249,68 +1143,14 @@
           },
           {
             "body": {
-              "id": 48,
+              "id": 40,
               "nodeType": "Block",
-              "src": "370:258:0",
+              "src": "319:197:0",
               "statements": [
-                {
-                  "assignments": [
-                    22
-                  ],
-                  "declarations": [
-                    {
-                      "constant": false,
-                      "id": 22,
-                      "name": "authenticated",
-                      "nodeType": "VariableDeclaration",
-                      "scope": 48,
-                      "src": "377:18:0",
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_bool",
-                        "typeString": "bool"
-                      },
-                      "typeName": {
-                        "id": 21,
-                        "name": "bool",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "377:4:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_bool",
-                          "typeString": "bool"
-                        }
-                      },
-                      "value": null,
-                      "visibility": "internal"
-                    }
-                  ],
-                  "id": 24,
-                  "initialValue": {
-                    "argumentTypes": null,
-                    "hexValue": "74727565",
-                    "id": 23,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": true,
-                    "kind": "bool",
-                    "lValueRequested": false,
-                    "nodeType": "Literal",
-                    "src": "398:4:0",
-                    "subdenomination": null,
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    },
-                    "value": "true"
-                  },
-                  "nodeType": "VariableDeclarationStatement",
-                  "src": "377:25:0"
-                },
                 {
                   "condition": {
                     "argumentTypes": null,
-                    "id": 29,
+                    "id": 23,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1318,33 +1158,33 @@
                     "nodeType": "UnaryOperation",
                     "operator": "!",
                     "prefix": true,
-                    "src": "415:32:0",
+                    "src": "332:32:0",
                     "subExpression": {
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 25,
+                          "id": 19,
                           "name": "idUserData",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 11,
-                          "src": "416:10:0",
+                          "src": "333:10:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                             "typeString": "mapping(address => struct Meme.userData storage ref)"
                           }
                         },
-                        "id": 27,
+                        "id": 21,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 26,
+                          "id": 20,
                           "name": "_address",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 16,
-                          "src": "427:8:0",
+                          "src": "344:8:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1355,13 +1195,13 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "416:20:0",
+                        "src": "333:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_userData_$7_storage",
                           "typeString": "struct Meme.userData storage ref"
                         }
                       },
-                      "id": 28,
+                      "id": 22,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -1369,7 +1209,7 @@
                       "memberName": "userExists",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 6,
-                      "src": "416:31:0",
+                      "src": "333:31:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
                         "typeString": "bool"
@@ -1381,18 +1221,18 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 45,
+                  "id": 39,
                   "nodeType": "IfStatement",
-                  "src": "411:144:0",
+                  "src": "328:144:0",
                   "trueBody": {
-                    "id": 44,
+                    "id": 38,
                     "nodeType": "Block",
-                    "src": "449:106:0",
+                    "src": "366:106:0",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 35,
+                          "id": 29,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1403,26 +1243,26 @@
                               "argumentTypes": null,
                               "baseExpression": {
                                 "argumentTypes": null,
-                                "id": 30,
+                                "id": 24,
                                 "name": "idUserData",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 11,
-                                "src": "458:10:0",
+                                "src": "375:10:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                                   "typeString": "mapping(address => struct Meme.userData storage ref)"
                                 }
                               },
-                              "id": 32,
+                              "id": 26,
                               "indexExpression": {
                                 "argumentTypes": null,
-                                "id": 31,
+                                "id": 25,
                                 "name": "_address",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 16,
-                                "src": "469:8:0",
+                                "src": "386:8:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -1433,13 +1273,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "458:20:0",
+                              "src": "375:20:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_userData_$7_storage",
                                 "typeString": "struct Meme.userData storage ref"
                               }
                             },
-                            "id": 33,
+                            "id": 27,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -1447,7 +1287,7 @@
                             "memberName": "imageHashes",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 4,
-                            "src": "458:32:0",
+                            "src": "375:32:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                               "typeString": "bytes32[] storage ref"
@@ -1457,31 +1297,31 @@
                           "operator": "=",
                           "rightHandSide": {
                             "argumentTypes": null,
-                            "id": 34,
+                            "id": 28,
                             "name": "initArr",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 14,
-                            "src": "493:7:0",
+                            "src": "410:7:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                               "typeString": "bytes32[] storage ref"
                             }
                           },
-                          "src": "458:42:0",
+                          "src": "375:42:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                             "typeString": "bytes32[] storage ref"
                           }
                         },
-                        "id": 36,
+                        "id": 30,
                         "nodeType": "ExpressionStatement",
-                        "src": "458:42:0"
+                        "src": "375:42:0"
                       },
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 42,
+                          "id": 36,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1492,26 +1332,26 @@
                               "argumentTypes": null,
                               "baseExpression": {
                                 "argumentTypes": null,
-                                "id": 37,
+                                "id": 31,
                                 "name": "idUserData",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 11,
-                                "src": "509:10:0",
+                                "src": "426:10:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                                   "typeString": "mapping(address => struct Meme.userData storage ref)"
                                 }
                               },
-                              "id": 39,
+                              "id": 33,
                               "indexExpression": {
                                 "argumentTypes": null,
-                                "id": 38,
+                                "id": 32,
                                 "name": "_address",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 16,
-                                "src": "520:8:0",
+                                "src": "437:8:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
                                   "typeString": "address"
@@ -1522,13 +1362,13 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "IndexAccess",
-                              "src": "509:20:0",
+                              "src": "426:20:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_struct$_userData_$7_storage",
                                 "typeString": "struct Meme.userData storage ref"
                               }
                             },
-                            "id": 40,
+                            "id": 34,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -1536,7 +1376,7 @@
                             "memberName": "userExists",
                             "nodeType": "MemberAccess",
                             "referencedDeclaration": 6,
-                            "src": "509:31:0",
+                            "src": "426:31:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
@@ -1547,14 +1387,14 @@
                           "rightHandSide": {
                             "argumentTypes": null,
                             "hexValue": "74727565",
-                            "id": 41,
+                            "id": 35,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "kind": "bool",
                             "lValueRequested": false,
                             "nodeType": "Literal",
-                            "src": "543:4:0",
+                            "src": "460:4:0",
                             "subdenomination": null,
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
@@ -1562,42 +1402,23 @@
                             },
                             "value": "true"
                           },
-                          "src": "509:38:0",
+                          "src": "426:38:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           }
                         },
-                        "id": 43,
+                        "id": 37,
                         "nodeType": "ExpressionStatement",
-                        "src": "509:38:0"
+                        "src": "426:38:0"
                       }
                     ]
                   }
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 46,
-                    "name": "authenticated",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 22,
-                    "src": "609:13:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "functionReturnParameters": 20,
-                  "id": 47,
-                  "nodeType": "Return",
-                  "src": "602:20:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 49,
+            "id": 41,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -1612,8 +1433,8 @@
                   "id": 16,
                   "name": "_address",
                   "nodeType": "VariableDeclaration",
-                  "scope": 49,
-                  "src": "330:16:0",
+                  "scope": 41,
+                  "src": "294:16:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1624,7 +1445,7 @@
                     "id": 15,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "330:7:0",
+                    "src": "294:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1635,52 +1456,25 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "329:18:0"
+              "src": "293:18:0"
             },
             "returnParameters": {
-              "id": 20,
+              "id": 18,
               "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 19,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 49,
-                  "src": "364:4:0",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 18,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "364:4:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "363:6:0"
+              "parameters": [],
+              "src": "319:0:0"
             },
-            "scope": 80,
-            "src": "303:325:0",
+            "scope": 72,
+            "src": "267:249:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 64,
+              "id": 56,
               "nodeType": "Block",
-              "src": "695:83:0",
+              "src": "583:83:0",
               "statements": [
                 {
                   "expression": {
@@ -1688,12 +1482,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 61,
+                        "id": 53,
                         "name": "_imageHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 53,
-                        "src": "761:10:0",
+                        "referencedDeclaration": 45,
+                        "src": "649:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -1713,26 +1507,26 @@
                           "argumentTypes": null,
                           "baseExpression": {
                             "argumentTypes": null,
-                            "id": 56,
+                            "id": 48,
                             "name": "idUserData",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 11,
-                            "src": "720:10:0",
+                            "src": "608:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                               "typeString": "mapping(address => struct Meme.userData storage ref)"
                             }
                           },
-                          "id": 58,
+                          "id": 50,
                           "indexExpression": {
                             "argumentTypes": null,
-                            "id": 57,
+                            "id": 49,
                             "name": "userAddress",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 51,
-                            "src": "731:11:0",
+                            "referencedDeclaration": 43,
+                            "src": "619:11:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -1743,13 +1537,13 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "nodeType": "IndexAccess",
-                          "src": "720:23:0",
+                          "src": "608:23:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_userData_$7_storage",
                             "typeString": "struct Meme.userData storage ref"
                           }
                         },
-                        "id": 59,
+                        "id": 51,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -1757,13 +1551,13 @@
                         "memberName": "imageHashes",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 4,
-                        "src": "720:35:0",
+                        "src": "608:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                           "typeString": "bytes32[] storage ref"
                         }
                       },
-                      "id": 60,
+                      "id": 52,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1771,13 +1565,13 @@
                       "memberName": "push",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "720:40:0",
+                      "src": "608:40:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_bytes32_$returns$_t_uint256_$",
                         "typeString": "function (bytes32) returns (uint256)"
                       }
                     },
-                    "id": 62,
+                    "id": 54,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1785,36 +1579,36 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "720:52:0",
+                    "src": "608:52:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 63,
+                  "id": 55,
                   "nodeType": "ExpressionStatement",
-                  "src": "720:52:0"
+                  "src": "608:52:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 65,
+            "id": 57,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "set",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 54,
+              "id": 46,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 51,
+                  "id": 43,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 65,
-                  "src": "647:19:0",
+                  "scope": 57,
+                  "src": "535:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1822,10 +1616,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 50,
+                    "id": 42,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "647:7:0",
+                    "src": "535:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1837,11 +1631,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 53,
+                  "id": 45,
                   "name": "_imageHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 65,
-                  "src": "668:18:0",
+                  "scope": 57,
+                  "src": "556:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1849,10 +1643,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 52,
+                    "id": 44,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "668:7:0",
+                    "src": "556:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -1862,25 +1656,25 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "646:41:0"
+              "src": "534:41:0"
             },
             "returnParameters": {
-              "id": 55,
+              "id": 47,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "695:0:0"
+              "src": "583:0:0"
             },
-            "scope": 80,
-            "src": "634:144:0",
+            "scope": 72,
+            "src": "522:144:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 78,
+              "id": 70,
               "nodeType": "Block",
-              "src": "857:85:0",
+              "src": "745:85:0",
               "statements": [
                 {
                   "expression": {
@@ -1889,26 +1683,26 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 73,
+                        "id": 65,
                         "name": "idUserData",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 11,
-                        "src": "886:10:0",
+                        "src": "774:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                           "typeString": "mapping(address => struct Meme.userData storage ref)"
                         }
                       },
-                      "id": 75,
+                      "id": 67,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 74,
+                        "id": 66,
                         "name": "userAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 67,
-                        "src": "897:11:0",
+                        "referencedDeclaration": 59,
+                        "src": "785:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1919,13 +1713,13 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "886:23:0",
+                      "src": "774:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userData_$7_storage",
                         "typeString": "struct Meme.userData storage ref"
                       }
                     },
-                    "id": 76,
+                    "id": 68,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
@@ -1933,37 +1727,37 @@
                     "memberName": "imageHashes",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 4,
-                    "src": "886:35:0",
+                    "src": "774:35:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                       "typeString": "bytes32[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 72,
-                  "id": 77,
+                  "functionReturnParameters": 64,
+                  "id": 69,
                   "nodeType": "Return",
-                  "src": "879:42:0"
+                  "src": "767:42:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 79,
+            "id": 71,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "get",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 68,
+              "id": 60,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 67,
+                  "id": 59,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 79,
-                  "src": "797:19:0",
+                  "scope": 71,
+                  "src": "685:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1971,10 +1765,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 66,
+                    "id": 58,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "797:7:0",
+                    "src": "685:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1985,19 +1779,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "796:21:0"
+              "src": "684:21:0"
             },
             "returnParameters": {
-              "id": 72,
+              "id": 64,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 71,
+                  "id": 63,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 79,
-                  "src": "839:16:0",
+                  "scope": 71,
+                  "src": "727:16:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -2006,19 +1800,19 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 69,
+                      "id": 61,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "839:7:0",
+                      "src": "727:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
                       }
                     },
-                    "id": 70,
+                    "id": 62,
                     "length": null,
                     "nodeType": "ArrayTypeName",
-                    "src": "839:9:0",
+                    "src": "727:9:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -2028,20 +1822,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "838:18:0"
+              "src": "726:18:0"
             },
-            "scope": 80,
-            "src": "784:158:0",
+            "scope": 72,
+            "src": "672:158:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 81,
-        "src": "99:1108:0"
+        "scope": 73,
+        "src": "61:1038:0"
       }
     ],
-    "src": "33:1174:0"
+    "src": "33:1066:0"
   },
   "compiler": {
     "name": "solc",
@@ -2051,12 +1845,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xe6fb1Bc018fbE5f2C90Ec68cD53F913DB9808eE6",
-      "transactionHash": "0x8d8537c7e169f52d958b79640420a1d926c8be52e1a950afc8b66466c93bbdb9"
+      "address": "0xa4752eba88B7D71959Afc5429e8A4F6f60695347",
+      "transactionHash": "0x7214b354648aac34e24ac1c7aff4966c0a7697de01c65472a87d3ff67d58453f"
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-19T19:44:42.517Z",
+  "updatedAt": "2020-10-19T22:10:29.812Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
