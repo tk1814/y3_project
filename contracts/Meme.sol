@@ -13,11 +13,15 @@ contract Meme {
   mapping (address => userData) idUserData;
 
   bytes32[] initArr;
-  function signUpUserOrLogin(address _address) public {
+  function signUpUserOrLogin(address _address) public returns (bool) {
+    bool authenticated = true;
+
     if (!idUserData[_address].userExists) {
       idUserData[_address].imageHashes = initArr;
       idUserData[_address].userExists = true;
-    } // else user already exists 
+    } // else user already exists  try catch
+
+    return authenticated;
   }
 
   function set(address userAddress, bytes32 _imageHash) public { // abstract 0.7.3

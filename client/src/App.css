@@ -28,11 +28,15 @@
   background-color: #6e967a;
   color: #fff;
   font-size: 1.5em;
-
 }
 
 .nav_btn {
   color: #6e967a;
+  /* 9AEDED CEF9F2 80C2AF 669073 */
+}
+
+.nav_btn:hover {
+  color: #56755f;
 }
 
 html {

@@ -6,13 +6,6 @@ import { useHistory } from 'react-router-dom'
 function LogInButton(props) {
 
   const dispatch = useDispatch();
-  const history = useHistory();
-
-  function redirectToWhenLoggedIn() {
-    history.push('/gallery');
-    window.location.reload(); // fix redirection for gallery navlink
-  }
-
 
   return (
     <div>
@@ -20,7 +13,6 @@ function LogInButton(props) {
         onClick={(e) => {
           props.onSignUp(e)
           dispatch(loggedIn());
-          redirectToWhenLoggedIn(); //redirect when it answers yes
         }}>Login</button>
     </div>
   );

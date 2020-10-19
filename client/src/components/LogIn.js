@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import LogInButton from './LogInButton';
-
+import { useHistory } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 class LogIn extends Component {
 
@@ -71,14 +72,20 @@ class LogIn extends Component {
         }
     }
 
+    redirectToGallery = () => {
+        const { history } = this.props;
+        if (history) history.push('/gallery');
+    }
+
     onSignUp = async (event) => {
         await this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
+            this.redirectToGallery();
+            window.location.reload();
         }) // await 
         event.preventDefault()
     }
 
     render() {
-
         return (
             <div className='login'>
                 {/* <h2>Log In</h2> */}
@@ -99,4 +106,4 @@ class LogIn extends Component {
     }
 }
 
-export default LogIn;
+export default withRouter(LogIn);

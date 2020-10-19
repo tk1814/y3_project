@@ -3,7 +3,6 @@ import './App.css';
 import Header from './components/Header';
 import LogIn from './components/LogIn';
 import Gallery from './components/Gallery';
-import About from './components/About';
 import Contact from './components/Contact';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
@@ -24,13 +23,11 @@ class App extends Component {
   // TO DO 0.4: change bg when logged in
   // TO DO 0.8: Delete a photo from gallery
   // TO DO 1.0: Authenticate user and acc
-  // TO DO 1.2: log out redirection
 
   // TO DO 1.4: avoid duplicate images in smart contract? preferably
   // TO DO 1.7: fix image layout, create mapping Image name->image
   // TO DO 2.0: fix internal/abstract function definitions in smart contract
-  // TO DO 3.0: Create footer
-  // TO DO 4.0: Create circular logo
+  // TO DO 3.0: Create footer & circular logo
 
   constructor(props) {
     super(props)
@@ -55,7 +52,7 @@ class App extends Component {
           <main>
             <Navbar className="nav" expand="md">
               <NavbarBrand href="/"><Header /*subtitle="Credential Store"*/ /></NavbarBrand>
-              <Nav className="mr-auto" navbar></Nav>                               {/* 9AEDED CEF9F2 80C2AF 669073 */}
+              <Nav className="mr-auto" navbar></Nav>                 
               <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /></NavLink></NavItem>
 
               {(!JSON.parse(localStorage.getItem('state'))) ?
@@ -66,7 +63,9 @@ class App extends Component {
                 : ''}
               <NavItem><NavLink className="nav_btn" href="/contact"><BsQuestionDiamond size="2em" /></NavLink></NavItem>
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" onClick={() => localStorage.clear()} href="/about"><BsLock size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink className="nav_btn" onClick={() => {
+                  localStorage.clear();  // alert('Logged out')
+                }} href="/"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}
 
               {/* <NavItem><NavLink className="nav_btn" href="/contact"><FontAwesomeIcon icon={faPaperPlane} size="2x" /></NavLink></NavItem> */}
@@ -76,7 +75,7 @@ class App extends Component {
               <Route path='/login' component={LogIn} />
               <Route path='/gallery' component={Gallery} />
               <Route path='/contact' component={Contact} />
-              <Route path='/about' component={About} />
+              <Route path='/' component={Root} />
             </Switch>
           </main>
         </BrowserRouter>
