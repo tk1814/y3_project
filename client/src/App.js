@@ -21,7 +21,7 @@ const Root = () => (
 
 class App extends Component {
 
-  // TO DO 0.8: Delete a photo from gallery
+  // TO DO 0.8: Delete a photo from gallery. NOT POSSIBLE
   // TO DO 1.0: Authenticate user and acc
   // TO DO 1.7: fix image layout Gallery/imageItems, create mapping Image name->image
 

@@ -57,6 +57,8 @@ class Gallery extends Component {
     }
   }
 
+
+
   async loadBlockchainData() {
     const web3 = window.web3
     // Load account
@@ -90,7 +92,9 @@ class Gallery extends Component {
         // FIX IMAGE LAYOUT
         let imageItems
         imageItems = this.state.imageHashes.map((image, index) => (
-          <img key={index} className="mr-3 mb-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          // if image != 0x00..
+          //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
+            <img key={index} className="mr-3 mb-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
         ))
         this.setState({ imageItems: imageItems })
       }
@@ -99,6 +103,17 @@ class Gallery extends Component {
     else {
       window.alert('Smart contract not deployed to detected network.')
     }
+  }
+
+  deleteImg(e, index) {
+    console.log(index)
+    let img_hashes=this.state.imageHashes.splice(index, 1);
+    this.setState({imageHashes: img_hashes});
+    // await 
+    this.state.contract.methods.deleteImage(this.state.account, index).send({ from: this.state.account }).then((r) => {
+      window.location.reload();
+    })
+  console.log(this.state.imageHashes)
   }
 
   // Called whenever a file is uploaded, converts it to appropriate format for IPFS
