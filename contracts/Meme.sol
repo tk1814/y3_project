@@ -22,6 +22,7 @@ contract Meme {
   }
 
   function set(address userAddress, bytes32 _imageHash) public { 
+    // require(userAdress in authenticated)
     idUserData[userAddress].imageHashes.push(_imageHash);
   }
 

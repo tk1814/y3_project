@@ -7,7 +7,8 @@ function LogInButton(props) {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="top_space">
+      <h3 className="mt-4">Connect your MetaMask account with only one click.</h3>
       <button type='submit' className="btn mt-3 container log_in_btn"
         onClick={(e) => {
           props.onSignUp(e)

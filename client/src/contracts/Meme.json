@@ -11,6 +11,26 @@
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "userAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_imageHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -32,12 +52,12 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"get\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"signUpUserOrLogin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":\"Meme\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":{\"keccak256\":\"0x5f9eacfa39a65059f0ca4f5fa0b25712c5fb6731be554a634953229c6f33ed49\",\"urls\":[\"bzz-raw://20a808ac5d14c2a9ddfd46b570fc10eba1686f98dd8f1a163c059ac3a9d68a67\",\"dweb:/ipfs/QmXTdhqfecFtxmSrCw3WUcaU2z2AfBAzki7gzUVVGSMwg1\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610325806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80637dc9983b1461003b578063c2bc2efc14610045575b600080fd5b6100436100de565b005b6100876004803603602081101561005b57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101e0565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b838110156100ca5780820151818401526020810190506100af565b505050509050019250505060405180910390f35b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166101de5760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600001908054610182929190610279565b5060016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561026d57602002820191906000526020600020905b815481526020019060010190808311610259575b50505050509050919050565b8280548282559060005260206000209081019282156102ba5760005260206000209182015b828111156102b957825482559160010191906001019061029e565b5b5090506102c791906102cb565b5090565b6102ed91905b808211156102e95760008160009055506001016102d1565b5090565b9056fea265627a7a72315820be686280f1bdacb30d1eced0be5d999b73c64b07ee6f670712057b8635d386ce64736f6c63430005100032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c80637dc9983b1461003b578063c2bc2efc14610045575b600080fd5b6100436100de565b005b6100876004803603602081101561005b57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101e0565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b838110156100ca5780820151818401526020810190506100af565b505050509050019250505060405180910390f35b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166101de5760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600001908054610182929190610279565b5060016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561026d57602002820191906000526020600020905b815481526020019060010190808311610259575b50505050509050919050565b8280548282559060005260206000209081019282156102ba5760005260206000209182015b828111156102b957825482559160010191906001019061029e565b5b5090506102c791906102cb565b5090565b6102ed91905b808211156102e95760008160009055506001016102d1565b5090565b9056fea265627a7a72315820be686280f1bdacb30d1eced0be5d999b73c64b07ee6f670712057b8635d386ce64736f6c63430005100032",
-  "sourceMap": "61:1297:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1297:0;;;;;;;",
-  "deployedSourceMap": "61:1297:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1297:0;;;;;;;;;;;;;;;;;;;;;;;;267:311;;;:::i;:::-;;776:130;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;776:130:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;776:130:0;;;;;;;;;;;;;;;;;267:311;362:10;:22;373:10;362:22;;;;;;;;;;;;;;;:33;;;;;;;;;;;;357:150;;443:7;406:10;:22;417:10;406:22;;;;;;;;;;;;;;;:34;;:44;;;;;;;;:::i;:::-;;495:4;459:10;:22;470:10;459:22;;;;;;;;;;;;;;;:33;;;:40;;;;;;;;;;;;;;;;;;357:150;267:311::o;776:130::-;831:16;864:10;:23;875:11;864:23;;;;;;;;;;;;;;;:35;;857:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;776:130;;;:::o;61:1297::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.0;\r\n\r\ncontract Meme {\r\n\r\n  // array of structs \r\n  struct userData {\r\n    bytes32[] imageHashes;\r\n    bool userExists; // 0 default \r\n  }\r\n\r\n  mapping (address => userData) idUserData;\r\n\r\n  bytes32[] initArr;\r\n  function signUpUserOrLogin() public { // returns(address) {\r\n    // address _address\r\n    if (!idUserData[msg.sender].userExists) {\r\n      idUserData[msg.sender].imageHashes = initArr;\r\n      idUserData[msg.sender].userExists = true;\r\n    } // else user already exists  try catch\r\n    // return msg.sender;\r\n  }\r\n\r\n  function set(address userAddress, bytes32 _imageHash) private { \r\n    idUserData[userAddress].imageHashes.push(_imageHash);\r\n  }\r\n\r\n  // not passing the address resulted in mix of accounts\r\n  function get(address userAddress) public view returns (bytes32[] memory) { \r\n    return idUserData[userAddress].imageHashes; \r\n  }\r\n\r\n  // delete: resets variable to default value\r\n  // function deleteImage(address userAddress, uint index) public {\r\n  //   delete idUserData[userAddress].imageHashes[index];\r\n  // }\r\n\r\n  // bytes32[] public imageHashes;\r\n  // function set(bytes32 _imageHash) public { // abstract 0.7.0\r\n  //   imageHashes.push(_imageHash);\r\n  // }\r\n\r\n  // function get() public view returns (bytes32[] memory) { //internal dw\r\n  //   return imageHashes;\r\n  // }\r\n}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"}],\"name\":\"get\",\"outputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"userAddress\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_imageHash\",\"type\":\"bytes32\"}],\"name\":\"set\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"signUpUserOrLogin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":\"Meme\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol\":{\"keccak256\":\"0x18dc48c841ab8ac71a3b9ab26f89d35d9d5148ff65abc04d8f6570f2da6428ab\",\"urls\":[\"bzz-raw://db181a3d280844ef73d021d2cc0bbe16324a14b6ffe1dd38681138e6257813b0\",\"dweb:/ipfs/QmdY8nomWSCThzoGRasqcaxGRky9hbHhDGcEa9LL1pugaU\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506103ed806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80633e7b8e71146100465780637dc9983b14610094578063c2bc2efc1461009e575b600080fd5b6100926004803603604081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610137565b005b61009c6101a6565b005b6100e0600480360360208110156100b457600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102a8565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b83811015610123578082015181840152602081019050610108565b505050509050019250505060405180910390f35b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102a65760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805461024a929190610341565b5060016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561033557602002820191906000526020600020905b815481526020019060010190808311610321575b50505050509050919050565b8280548282559060005260206000209081019282156103825760005260206000209182015b82811115610381578254825591600101919060010190610366565b5b50905061038f9190610393565b5090565b6103b591905b808211156103b1576000816000905550600101610399565b5090565b9056fea265627a7a7231582085e14809b1196ca74b6b5c619910a7c27306f0037380a1e397f7a0cb2308a05764736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80633e7b8e71146100465780637dc9983b14610094578063c2bc2efc1461009e575b600080fd5b6100926004803603604081101561005c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610137565b005b61009c6101a6565b005b6100e0600480360360208110156100b457600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506102a8565b6040518080602001828103825283818151815260200191508051906020019060200280838360005b83811015610123578082015181840152602081019050610108565b505050509050019250505060405180910390f35b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000018190806001815401808255809150509060018203906000526020600020016000909192909190915055505050565b6000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160009054906101000a900460ff166102a65760016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000190805461024a929190610341565b5060016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060010160006101000a81548160ff0219169083151502179055505b565b60606000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000180548060200260200160405190810160405280929190818152602001828054801561033557602002820191906000526020600020905b815481526020019060010190808311610321575b50505050509050919050565b8280548282559060005260206000209081019282156103825760005260206000209182015b82811115610381578254825591600101919060010190610366565b5b50905061038f9190610393565b5090565b6103b591905b808211156103b1576000816000905550600101610399565b5090565b9056fea265627a7a7231582085e14809b1196ca74b6b5c619910a7c27306f0037380a1e397f7a0cb2308a05764736f6c63430005100032",
+  "sourceMap": "61:1340:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1340:0;;;;;;;",
+  "deployedSourceMap": "61:1340:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;61:1340:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;584:172;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;584:172:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;267:311;;;:::i;:::-;;820:130;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;820:130:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;820:130:0;;;;;;;;;;;;;;;;;584:172;698:10;:23;709:11;698:23;;;;;;;;;;;;;;;:35;;739:10;698:52;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;698:52:0;;;;;;;;;;;;;;;;;;;;;;584:172;;:::o;267:311::-;362:10;:22;373:10;362:22;;;;;;;;;;;;;;;:33;;;;;;;;;;;;357:150;;443:7;406:10;:22;417:10;406:22;;;;;;;;;;;;;;;:34;;:44;;;;;;;;:::i;:::-;;495:4;459:10;:22;470:10;459:22;;;;;;;;;;;;;;;:33;;;:40;;;;;;;;;;;;;;;;;;357:150;267:311::o;820:130::-;875:16;908:10;:23;919:11;908:23;;;;;;;;;;;;;;;:35;;901:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;820:130;;;:::o;61:1340::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.0;\r\n\r\ncontract Meme {\r\n\r\n  // array of structs \r\n  struct userData {\r\n    bytes32[] imageHashes;\r\n    bool userExists; // 0 default \r\n  }\r\n\r\n  mapping (address => userData) idUserData;\r\n\r\n  bytes32[] initArr;\r\n  function signUpUserOrLogin() public { // returns(address) {\r\n    // address _address\r\n    if (!idUserData[msg.sender].userExists) {\r\n      idUserData[msg.sender].imageHashes = initArr;\r\n      idUserData[msg.sender].userExists = true;\r\n    } // else user already exists  try catch\r\n    // return msg.sender;\r\n  }\r\n\r\n  function set(address userAddress, bytes32 _imageHash) public { \r\n    // require(userAdress in authenticated)\r\n    idUserData[userAddress].imageHashes.push(_imageHash);\r\n  }\r\n\r\n  // not passing the address resulted in mix of accounts\r\n  function get(address userAddress) public view returns (bytes32[] memory) { \r\n    return idUserData[userAddress].imageHashes; \r\n  }\r\n\r\n  // delete: reset variable to default value\r\n  // function deleteImage(address userAddress, uint index) public {\r\n  //   delete idUserData[userAddress].imageHashes[index];\r\n  // }\r\n\r\n  // bytes32[] public imageHashes;\r\n  // function set(bytes32 _imageHash) public { // abstract 0.7.0\r\n  //   imageHashes.push(_imageHash);\r\n  // }\r\n\r\n  // function get() public view returns (bytes32[] memory) { //internal dw\r\n  //   return imageHashes;\r\n  // }\r\n}",
   "sourcePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
   "ast": {
     "absolutePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
@@ -582,7 +602,7 @@
             "body": {
               "id": 57,
               "nodeType": "Block",
-              "src": "646:66:0",
+              "src": "645:111:0",
               "statements": [
                 {
                   "expression": {
@@ -595,7 +615,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 46,
-                        "src": "695:10:0",
+                        "src": "739:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -620,7 +640,7 @@
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 11,
-                            "src": "654:10:0",
+                            "src": "698:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                               "typeString": "mapping(address => struct Meme.userData storage ref)"
@@ -634,7 +654,7 @@
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 44,
-                            "src": "665:11:0",
+                            "src": "709:11:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -645,7 +665,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "nodeType": "IndexAccess",
-                          "src": "654:23:0",
+                          "src": "698:23:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_userData_$7_storage",
                             "typeString": "struct Meme.userData storage ref"
@@ -659,7 +679,7 @@
                         "memberName": "imageHashes",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 4,
-                        "src": "654:35:0",
+                        "src": "698:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                           "typeString": "bytes32[] storage ref"
@@ -673,7 +693,7 @@
                       "memberName": "push",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "654:40:0",
+                      "src": "698:40:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_bytes32_$returns$_t_uint256_$",
                         "typeString": "function (bytes32) returns (uint256)"
@@ -687,7 +707,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "654:52:0",
+                    "src": "698:52:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -695,7 +715,7 @@
                   },
                   "id": 56,
                   "nodeType": "ExpressionStatement",
-                  "src": "654:52:0"
+                  "src": "698:52:0"
                 }
               ]
             },
@@ -770,19 +790,19 @@
               "id": 48,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "646:0:0"
+              "src": "645:0:0"
             },
             "scope": 73,
-            "src": "584:128:0",
+            "src": "584:172:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
-            "visibility": "private"
+            "visibility": "public"
           },
           {
             "body": {
               "id": 71,
               "nodeType": "Block",
-              "src": "849:57:0",
+              "src": "893:57:0",
               "statements": [
                 {
                   "expression": {
@@ -796,7 +816,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 11,
-                        "src": "864:10:0",
+                        "src": "908:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                           "typeString": "mapping(address => struct Meme.userData storage ref)"
@@ -810,7 +830,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 60,
-                        "src": "875:11:0",
+                        "src": "919:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -821,7 +841,7 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "864:23:0",
+                      "src": "908:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userData_$7_storage",
                         "typeString": "struct Meme.userData storage ref"
@@ -835,7 +855,7 @@
                     "memberName": "imageHashes",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 4,
-                    "src": "864:35:0",
+                    "src": "908:35:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                       "typeString": "bytes32[] storage ref"
@@ -844,7 +864,7 @@
                   "functionReturnParameters": 65,
                   "id": 70,
                   "nodeType": "Return",
-                  "src": "857:42:0"
+                  "src": "901:42:0"
                 }
               ]
             },
@@ -865,7 +885,7 @@
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 72,
-                  "src": "789:19:0",
+                  "src": "833:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -876,7 +896,7 @@
                     "id": 59,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "789:7:0",
+                    "src": "833:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -887,7 +907,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "788:21:0"
+              "src": "832:21:0"
             },
             "returnParameters": {
               "id": 65,
@@ -899,7 +919,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 72,
-                  "src": "831:16:0",
+                  "src": "875:16:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -911,7 +931,7 @@
                       "id": 62,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "831:7:0",
+                      "src": "875:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
@@ -920,7 +940,7 @@
                     "id": 63,
                     "length": null,
                     "nodeType": "ArrayTypeName",
-                    "src": "831:9:0",
+                    "src": "875:9:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -930,20 +950,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "830:18:0"
+              "src": "874:18:0"
             },
             "scope": 73,
-            "src": "776:130:0",
+            "src": "820:130:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 74,
-        "src": "61:1297:0"
+        "src": "61:1340:0"
       }
     ],
-    "src": "33:1325:0"
+    "src": "33:1368:0"
   },
   "legacyAST": {
     "absolutePath": "/mnt/c/Users/theod/git/y3_project/contracts/Meme.sol",
@@ -1488,7 +1508,7 @@
             "body": {
               "id": 57,
               "nodeType": "Block",
-              "src": "646:66:0",
+              "src": "645:111:0",
               "statements": [
                 {
                   "expression": {
@@ -1501,7 +1521,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 46,
-                        "src": "695:10:0",
+                        "src": "739:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
@@ -1526,7 +1546,7 @@
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 11,
-                            "src": "654:10:0",
+                            "src": "698:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                               "typeString": "mapping(address => struct Meme.userData storage ref)"
@@ -1540,7 +1560,7 @@
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 44,
-                            "src": "665:11:0",
+                            "src": "709:11:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -1551,7 +1571,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "nodeType": "IndexAccess",
-                          "src": "654:23:0",
+                          "src": "698:23:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_userData_$7_storage",
                             "typeString": "struct Meme.userData storage ref"
@@ -1565,7 +1585,7 @@
                         "memberName": "imageHashes",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 4,
-                        "src": "654:35:0",
+                        "src": "698:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                           "typeString": "bytes32[] storage ref"
@@ -1579,7 +1599,7 @@
                       "memberName": "push",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "654:40:0",
+                      "src": "698:40:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_bytes32_$returns$_t_uint256_$",
                         "typeString": "function (bytes32) returns (uint256)"
@@ -1593,7 +1613,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "654:52:0",
+                    "src": "698:52:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1601,7 +1621,7 @@
                   },
                   "id": 56,
                   "nodeType": "ExpressionStatement",
-                  "src": "654:52:0"
+                  "src": "698:52:0"
                 }
               ]
             },
@@ -1676,19 +1696,19 @@
               "id": 48,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "646:0:0"
+              "src": "645:0:0"
             },
             "scope": 73,
-            "src": "584:128:0",
+            "src": "584:172:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
-            "visibility": "private"
+            "visibility": "public"
           },
           {
             "body": {
               "id": 71,
               "nodeType": "Block",
-              "src": "849:57:0",
+              "src": "893:57:0",
               "statements": [
                 {
                   "expression": {
@@ -1702,7 +1722,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 11,
-                        "src": "864:10:0",
+                        "src": "908:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userData_$7_storage_$",
                           "typeString": "mapping(address => struct Meme.userData storage ref)"
@@ -1716,7 +1736,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 60,
-                        "src": "875:11:0",
+                        "src": "919:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1727,7 +1747,7 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "864:23:0",
+                      "src": "908:23:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userData_$7_storage",
                         "typeString": "struct Meme.userData storage ref"
@@ -1741,7 +1761,7 @@
                     "memberName": "imageHashes",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 4,
-                    "src": "864:35:0",
+                    "src": "908:35:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage",
                       "typeString": "bytes32[] storage ref"
@@ -1750,7 +1770,7 @@
                   "functionReturnParameters": 65,
                   "id": 70,
                   "nodeType": "Return",
-                  "src": "857:42:0"
+                  "src": "901:42:0"
                 }
               ]
             },
@@ -1771,7 +1791,7 @@
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 72,
-                  "src": "789:19:0",
+                  "src": "833:19:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1782,7 +1802,7 @@
                     "id": 59,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "789:7:0",
+                    "src": "833:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1793,7 +1813,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "788:21:0"
+              "src": "832:21:0"
             },
             "returnParameters": {
               "id": 65,
@@ -1805,7 +1825,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 72,
-                  "src": "831:16:0",
+                  "src": "875:16:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1817,7 +1837,7 @@
                       "id": 62,
                       "name": "bytes32",
                       "nodeType": "ElementaryTypeName",
-                      "src": "831:7:0",
+                      "src": "875:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bytes32",
                         "typeString": "bytes32"
@@ -1826,7 +1846,7 @@
                     "id": 63,
                     "length": null,
                     "nodeType": "ArrayTypeName",
-                    "src": "831:9:0",
+                    "src": "875:9:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
                       "typeString": "bytes32[]"
@@ -1836,20 +1856,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "830:18:0"
+              "src": "874:18:0"
             },
             "scope": 73,
-            "src": "776:130:0",
+            "src": "820:130:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
         "scope": 74,
-        "src": "61:1297:0"
+        "src": "61:1340:0"
       }
     ],
-    "src": "33:1325:0"
+    "src": "33:1368:0"
   },
   "compiler": {
     "name": "solc",
@@ -1859,12 +1879,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x43C4D1c7d6C9760647b63F299f519E2f53479488",
-      "transactionHash": "0xdfdb9dd1c7dec0ca1deadbb2c7ee1b75b187e4499b8af89ffb43ffc18c8ab507"
+      "address": "0x0b071073Ef1370C2ef429b6339cEF2fac88C5445",
+      "transactionHash": "0xe731c4e19524e8a999b21ad03c24e4bd03d7c2ad104edf7008ab07c7564d9bc2"
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-10-20T22:27:00.813Z",
+  "updatedAt": "2020-10-28T14:25:31.636Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

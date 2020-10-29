@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import bs58 from 'bs58';
-import Images from './Images';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
+import { Modal, ModalGateway } from 'react-images';
+// import Images from './Images';
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
-
 
 class Gallery extends Component {
   constructor(props) {
@@ -18,7 +18,9 @@ class Gallery extends Component {
       contract: null,
       web3: null,
       buffer: null,
-      account: null
+      account: null,
+      modalIsOpen: false,
+      img_index: 0
     }
   }
 
@@ -37,6 +39,7 @@ class Gallery extends Component {
         // ****LOGOUT WHEN ACCOUNT CHANGES***
         //   const dispatch = useDispatch();
         //   dispatch(loggedIn());
+        // let isLogged = useSelector(state => state.isLogged);
         localStorage.setItem('state', JSON.stringify(false));
 
         window.location.reload();
@@ -48,16 +51,17 @@ class Gallery extends Component {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
       await window.ethereum.enable()
-    }
-    else if (window.web3) {
+    } else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    } else {
+      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
     }
   }
 
-
+  toggleModal(index) {
+    this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
+    this.setState({ img_index: index });
+  }
 
   async loadBlockchainData() {
     const web3 = window.web3
@@ -89,12 +93,12 @@ class Gallery extends Component {
 
         this.setState({ imageHashes: imageHashes })
 
-        // FIX IMAGE LAYOUT
+        // IMAGE LAYOUT %%%%%%%%%%%%
         let imageItems
         imageItems = this.state.imageHashes.map((image, index) => (
           // if image != 0x00..
           //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
-            <img key={index} className="mr-3 mb-3 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
         ))
         this.setState({ imageItems: imageItems })
       }
@@ -107,13 +111,13 @@ class Gallery extends Component {
 
   deleteImg(e, index) {
     console.log(index)
-    let img_hashes=this.state.imageHashes.splice(index, 1);
-    this.setState({imageHashes: img_hashes});
+    let img_hashes = this.state.imageHashes.splice(index, 1);
+    this.setState({ imageHashes: img_hashes });
     // await 
     this.state.contract.methods.deleteImage(this.state.account, index).send({ from: this.state.account }).then((r) => {
       window.location.reload();
     })
-  console.log(this.state.imageHashes)
+    console.log(this.state.imageHashes)
   }
 
   // Called whenever a file is uploaded, converts it to appropriate format for IPFS
@@ -166,21 +170,20 @@ class Gallery extends Component {
 
   render() {
     return (
-      <div className="general_bg">
+      <div className="gallery_bg">
         {(JSON.parse(localStorage.getItem('state'))) ?
-          <div>
-            <br></br>
-            <h2>Hello [User]</h2>
-            <h2 className="mt-3">Upload an image</h2>
+          <div className="top_gallery_space">
+            <h4>Hello [user]</h4>
+            <h3 className="mt-4">Upload an image</h3>
 
-            <div className="container-fluid mt-5">
+            <div className="container-fluid mt-4">
               <div className="row">
                 <main role="main" className="col-lg-12 d-flex text-center">
                   <div className="content mr-auto ml-auto">
 
                     <form className="input-group mt-3" onSubmit={this.onSubmit} >
                       <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input " /> {/* mx-sm-3 */}
-                      <label className="custom-file-label">{this.state.fileName}</label>
+                      <label className="custom-file-label ss">{this.state.fileName}</label>
                       <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
                     </form>
 
@@ -197,15 +200,27 @@ class Gallery extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                <h2 className="mb-5">Gallery</h2>
-                <Images imageItems={this.state.imageItems}></Images>
+                <h4 className="mb-5">Your Gallery</h4>
+                {/* <Images imageItems={this.state.imageItems} ></Images> */}
+
+                {(!JSON.parse(localStorage.getItem('isLogged'))) ? this.state.imageItems : <p>User not logged in to display images</p>}
+
+                <ModalGateway>
+                  {this.state.modalIsOpen ? (
+                    <Modal onClose={() => this.toggleModal(this.state.img_index)}>
+                      <div className="imgbox">
+                        <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
+                      </div>
+                    </Modal>) : ''}
+                </ModalGateway>
+
                 <div className="footer_space"></div>
               </div>
             </main>
           </div>
         </div>
 
-      </div>
+      </div >
     );
   }
 }

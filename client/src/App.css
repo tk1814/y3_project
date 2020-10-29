@@ -4,30 +4,61 @@
 .App {
   text-align: center;
   /* color: #CEF9F2; #C0C0C0; */
-  
   width: 100%;
-  height: 600px;
+  /* height: 700px; */
 
   /* background-image: url(./bg/bridge-bg.jpg); */
   /* background-position: center; */
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.ss{
+  border-radius: 100px;
+}
+
 .submit_btn {
   background-color: #6e967a;
   color: #fff;
   font-size: 1.5em;
+  border-radius: 100px;
+}
+
+.start_btn {
+  background-color: #6e967a;
+  color: #fff;
+  font-size: 1.5em;
+  border-radius: 100px;
+  width: 300px;
 }
 
 .img_item {
-  height: 200px;
-  width: 300px;
+  height: 300px;
+  width: 400px;
 }
+
+
+/* IMAGE MODAL * {
+  margin: 0;
+  padding: 0;
+} */
+.imgbox {
+  display: grid;
+  height: 100%;
+}
+.center_fit {
+  max-width: 100%;
+  max-height: 100vh;
+  margin: auto;
+}
+
 
 .log_in_btn {
   background-color: #6e967a;
   color: #fff;
   font-size: 1.5em;
+  border-radius: 100px;
+  width: 200px;
 }
 
 .nav_btn {
@@ -44,48 +75,79 @@ html {
 }
 
 .login {
-  background-image: url(./bg/fkioro-bg.jpg);
+  background-image: url(./bg/aaaa_cp_filt.jpg);
   /* width: 100%; */
-  height: 900px;
+  height: 750px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.gallery_bg {
+  background-image: url(./bg/aaa_filt.jpg);
+  /* width: 100%; */
+  height: 750px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .general_bg {
-  background-image: url(./bg/bridge-bg.jpg);
+  background-image: url(./bg/safe_filt.jpg);
   width: 100%;
-  height: 600px;
+  height: 750px;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+.simple_bg {
+  background-color: #222;
+}
+
+.top_space { padding: 200px; }
+.top_gallery_space { padding: 150px; }
+
 .space {
-  height: 350px;
+  height: 250px;
 }
 
 .footer_space {
-  height: 200px;
+  height: 330px;
 }
 
 .logo {
   height: 50px;
-  /* float: left; */
+  float: right;
 }
 
 .subtitle {
+  /* font-weight: bold; */
   color: #6e967a; /* CEF9F2 80C2AF rgb(145, 145, 145) */
-  font-size: 1.5em;
+  font-size: 1.6em;
 }
 
 p, h2 {
   color: #6e967a;
 }
 
+h4 {
+  color: #fff;
+  font-size: 3.5em;
+  font-weight: bold;
+  /* font-family: gibson-semibold,Arial,sans-serif; */
+}
+
+h3 {
+  color: #fff;
+  font-size: 2.0em;
+  /* font-family: gibson-semibold,Arial,sans-serif; */
+  /* font-weight: bold; */
+}
+
 .nav {
  /*222 2A2D34 2A2F3A*/
   background-color: #1e1e1e; 
-  height: 65px;
+  height: 60px;
 
   /* #414141 #C0C0C0 99FFFF rgb(19,  115, 161) */
   /* padding: 40px; */
