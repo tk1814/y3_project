@@ -1,6 +1,7 @@
 import React from 'react';
 // import logo from '../bg/ethereum-1.svg'
-import logo from '../bg/ethereum-classic-etc.svg'
+// import logo from '../bg/ethereum-classic-etc.svg'
+import logo from '../bg/SwiftLock.png'
 
 /* must have a root/parent node <header or array of jsx components [ child nodes have col- classes ] */
 // props object - read only obj

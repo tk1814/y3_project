@@ -26,11 +26,13 @@ const allReducers = combineReducers({
     // counter: counterReducer, 
     // name whatev or just write: counterReducer
     // add other reducers to be combined
-    isLogged: loggedReducer
+    
+    isLogged: loggedReducer  // 'state' was 'isLogged'
 });
 
 const persistedState = loadFromLocalStorage()
 
+// *************** see warning in console when starting the app
 const store = createStore(
     allReducers,
     persistedState,

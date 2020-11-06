@@ -16,3 +16,9 @@ export const loggedIn = () => {
         type: 'SIGN_IN'
     };
 };
+
+export const loggedOut = () => {
+    return {
+        type: 'LOG_OUT'
+    };
+};

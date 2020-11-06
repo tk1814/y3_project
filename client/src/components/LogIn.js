@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
-import LogInButton from './LogInButton';
+// import LogInButton from './LogInButton';
 import { withRouter } from 'react-router-dom';
 
 class LogIn extends Component {
@@ -76,20 +76,19 @@ class LogIn extends Component {
         if (history) history.push('/gallery');
     }
 
-    // onSignUp = async (event) => {
-    //   await this.state.contract.methods.signUpUserOrLogin(this.state.account).send({ from: this.state.account }).then((r) => {
-    //         this.redirectToGallery();
-    //         window.location.reload();
-    //     }) // await 
-    //     event.preventDefault()
-    // }
-
     onSignUp = async (event) => {
-        await this.state.contract.methods.signUpUserOrLogin().send({ from: this.state.account }).then((r) => {
-            this.redirectToGallery();
-            window.location.reload();
-        }) // await 
-        event.preventDefault()
+
+        try {
+            await this.state.contract.methods.signUpUserOrLogin().send({ from: this.state.account }).then((r) => {
+                localStorage.setItem('state', JSON.stringify(true));
+                this.redirectToGallery();
+                window.location.reload();
+            })
+            event.preventDefault()
+        } catch (e) {
+            localStorage.setItem('state', JSON.stringify(false));
+            console.log('Error logging in', e)
+        }
     }
 
     render() {
@@ -100,9 +99,16 @@ class LogIn extends Component {
                     <div className="row">
                         <main role="main" className="col-lg-12 d-flex text-center">
                             <div className="content mr-auto ml-auto mt-5">
-                                {(!JSON.parse(localStorage.getItem('state'))) ?
-                                    <LogInButton onSignUp={this.onSignUp}></LogInButton>
-                                    : 'You are already logged in'}
+                                {(!JSON.parse(localStorage.getItem('state'))) ? (
+
+                                    <div className="top_space">
+                                        <h3 className="mt-4">Connect your MetaMask account with only one click.</h3>
+                                        <button type='submit' className="btn mt-3 container log_in_btn"
+                                            onClick={(e) => { this.onSignUp(e) }}>Login</button>
+                                    </div>
+                                    // <LogInButton onSignUp={this.onSignUp}></LogInButton>
+
+                                ) : <h3>You are already logged in</h3>}
                             </div>
                         </main>
                     </div>

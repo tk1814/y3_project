@@ -9,10 +9,10 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // Navb
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faImages, faHome, faSignInAlt, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { BsHouse, BsImages, BsLock, BsUnlock, BsQuestionDiamond } from "react-icons/bs";
-import Carousel from 'react-images';
-import img1 from './bg/55.jpg';
-import img2 from './bg/dsk.jpg';
-const images = [{ source: img1 }, { source: img2 }];
+// import Carousel from 'react-images';
+// import img1 from './bg/55.jpg';
+// import img2 from './bg/dsk.jpg';
+// const images = [{ source: img1 }, { source: img2 }];
 
 const Root = () => (
   <div className="general_bg">
@@ -57,8 +57,9 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <main>
+            {/* ChainSafe ChainX SwiftLock Lockify */}
             <Navbar className="nav" expand="md">
-              <NavbarBrand href="/"><Header subtitle="ChainSafe" /></NavbarBrand>
+              <NavbarBrand href="/"><Header subtitle="" /></NavbarBrand>
               <Nav className="mr-auto" navbar></Nav>
               <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /> </NavLink></NavItem>
 
@@ -71,7 +72,7 @@ class App extends Component {
               <NavItem><NavLink className="nav_btn" href="/contact"><BsQuestionDiamond size="2em" /></NavLink></NavItem>
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" onClick={() => {
-                  localStorage.clear();  // alert('Logged out')
+                  localStorage.clear();  
                 }} href="/"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}
 

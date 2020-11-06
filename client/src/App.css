@@ -17,6 +17,29 @@
   border-radius: 100px;
 }
 
+.input_right_border {
+  border: 3px solid #6e967a;
+  font-size: 1.2em!important; /* !important to override styles */
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  /* outline: none !important;
+  box-shadow: none !important; */
+}
+
+/* .btn:focus,.btn:active, .input:focus {
+  outline: #6e967a !important;
+  box-shadow: #6e967a !important;
+} */
+
+.btn_left_border {
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+  background-color: #6e967a;
+  color: #fff;
+  font-size: 1.2em;
+}
+
+
 .submit_btn {
   background-color: #6e967a;
   color: #fff;
@@ -37,6 +60,32 @@
   width: 400px;
 }
 
+/* IMAGE PICKER */
+.image_picker {
+  width: 100%;
+}
+.selected {
+  background-color: rgba(110,150,138, 0.65);
+  /* opacity: 0.65; */
+  border-radius: 7px;
+}
+.responsive {
+  display: inline-block;
+  margin: 0 6px;
+  /* position: relative; */
+  /* float: left; */
+  /* opacity: 1; */
+}
+.thumbnail {
+  border-radius: 7px; 
+  padding: 5px; 
+  width: 150px;
+  opacity: 1;
+  margin: 0;
+}
+
+
+
 
 /* IMAGE MODAL * {
   margin: 0;
@@ -45,6 +94,7 @@
 .imgbox {
   display: grid;
   height: 100%;
+  /* max-width: 90%; */
 }
 .center_fit {
   max-width: 100%;
@@ -110,6 +160,9 @@ html {
 .space {
   height: 250px;
 }
+.smaller_space {
+  height: 100px;
+}
 
 .footer_space {
   height: 330px;
@@ -117,7 +170,7 @@ html {
 
 .logo {
   height: 50px;
-  float: right;
+  /* float: right; */
 }
 
 .subtitle {
