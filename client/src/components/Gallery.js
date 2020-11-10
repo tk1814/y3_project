@@ -3,7 +3,6 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import { Modal, ModalGateway } from 'react-images';
-import ImagePicker from 'react-image-picker'
 // import EthCrypto, { publicKey } from 'eth-crypto';
 // import Images from './Images';
 
@@ -17,9 +16,6 @@ class Gallery extends Component {
       fileName: 'Choose an image',
       imageItems: [],
       imageHashes: [],
-      imageHashesNotShared: [],
-      imageHashesShared: [],
-      image_links_to_be_shared: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -89,7 +85,6 @@ class Gallery extends Component {
       let imageSolArray = await contract.methods.get().call({ from: this.state.account });
       // .then((r) => {  
       // })
-
       // console.log(imageSolArray)
 
       if (imageSolArray !== undefined) {
@@ -103,7 +98,6 @@ class Gallery extends Component {
         });
 
         this.setState({ imageHashes: imageHashes })
-        this.setState({ imageHashesNotShared: imageHashes })
 
         // IMAGE LAYOUT %%%%%%%%%%%%
         let imageItems
@@ -114,6 +108,7 @@ class Gallery extends Component {
         ))
         this.setState({ imageItems: imageItems })
       }
+
 
     }
     else {
@@ -213,23 +208,6 @@ class Gallery extends Component {
     }
   }
 
-  onShare = async (event) => {
-
-    // image_links_to_be_shared
-
-    // // remove shared from imageHashesNotShared
-    // this.setState({ imageHashesNotShared: imageHashes })
-
-    // // add to imageHashesShared
-    // this.setState({ imageHashesShared: imageHashes })
-
-  }
-
-  onPickImages(images) {
-    this.setState({ image_links_to_be_shared: images })
-    console.log(images)
-  }
-
   render() {
     return (
       <div className="gallery_bg">
@@ -262,49 +240,22 @@ class Gallery extends Component {
                 <main role="main" className="col-lg-12 d-flex text-center">
                   <div className="content mr-auto ml-auto">
 
-                    {/* <Images imageItems={this.state.imageItems} ></Images> */}
-                    {/* {(JSON.parse(localStorage.getItem('isLogged'))) ? ( */}
-                    {/* ) : ( */}
-                    {/* )} */}
+                    {(this.state.imageHashes.length !== 0) ? (
+                      <div>
+                        <h4 className="mb-5">Your Gallery</h4>
+                        {this.state.imageItems}
 
-                    <h4 className="mb-5">Your Gallery</h4>
-                    {this.state.imageItems}
+                        <ModalGateway>
+                          {this.state.modalIsOpen ? (
+                            <Modal onClose={() => this.toggleModal(this.state.img_index)}>
+                              <div className="imgbox">
+                                <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
+                              </div>
+                            </Modal>) : ''}
+                        </ModalGateway>
+                      </div>) : <h3>No images to display, try uploading one.</h3>}
 
-                    <ModalGateway>
-                      {this.state.modalIsOpen ? (
-                        <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                          <div className="imgbox">
-                            <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
-                          </div>
-                        </Modal>) : ''}
-                    </ModalGateway>
-
-                    <div className="smaller_space"></div>
-
-                    {/* check if images array empty then show no images to share */}
-
-                    <h4 className="mb-5">Select an image to share</h4>
-                    <ImagePicker className="image_picker"
-                      images={this.state.imageHashesNotShared.map((image, index) => ({ src: `https://ipfs.infura.io/ipfs/${image}`, value: index }))}
-                      onPick={this.onPickImages.bind(this)} /> {/* multiple />  */}
-
-                    <div className="row">
-                      <div className="content mr-auto ml-auto">
-                        <div className="input-group mb-3 mt-5">
-                          <div className="input-group-prepend">
-                            <button className="btn btn_left_border" type="submit" onClick={(e) => this.onShare(e)}>Share image with</button>
-                          </div>
-                          <input type="text" className="form-control input_right_border shadow-none" placeholder="Enter public address" size="50" maxLength="42" required />
-                        </div>
-                      </div>
-                    </div>
-
-
-
-
-                    <br></br>
-                    <h4 className="mt-5">Shared images</h4>
-                    <h4 className="mt-5">Images shared with you</h4>
+                    {/* <div className="smaller_space"></div> */}
 
                     <div className="footer_space"></div>
                   </div>
@@ -313,11 +264,9 @@ class Gallery extends Component {
             </div>
 
           </div>
-          : (
-            <div className="top_gallery_space" >
-              <h3>User not logged in to display images</h3>
-            </div>
-          )}
+          : (<div className="top_gallery_space" >
+            <h3>User not logged in to display images</h3>
+          </div>)}
       </div >
     );
   }
