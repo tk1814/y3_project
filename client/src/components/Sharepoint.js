@@ -177,7 +177,8 @@ class Sharepoint extends Component {
 
                   <div className="smaller_space"></div>
 
-                  {(this.state.imageHashesNotShared.length !== 0) ? (
+                  {/* this.state.imageHashesNotShared.length !== 0 */}
+                  {(this.state.imageHashesNotShared) ? (
                     <div>
                       <h4 className="mb-5">Select an image to share</h4>
                       <ImagePicker className="image_picker"

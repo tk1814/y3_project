@@ -30,6 +30,7 @@ const Root = () => (
 
 class App extends Component {
 
+  // TO DO 0.1: Who shared the image with you
   // TO DO 0.2: Image names | mapping Image name->image
   // TO DO 0.8: Delete a photo from gallery. NOT POSSIBLE
   // TO DO 1.0: Authenticate user and acc

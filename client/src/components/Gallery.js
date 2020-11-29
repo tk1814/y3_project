@@ -163,7 +163,7 @@ class Gallery extends Component {
 
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
 
-
+          console.log('aaaa ', hash_decoded)
           // // move when registering user
           // const alice = EthCrypto.createIdentity();
 
@@ -250,6 +250,7 @@ class Gallery extends Component {
                             <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                               <div className="imgbox">
                                 <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
+                                {/* <p>{this.state.fileName}</p> */}
                               </div>
                             </Modal>) : ''}
                         </ModalGateway>
