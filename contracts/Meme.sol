@@ -11,8 +11,11 @@ contract Meme is Ownable, AccessControl {
   // array of structs // 0 default 
   struct userData {
     bytes32[] imageHashes;
+    bytes32[] imageNames;
     bool userExists; 
     bytes32[] imageHashesSharedWithUser;
+    bytes32[] imageNamesSharedWithUser;
+    address[] addressSharedWithUser;
   }
 
   mapping (address => userData) idUserData;
@@ -24,16 +27,19 @@ contract Meme is Ownable, AccessControl {
     // owner = msg.sender;
     if (!idUserData[msg.sender].userExists) {
       idUserData[msg.sender].imageHashes = initArr;
+      idUserData[msg.sender].imageNames = initArr;
       idUserData[msg.sender].userExists = true;
       // check why do that******** Sign up problem
       idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
+      idUserData[msg.sender].imageNamesSharedWithUser; 
+      idUserData[msg.sender].addressSharedWithUser;
 
       _setupRole(USER_ROLE, msg.sender);
     } // else user already exists
   }
 
   // set msg.sender [from who it was shared] 
-  function shareImage(address _address, bytes32 _imageHash) public {
+  function shareImage(address _address, bytes32 _imageHash, bytes32 _imageName) public {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate images from being inserted (shared again)
@@ -44,23 +50,30 @@ contract Meme is Ownable, AccessControl {
         break;
       }
     }
-    if (!duplicateFound)
+    if (!duplicateFound) {
       idUserData[_address].imageHashesSharedWithUser.push(_imageHash);
+      idUserData[_address].imageNamesSharedWithUser.push(_imageName);
+      idUserData[_address].addressSharedWithUser.push(msg.sender);
+    } 
+    // return duplicateFound;
+    //************** */ else alert user that it has already been shared with that user
   }
 
-  function getSharedImageArr() public view returns (bytes32[] memory) { 
+  function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
-    return idUserData[msg.sender].imageHashesSharedWithUser; 
+    return (idUserData[msg.sender].imageHashesSharedWithUser, idUserData[msg.sender].imageNamesSharedWithUser,
+    idUserData[msg.sender].addressSharedWithUser); 
   }
 
-  function set(bytes32 _imageHash) public { 
+  function set(bytes32 _imageHash, bytes32 _imageName) public { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     idUserData[msg.sender].imageHashes.push(_imageHash);
+    idUserData[msg.sender].imageNames.push(_imageName);
   }
 
-  function get() public view returns (bytes32[] memory) { 
+  function get() public view returns (bytes32[] memory, bytes32[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
-    return idUserData[msg.sender].imageHashes; 
+    return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames); 
   }
 
   // delete: reset variable to default value

@@ -16,6 +16,7 @@ class Gallery extends Component {
       fileName: 'Choose an image',
       imageItems: [],
       imageHashes: [],
+      imageNameSolArray: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -82,10 +83,20 @@ class Gallery extends Component {
       // ----mby call loadWeb3 from LogIn.js
       // let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
 
-      let imageSolArray = await contract.methods.get().call({ from: this.state.account });
-      // .then((r) => {  
-      // })
-      // console.log(imageSolArray)
+      let imageSolArray, imageNameSolArray;
+      await contract.methods.get().call({ from: this.state.account }).then((r) => {
+        imageSolArray = r[0];
+        imageNameSolArray = r[1]
+        console.log("imageSolArray", imageSolArray)
+        console.log("imageNameSolArray", imageNameSolArray)
+      })
+
+
+      // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
+      if (imageNameSolArray !== undefined) {
+        this.setState({ imageNameSolArray: imageNameSolArray })
+      }
+
 
       if (imageSolArray !== undefined) {
         // Did the hashes, imageHashes is ready to display
@@ -139,7 +150,7 @@ class Gallery extends Component {
     // after reader finishes, initialise buffer and store in component state
     reader.onloadend = () => {
       this.setState({ buffer: Buffer(reader.result) })
-      console.log('buffer', this.state.buffer)
+      // console.log('buffer', this.state.buffer)
     }
   }
 
@@ -162,45 +173,64 @@ class Gallery extends Component {
         } else {
 
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
+          let shorten_filename = this.state.fileName.slice(0, -4);
 
-          console.log('aaaa ', hash_decoded)
-          // // move when registering user
-          // const alice = EthCrypto.createIdentity();
+          // var CryptoJS = require("crypto-js");
+          // var encrypted_filename = CryptoJS.AES.encrypt(asc, file_hash).toString();
+          // console.log("encrypted text", encrypted_filename.length, encrypted_filename);  
 
-          // // const entropy = Buffer.from(window.ethereum.selectedAddress, 'utf-8'); // must contain at least 128 chars
-          // // const identity = EthCrypto.createIdentity(entropy);
-          // console.log('id ', alice.address);
+          let hex_filename = Web3.utils.asciiToHex(shorten_filename)
+          if (hex_filename.length > 66)
+            alert("File name is too large to be stored in the blockchain, please try a shorter name.")
+          else {
+
+            // var CryptoJS = require("crypto-js");
+            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+            // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+            // console.log("decrypted text", plaintext);
+
+            /////////zzconsole.log('aaaa ', hash_decoded)
+
+            // // move this to when user is registering
+            // const alice = EthCrypto.createIdentity();
+
+            // // const entropy = Buffer.from(window.ethereum.selectedAddress, 'utf-8'); // must contain at least 128 chars
+            // // const identity = EthCrypto.createIdentity(entropy);
+            // console.log('id ', alice.address);
 
 
-          // const secretMessage = hash_decoded;
-          // const encrypted = await EthCrypto.encryptWithPublicKey(
-          //   alice.publicKey, // encrypt with alice's publicKey
-          //   secretMessage
-          // );
-          // console.log('enc ', encrypted);
+            // const secretMessage = hash_decoded;
+            // const encrypted = await EthCrypto.encryptWithPublicKey(
+            //   alice.publicKey, // encrypt with alice's publicKey
+            //   secretMessage
+            // );
+            // console.log('enc ', encrypted);
 
-          // const decrypted = await EthCrypto.decryptWithPrivateKey(
-          //   alice.privateKey,
-          //   encrypted
-          // );
-          // console.log(decrypted);
-          // if (decrypted === secretMessage) console.log('success');
+            // const decrypted = await EthCrypto.decryptWithPrivateKey(
+            //   alice.privateKey,
+            //   encrypted
+            // );
+            // console.log(decrypted);
+            // if (decrypted === secretMessage) console.log('success');
 
-          // let public_key = window.ethereum.selectedAddress.slice(2);
-          // var privateKey = new Buffer(public_key, "hex");
-          // const encrypted = await EthCrypto.encryptWithPublicKey(
-          //   privateKey, // pk
-          //   hash_decoded // message
-          // ); 
+            // let public_key = window.ethereum.selectedAddress.slice(2);
+            // var privateKey = new Buffer(public_key, "hex");
+            // const encrypted = await EthCrypto.encryptWithPublicKey(
+            //   privateKey, // pk
+            //   hash_decoded // message
+            // ); 
 
-          // this.state.account, hash_decoded
-          await this.state.contract.methods.set(hash_decoded).send({ from: this.state.account }).then((r) => {
-            // refresh to get the new image array with get() of smart contract
-            window.location.reload();
-          })
+            // this.state.account, hash_decoded
+            await this.state.contract.methods.set(hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+              // refresh to get the new image array with get() of smart contract
+              window.location.reload();
+            })
+
+          }
         }
       } catch (e) {
         console.log("Error: ", e)
+        alert("Request was rejected.")
       }
     } else {
       alert("No file was submitted. Please try again.")
@@ -249,8 +279,10 @@ class Gallery extends Component {
                           {this.state.modalIsOpen ? (
                             <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                               <div className="imgbox">
-                                <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
-                                {/* <p>{this.state.fileName}</p> */}
+                                <img className="center_fit mb-1" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
+                                <div className="img_caption">
+                                  <h5 className="mt-2 mb-2"> Image name: {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}</h5>
+                                </div>
                               </div>
                             </Modal>) : ''}
                         </ModalGateway>

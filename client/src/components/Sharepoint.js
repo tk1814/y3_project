@@ -13,6 +13,9 @@ class Sharepoint extends Component {
       imageHashesNotShared: [],
       imageHashesShared: [],
       image_links_to_be_shared: [],
+      imageNameSolArray: [],
+      imageNamesSharedSolArray: [],
+      addressSharedwithUserSolArray: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -63,10 +66,15 @@ class Sharepoint extends Component {
       const contract = new web3.eth.Contract(Meme.abi, networkData.address)
       this.setState({ contract })
 
-      let imageSolArray = await contract.methods.get().call({ from: this.state.account });
-      // .then((r) => {  
-      // })
-      // console.log(imageSolArray)
+      let imageSolArray, imageNameSolArray;
+      await contract.methods.get().call({ from: this.state.account }).then((r) => {
+        imageSolArray = r[0];
+        imageNameSolArray = r[1]
+      })
+
+      if (imageNameSolArray !== undefined) {
+        this.setState({ imageNameSolArray: imageNameSolArray })
+      }
 
       if (imageSolArray !== undefined) {
         let imageHashes = imageSolArray.slice();
@@ -83,25 +91,33 @@ class Sharepoint extends Component {
 
 
       // LOAD Shared images array
-      let imageSharedSolArray = await contract.methods.getSharedImageArr().call({ from: this.state.account });
-      if (imageSharedSolArray !== undefined) {
-        let imageHashesShared = imageSharedSolArray.slice();
-        imageSharedSolArray.forEach(function (item, index) {
-          let hashHex = "1220" + item.slice(2)
-          let hashBytes = Buffer.from(hashHex, 'hex');
-          let hashStr = bs58.encode(hashBytes)
-          imageHashesShared[index] = hashStr;
-        });
+      let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray;
+      await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
+        imageSharedSolArray = r[0]
+        imageNamesSharedSolArray = r[1]
+        addressSharedwithUserSolArray = r[2]
 
-        this.setState({ imageHashesShared: imageHashesShared })
+        if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined) {
+          let imageHashesShared = imageSharedSolArray.slice();
+          imageSharedSolArray.forEach(function (item, index) {
+            let hashHex = "1220" + item.slice(2)
+            let hashBytes = Buffer.from(hashHex, 'hex');
+            let hashStr = bs58.encode(hashBytes)
+            imageHashesShared[index] = hashStr;
+          });
 
-        // IMAGE LAYOUT %%%%%%%%%%%%
-        let imageHashesSharedItems
-        imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
-          <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
-        ))
-        this.setState({ imageHashesSharedItems: imageHashesSharedItems })
-      }
+          this.setState({ imageHashesShared: imageHashesShared })
+          this.setState({ imageNamesSharedSolArray: imageNamesSharedSolArray })
+          this.setState({ addressSharedwithUserSolArray: addressSharedwithUserSolArray })
+
+          // IMAGE LAYOUT %%%%%%%%%%%%
+          let imageHashesSharedItems
+          imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
+            <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          ))
+          this.setState({ imageHashesSharedItems: imageHashesSharedItems })
+        }
+      });
 
     }
     else {
@@ -116,9 +132,6 @@ class Sharepoint extends Component {
   }
 
   onShare = async (e) => {
-
-    // 2 0x7Fd3F76eE91BA9021a132e6D1c38BF7Eaa6aa60A
-    // 3 0x5b0A292FEbc3fAdf035A6A395686f5190a44f2E5
 
     let input_address = this.inputAddress.value
     let current_address = this.state.account//await window.ethereum.selectedAddress
@@ -135,8 +148,9 @@ class Sharepoint extends Component {
 
         let image_hash = this.state.image_links_to_be_shared.src.slice(28);
         let img_hash_decoded = bs58.decode(image_hash).slice(2);
+        let hex_filename = this.state.imageNameSolArray[this.state.image_links_to_be_shared.value]
 
-        await this.state.contract.methods.shareImage(input_address, img_hash_decoded).send({ from: this.state.account }).then((r) => {
+        await this.state.contract.methods.shareImage(input_address, img_hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
           window.location.reload();
         })
 
@@ -152,7 +166,7 @@ class Sharepoint extends Component {
 
   onPickImages(images) {
     this.setState({ image_links_to_be_shared: images })
-    //console.log(images)
+    // console.log(images.value)
   }
 
   render() {
@@ -170,7 +184,11 @@ class Sharepoint extends Component {
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                         <div className="imgbox">
-                          <img className="center_fit" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashesShared[this.state.img_index]}`} alt="inputFile" />
+                          <img className="center_fit mb-1" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashesShared[this.state.img_index]}`} alt="inputFile" />
+                          <div className="img_caption">
+                            <h5 className="mt-2"> Image name: {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[this.state.img_index])} </h5>
+                            <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[this.state.img_index]}</h5>
+                          </div>
                         </div>
                       </Modal>) : ''}
                   </ModalGateway>
@@ -178,7 +196,8 @@ class Sharepoint extends Component {
                   <div className="smaller_space"></div>
 
                   {/* this.state.imageHashesNotShared.length !== 0 */}
-                  {(this.state.imageHashesNotShared) ? (
+                  {(this.state.imageHashesNotShared.length !== 0) ? (
+                    // {(this.state.imageHashesNotShared) ? (
                     <div>
                       <h4 className="mb-5">Select an image to share</h4>
                       <ImagePicker className="image_picker"

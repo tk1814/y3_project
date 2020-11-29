@@ -30,13 +30,10 @@ const Root = () => (
 
 class App extends Component {
 
-  // TO DO 0.1: Who shared the image with you
-  // TO DO 0.2: Image names | mapping Image name->image
-  // TO DO 0.8: Delete a photo from gallery. NOT POSSIBLE
   // TO DO 1.0: Authenticate user and acc
   // TO DO 1.7: fix image layout Gallery/imageItems
   // TO DO 2.0: ensure data privacy
-  // TO DO 3.0: Create circular logo
+  // TO DO 3.0: Create circular svg
 
   constructor(props) {
     super(props)
