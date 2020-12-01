@@ -87,8 +87,6 @@ class Gallery extends Component {
       await contract.methods.get().call({ from: this.state.account }).then((r) => {
         imageSolArray = r[0];
         imageNameSolArray = r[1]
-        console.log("imageSolArray", imageSolArray)
-        console.log("imageNameSolArray", imageNameSolArray)
       })
 
 
