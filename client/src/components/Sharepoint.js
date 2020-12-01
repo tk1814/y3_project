@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
-import { Modal, ModalGateway } from 'react-images';
+import Carousel, { Modal, ModalGateway } from 'react-images';
 import ImagePicker from 'react-image-picker';
 
 class Sharepoint extends Component {
@@ -21,7 +21,8 @@ class Sharepoint extends Component {
       buffer: null,
       account: null,
       modalIsOpen: false,
-      img_index: 0
+      img_index: 0,
+      image_shared_src: []
     }
     this.onShare = this.onShare.bind(this);
   }
@@ -116,6 +117,16 @@ class Sharepoint extends Component {
             <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
           ))
           this.setState({ imageHashesSharedItems: imageHashesSharedItems })
+
+          let image_shared_src = [];
+          let hashes = this.state.imageHashesShared.map((image, index) =>
+            `https://ipfs.infura.io/ipfs/${image}`)
+
+          for (let i = 0; i < hashes.length; i++) {
+            image_shared_src.push({ source: hashes[i] })
+          }
+          this.setState({ image_shared_src: image_shared_src })
+
         }
       });
 
@@ -169,6 +180,15 @@ class Sharepoint extends Component {
     // console.log(images.value)
   }
 
+  captionImg = (idx) => {
+    return (
+      <div>
+        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5>
+        <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[idx.currentIndex]}</h5>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="simple_bg ">
@@ -180,17 +200,48 @@ class Sharepoint extends Component {
               <main role="main" className="col-lg-12 d-flex text-center">
                 <div className="content mr-auto ml-auto">
 
-                  <ModalGateway>
+                  {/* <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                         <div className="imgbox">
                           <img className="center_fit mb-1" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashesShared[this.state.img_index]}`} alt="inputFile" />
                           <div className="img_caption">
-                            <h5 className="mt-2"> Image name: {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[this.state.img_index])} </h5>
+                            <h5 className="mt-2"> Image: {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[this.state.img_index])} </h5>
                             <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[this.state.img_index]}</h5>
                           </div>
                         </div>
                       </Modal>) : ''}
+                  </ModalGateway> */}
+
+                  <ModalGateway>
+                    {this.state.modalIsOpen ? (
+                      <Modal onClose={() => this.toggleModal(this.state.img_index)}>
+
+                        <Carousel
+                          components={{ FooterCaption: this.captionImg.bind(this) }}
+                          currentIndex={this.state.img_index}
+                          views={this.state.image_shared_src}
+                          styles={{
+                            container: base => ({
+                              ...base,
+                              height: '100vh',
+                            }),
+                            view: base => ({
+                              ...base,
+                              alignItems: 'center',
+                              display: 'flex ',
+                              height: 'calc(100vh - 54px)',
+                              justifyContent: 'center',
+
+                              '& > img': {
+                                maxHeight: 'calc(100vh - 94px)',
+                              },
+                            })
+
+                          }}
+                        />
+                      </Modal>
+                    ) : ''}
                   </ModalGateway>
 
                   <div className="smaller_space"></div>

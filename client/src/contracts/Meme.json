@@ -8277,12 +8277,12 @@
         }
       },
       "links": {},
-      "address": "0x11278cf88A095d4e48273Baa96397807B00FD5F3",
-      "transactionHash": "0x164f5793404af690ea395c0538a84687b0f059e973092a7ad7aae913a28dc244"
+      "address": "0x69B90412e2C7F89D291F26c22136da1c6ad38E3B",
+      "transactionHash": "0x532147da1497695f01fec1e2c185dc341206d9fc6306326fe0cfff2c18fa1750"
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-11-29T19:37:39.881Z",
+  "updatedAt": "2020-12-01T23:31:27.474Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {
