@@ -195,14 +195,13 @@ class Sharepoint extends Component {
 
                   <div className="smaller_space"></div>
 
-                  {/* this.state.imageHashesNotShared.length !== 0 */}
                   {(this.state.imageHashesNotShared.length !== 0) ? (
                     // {(this.state.imageHashesNotShared) ? (
                     <div>
                       <h4 className="mb-5">Select an image to share</h4>
                       <ImagePicker className="image_picker"
                         images={this.state.imageHashesNotShared.map((image, index) => ({ src: `https://ipfs.infura.io/ipfs/${image}`, value: index }))}
-                        onPick={this.onPickImages.bind(this)} /> {/* multiple />  */}
+                        onPick={this.onPickImages.bind(this)} /> {/* multiple /> */}
 
                       <div className="row">
                         <div className="content mr-auto ml-auto">

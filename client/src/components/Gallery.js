@@ -171,7 +171,8 @@ class Gallery extends Component {
         } else {
 
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
-          let shorten_filename = this.state.fileName.slice(0, -4);
+          // let shorten_filename = this.state.fileName.slice(0, -4);
+          let shorten_filename = this.state.fileName;
 
           // var CryptoJS = require("crypto-js");
           // var encrypted_filename = CryptoJS.AES.encrypt(asc, file_hash).toString();
@@ -185,9 +186,6 @@ class Gallery extends Component {
             // var CryptoJS = require("crypto-js");
             // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
             // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-            // console.log("decrypted text", plaintext);
-
-            /////////zzconsole.log('aaaa ', hash_decoded)
 
             // // move this to when user is registering
             // const alice = EthCrypto.createIdentity();
@@ -196,13 +194,11 @@ class Gallery extends Component {
             // // const identity = EthCrypto.createIdentity(entropy);
             // console.log('id ', alice.address);
 
-
             // const secretMessage = hash_decoded;
             // const encrypted = await EthCrypto.encryptWithPublicKey(
             //   alice.publicKey, // encrypt with alice's publicKey
             //   secretMessage
             // );
-            // console.log('enc ', encrypted);
 
             // const decrypted = await EthCrypto.decryptWithPrivateKey(
             //   alice.privateKey,
@@ -218,7 +214,6 @@ class Gallery extends Component {
             //   hash_decoded // message
             // ); 
 
-            // this.state.account, hash_decoded
             await this.state.contract.methods.set(hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
               // refresh to get the new image array with get() of smart contract
               window.location.reload();
@@ -236,7 +231,7 @@ class Gallery extends Component {
     }
   }
 
-  render() {
+  render() { 
     return (
       <div className="gallery_bg">
         {(JSON.parse(localStorage.getItem('state'))) ?
