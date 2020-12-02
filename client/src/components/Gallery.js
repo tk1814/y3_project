@@ -3,22 +3,10 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
-// import { Carousel } from 'react-responsive-carousel';
 // import EthCrypto, { publicKey } from 'eth-crypto';
-// import Images from './Images';
-import img1 from '../bg/55.jpg';
-import img2 from '../bg/dsk.jpg';
-const images = [{ source: img1 }, { source: '../bg/dsk.jpg' }];
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
-
-const CustomHeader = ({ innerProps, isModal }) => isModal ? (
-  <div {...innerProps}>
-    // your component internals
-  </div>
-) : null;
-
 
 class Gallery extends Component {
   constructor(props) {
@@ -299,7 +287,7 @@ class Gallery extends Component {
                         {this.state.imageItems}
                       </div>
                     ) : <h3>No images to display, try uploading one.</h3>}
-                    
+
                     {/* <ModalGateway>
                           {this.state.modalIsOpen ? (
                             <Modal

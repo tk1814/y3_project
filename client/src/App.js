@@ -6,14 +6,9 @@ import Gallery from './components/Gallery';
 import Sharepoint from './components/Sharepoint';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faImages, faHome, faSignInAlt, faSignOutAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import { BsHouse, BsImages, BsLock, BsUnlock, BsQuestionDiamond } from "react-icons/bs";
+import { BsHouse, BsImages, BsLock, BsUnlock } from "react-icons/bs"; // BsQuestionDiamond
 import { BiShareAlt } from "react-icons/bi";
-// import Carousel from 'react-images';
-// import img1 from './bg/55.jpg';
-// import img2 from './bg/dsk.jpg';
-// const images = [{ source: img1 }, { source: img2 }];
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Root = () => (
   <div className="general_bg">
@@ -30,6 +25,7 @@ const Root = () => (
 
 class App extends Component {
 
+  // TO DO 0.8: FIX not used App.css classes AS Carousel and Modal were added. Plus polish the code, remove rendundant stuff
   // TO DO 1.0: Authenticate user and acc
   // TO DO 1.7: fix image layout Gallery/imageItems
   // TO DO 2.0: ensure data privacy
