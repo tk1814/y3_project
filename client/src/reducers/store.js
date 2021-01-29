@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux';
-import loggedReducer from './isLogged';
+import authenticationReducer from './authenticationReducer';
 // import counterReducer from './counter';
 
 function saveToLocalStorage(state) {
@@ -22,12 +22,9 @@ function loadFromLocalStorage() {
     }
 }
 
+// add other reducers to be combined
 const allReducers = combineReducers({
-    // counter: counterReducer, 
-    // name whatev or just write: counterReducer
-    // add other reducers to be combined
-    
-    isLogged: loggedReducer  // 'state' was 'isLogged'
+    isLogged: authenticationReducer  // 'state' was 'isLogged'
 });
 
 const persistedState = loadFromLocalStorage()
@@ -39,7 +36,7 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-// save changes when store changes
+// saves changes when store changes
 store.subscribe(() => saveToLocalStorage(store.getState()))
 
 // Serialization is an expensive operation. You should use a throttle function to limit the number of saves.

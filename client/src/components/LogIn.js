@@ -101,9 +101,10 @@ class LogIn extends Component {
                             <div className="content mr-auto ml-auto mt-5">
                                 {(!JSON.parse(localStorage.getItem('state'))) ? (
 
+
                                     <div className="top_login_space">
                                         <h3 className="mt-4">Connect your MetaMask account with only one click.</h3>
-                                        <button type='submit' className="btn mt-3 container log_in_btn"
+                                        <button type='submit' className="btn mt-5 container log_in_btn"
                                             onClick={(e) => { this.onSignUp(e) }}>Login</button>
                                     </div>
                                     // <LogInButton onSignUp={this.onSignUp}></LogInButton>

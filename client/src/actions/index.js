@@ -11,14 +11,14 @@ export const decrement = () => {
     };
 };
 
-export const loggedIn = () => {
-    return {
-        type: 'SIGN_IN'
-    };
-};
+// export const loggedIn = () => {
+//     return {
+//         type: 'SIGN_IN'
+//     };
+// };
 
-export const loggedOut = () => {
-    return {
-        type: 'LOG_OUT'
-    };
-};
+// export const loggedOut = () => {
+//     return {
+//         type: 'LOG_OUT'
+//     };
+// };

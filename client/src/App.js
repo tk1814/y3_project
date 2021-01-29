@@ -35,7 +35,6 @@ class App extends Component {
     super(props)
 
     this.state = {
-      loggedIn: false,
       imageItems: [],
       fileName: 'Choose file',
       memeHash: '',
