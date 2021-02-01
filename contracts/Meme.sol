@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-
+pragma experimental ABIEncoderV2;
 pragma solidity >=0.6.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
@@ -10,12 +10,16 @@ contract Meme is Ownable, AccessControl {
   
   // array of structs // 0 default 
   struct userData {
+
+    string username;
+
     bytes32[] imageHashes;
     bytes32[] imageNames;
     bool userExists; 
     bytes32[] imageHashesSharedWithUser;
     bytes32[] imageNamesSharedWithUser;
     address[] addressSharedWithUser;
+    string[] usernameSharedWithUser;
   }
 
   mapping (address => userData) idUserData;
@@ -23,23 +27,25 @@ contract Meme is Ownable, AccessControl {
   // onlyOwner fun that add users 
   bytes32[] initArr;
   bytes32[] initArrShared;
-  function signUpUserOrLogin() public { // onlyOwner { acc2 can connect, acc3,4 cannot }
+  function signUpUserOrLogin(string memory _usr) public { // onlyOwner { acc2 can connect, acc3,4 cannot }
     // owner = msg.sender;
     if (!idUserData[msg.sender].userExists) {
       idUserData[msg.sender].imageHashes = initArr;
       idUserData[msg.sender].imageNames = initArr;
       idUserData[msg.sender].userExists = true;
+      idUserData[msg.sender].username = _usr;
       // check why do that******** Sign up problem
       idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
       idUserData[msg.sender].imageNamesSharedWithUser; 
-      idUserData[msg.sender].addressSharedWithUser;
+      idUserData[msg.sender].addressSharedWithUser;  
+      idUserData[msg.sender].usernameSharedWithUser; 
 
       _setupRole(USER_ROLE, msg.sender);
     } // else user already exists
   }
 
   // set msg.sender [from who it was shared] 
-  function shareImage(address _address, bytes32 _imageHash, bytes32 _imageName) public {
+  function shareImage(string memory _usrName, address _address, bytes32 _imageHash, bytes32 _imageName) public {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate images from being inserted (shared again)
@@ -53,16 +59,17 @@ contract Meme is Ownable, AccessControl {
     if (!duplicateFound) {
       idUserData[_address].imageHashesSharedWithUser.push(_imageHash);
       idUserData[_address].imageNamesSharedWithUser.push(_imageName);
-      idUserData[_address].addressSharedWithUser.push(msg.sender);
+      idUserData[_address].usernameSharedWithUser.push(_usrName);
+      idUserData[_address].addressSharedWithUser.push(msg.sender); 
     } 
     // return duplicateFound;
     //************** */ else alert user that it has already been shared with that user
   }
 
-  function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory) { 
+  function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].imageHashesSharedWithUser, idUserData[msg.sender].imageNamesSharedWithUser,
-    idUserData[msg.sender].addressSharedWithUser); 
+    idUserData[msg.sender].addressSharedWithUser, idUserData[msg.sender].usernameSharedWithUser); 
   }
 
   function set(bytes32 _imageHash, bytes32 _imageName) public { 
@@ -71,9 +78,9 @@ contract Meme is Ownable, AccessControl {
     idUserData[msg.sender].imageNames.push(_imageName);
   }
 
-  function get() public view returns (bytes32[] memory, bytes32[] memory) { 
+  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory) {  // CATCH THE EXCEPTION: CALLER IS NOT A USER - HAPPENS WHEN GETS USERNAME 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
-    return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames); 
+    return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames, idUserData[msg.sender].username); 
   }
 
   // delete: reset variable to default value

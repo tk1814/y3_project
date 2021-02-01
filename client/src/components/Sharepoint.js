@@ -10,12 +10,14 @@ class Sharepoint extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      usrname: '',
       imageHashesNotShared: [],
       imageHashesShared: [],
       image_links_to_be_shared: [],
       imageNameSolArray: [],
       imageNamesSharedSolArray: [],
       addressSharedwithUserSolArray: [],
+      usernameSharedWithUserSolArray: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -25,6 +27,11 @@ class Sharepoint extends Component {
       image_shared_src: []
     }
     this.onShare = this.onShare.bind(this);
+  }
+
+  redirectToLogin = () => {
+    const { history } = this.props;
+    if (history) history.push('/login');
   }
 
   async componentWillMount() {
@@ -40,6 +47,7 @@ class Sharepoint extends Component {
         this.setState({ account: accounts[0] })
         localStorage.setItem('state', JSON.stringify(false));
 
+        this.redirectToLogin();
         window.location.reload();
       }.bind(this))
     }
@@ -67,11 +75,16 @@ class Sharepoint extends Component {
       const contract = new web3.eth.Contract(Meme.abi, networkData.address)
       this.setState({ contract })
 
-      let imageSolArray, imageNameSolArray;
+      let imageSolArray, imageNameSolArray, usrname;
       await contract.methods.get().call({ from: this.state.account }).then((r) => {
         imageSolArray = r[0];
         imageNameSolArray = r[1]
+        usrname = r[2]
       })
+
+      if (usrname !== undefined) {
+        this.setState({ usrname })
+      }
 
       if (imageNameSolArray !== undefined) {
         this.setState({ imageNameSolArray: imageNameSolArray })
@@ -92,13 +105,15 @@ class Sharepoint extends Component {
 
 
       // LOAD Shared images array
-      let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray;
+      let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray;
       await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
         imageSharedSolArray = r[0]
         imageNamesSharedSolArray = r[1]
         addressSharedwithUserSolArray = r[2]
+        usernameSharedWithUserSolArray = r[3]
 
-        if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined) {
+        if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined
+          && usernameSharedWithUserSolArray !== undefined) {
           let imageHashesShared = imageSharedSolArray.slice();
           imageSharedSolArray.forEach(function (item, index) {
             let hashHex = "1220" + item.slice(2)
@@ -110,6 +125,7 @@ class Sharepoint extends Component {
           this.setState({ imageHashesShared: imageHashesShared })
           this.setState({ imageNamesSharedSolArray: imageNamesSharedSolArray })
           this.setState({ addressSharedwithUserSolArray: addressSharedwithUserSolArray })
+          this.setState({ usernameSharedWithUserSolArray: usernameSharedWithUserSolArray })
 
           // IMAGE LAYOUT %%%%%%%%%%%%
           let imageHashesSharedItems
@@ -161,7 +177,7 @@ class Sharepoint extends Component {
         let img_hash_decoded = bs58.decode(image_hash).slice(2);
         let hex_filename = this.state.imageNameSolArray[this.state.image_links_to_be_shared.value]
 
-        await this.state.contract.methods.shareImage(input_address, img_hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+        await this.state.contract.methods.shareImage(this.state.usrname, input_address, img_hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
           window.location.reload();
         })
 
@@ -184,6 +200,7 @@ class Sharepoint extends Component {
     return (
       <div>
         <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5>
+        <h5 className="mb-2"> From: {this.state.usernameSharedWithUserSolArray[idx.currentIndex]}</h5>
         <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[idx.currentIndex]}</h5>
       </div>
     )

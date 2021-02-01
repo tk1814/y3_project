@@ -12,6 +12,7 @@ class Gallery extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       fileName: 'Choose an image',
       imageItems: [],
       imageHashes: [],
@@ -24,6 +25,11 @@ class Gallery extends Component {
       img_index: 0,
       image_src: []
     }
+  }
+
+  redirectToLogin = () => {
+    const { history } = this.props;
+    if (history) history.push('/login');
   }
 
   async componentWillMount() {
@@ -44,11 +50,13 @@ class Gallery extends Component {
         // let isLogged = useSelector(state => state.isLogged);
         localStorage.setItem('state', JSON.stringify(false));
 
+        this.redirectToLogin();
         window.location.reload();
       }.bind(this))
     }
   }
 
+  // needed to load blockchain data
   async loadWeb3() {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum)
@@ -83,12 +91,16 @@ class Gallery extends Component {
       // ----mby call loadWeb3 from LogIn.js
       // let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
 
-      let imageSolArray, imageNameSolArray;
+      let imageSolArray, imageNameSolArray, username;
       await contract.methods.get().call({ from: this.state.account }).then((r) => {
         imageSolArray = r[0];
         imageNameSolArray = r[1]
+        username = r[2]
       })
 
+      if (username !== undefined) {
+        this.setState({ username })
+      }
 
       // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
       if (imageNameSolArray !== undefined) {
@@ -255,7 +267,7 @@ class Gallery extends Component {
         {(JSON.parse(localStorage.getItem('state'))) ?
           <div>
             <div className="top_gallery_space">
-              <h4>Hello [user]</h4>
+              <h4>Hello {this.state.username},</h4> {/* fix not correct bcs if user puts wrong usrnm it gets safe, check in Meme if correct username*/}
               <h3 className="mt-4">Upload an image</h3>
 
               <div className="container-fluid mt-4">
@@ -264,7 +276,7 @@ class Gallery extends Component {
                     <div className="content mr-auto ml-auto">
 
                       <form className="input-group mt-3" onSubmit={this.onSubmit} >
-                        <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input " /> {/* mx-sm-3 */}
+                        <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input"/> {/* mx-sm-3 */}
                         <label className="custom-file-label ss">{this.state.fileName}</label>
                         <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
                       </form>

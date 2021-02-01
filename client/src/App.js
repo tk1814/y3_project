@@ -46,6 +46,21 @@ class App extends Component {
     }
   }
 
+
+  async componentWillMount() {
+
+    // Detects metamask eth wallet account change 
+    this.ethereum = window.ethereum
+    if (this.ethereum) {
+      this.ethereum.on('accountsChanged', function (accounts) {
+        this.setState({ account: accounts[0] })
+        localStorage.setItem('state', JSON.stringify(false));
+        window.location.reload();
+      }.bind(this))
+    }
+  }
+
+
   render() {
     return (
       <div className="App">

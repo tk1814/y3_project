@@ -1,14 +1,14 @@
 export const increment = (nr) => {
-    return {
-        type: 'INCREMENT',
-        payload: nr // add number to return
-    };
+  return {
+    type: 'INCREMENT',
+    payload: nr // add number to return
+  };
 };
 
 export const decrement = () => {
-    return {
-        type: 'DECREMENT'
-    };
+  return {
+    type: 'DECREMENT'
+  };
 };
 
 // export const loggedIn = () => {

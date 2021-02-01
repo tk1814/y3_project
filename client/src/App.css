@@ -133,6 +133,11 @@ h5 {
   width: 200px;
 }
 
+.username_input {
+  font-size: 1.2em;
+  border-radius: 100px;
+}
+
 .nav_btn {
   color: #6e967a;
   /* 9AEDED CEF9F2 80C2AF 669073 */
@@ -201,6 +206,10 @@ html {
 
 p, h2 {
   color: #6e967a;
+}
+
+.err {
+  color: red;
 }
 
 h4 {
