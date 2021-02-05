@@ -3,6 +3,7 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
+import { BsDownload } from "react-icons/bs";
 // import EthCrypto, { publicKey } from 'eth-crypto';
 
 const ipfsClient = require('ipfs-http-client')
@@ -140,7 +141,6 @@ class Gallery extends Component {
         this.setState({ image_src: image_src })
       }
 
-
     }
     else {
       window.alert('Smart contract not deployed to detected network.')
@@ -261,6 +261,31 @@ class Gallery extends Component {
     )
   }
 
+  downloadImage = (img) => {
+    fetch(img, {
+      method: "GET",
+      headers: {}
+    }).then(response => {
+      response.arrayBuffer().then(function (buffer) {
+        const url = window.URL.createObjectURL(new Blob([buffer]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "image.png");
+        document.body.appendChild(link);
+        link.click();
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  customFooter = ({ isModal, currentView }) => isModal && (
+    <div className="react-images__footer">
+      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BsDownload size="1.8em" /></button>
+    </div>
+  );
+
+
   render() {
     return (
       <div className="gallery_bg">
@@ -276,7 +301,7 @@ class Gallery extends Component {
                     <div className="content mr-auto ml-auto">
 
                       <form className="input-group mt-3" onSubmit={this.onSubmit} >
-                        <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input"/> {/* mx-sm-3 */}
+                        <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input" /> {/* mx-sm-3 */}
                         <label className="custom-file-label ss">{this.state.fileName}</label>
                         <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
                       </form>
@@ -318,8 +343,8 @@ class Gallery extends Component {
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
-                          <Carousel
-                            components={{ FooterCaption: this.captionImg.bind(this) }}
+                          <Carousel 
+                            components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{
@@ -333,7 +358,6 @@ class Gallery extends Component {
                                 display: 'flex ',
                                 height: 'calc(100vh - 54px)',
                                 justifyContent: 'center',
-
                                 '& > img': {
                                   maxHeight: 'calc(100vh - 94px)',
                                 },

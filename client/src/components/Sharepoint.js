@@ -4,6 +4,8 @@ import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import ImagePicker from 'react-image-picker';
+import { BsDownload } from "react-icons/bs";
+
 
 class Sharepoint extends Component {
 
@@ -199,12 +201,35 @@ class Sharepoint extends Component {
   captionImg = (idx) => {
     return (
       <div>
-        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5>
-        <h5 className="mb-2"> From: {this.state.usernameSharedWithUserSolArray[idx.currentIndex]}</h5>
-        <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[idx.currentIndex]}</h5>
+        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} | From: {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} </h5>
+        <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5>
       </div>
     )
   }
+
+  downloadImage = (img) => {
+    fetch(img, {
+      method: "GET",
+      headers: {}
+    }).then(response => {
+      response.arrayBuffer().then(function (buffer) {
+        const url = window.URL.createObjectURL(new Blob([buffer]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "image.png");
+        document.body.appendChild(link);
+        link.click();
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  customFooter = ({ isModal, currentView }) => isModal && (
+    <div className="react-images__footer">
+      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BsDownload size="1.8em" /></button>
+    </div>
+  );
 
   render() {
     return (
@@ -235,7 +260,7 @@ class Sharepoint extends Component {
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
                         <Carousel
-                          components={{ FooterCaption: this.captionImg.bind(this) }}
+                          components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this)  }}
                           currentIndex={this.state.img_index}
                           views={this.state.image_shared_src}
                           styles={{

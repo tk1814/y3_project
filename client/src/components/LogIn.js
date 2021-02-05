@@ -75,7 +75,9 @@ class LogIn extends Component {
       let username;
       await contract.methods.get().call({ from: this.state.account }).then((r) => {
         username = r[2]
-      })
+      }).catch((err) => {
+        console.log("New user");
+      });
 
       if (username !== undefined) {
         console.log(username)
@@ -97,7 +99,7 @@ class LogIn extends Component {
     event.preventDefault();
 
     // no whitespaces
-    if ((this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) && !/\s/.test(this.state.inputUsername) ){
+    if ((this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) && !/\s/.test(this.state.inputUsername)) {
       this.setState({ wrongUsrname: false })
 
       try {
@@ -138,7 +140,7 @@ class LogIn extends Component {
 
                     <form onSubmit={(e) => { this.onSignUp(e) }}>
                       <label>
-                        <input type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="31" placeholder="Enter username without whitespaces" maxLength="16" required  />
+                        <input type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
                       </label>
                       {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified, please try again.</div>}
                       <br></br>
