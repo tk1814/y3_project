@@ -302,7 +302,7 @@ class Gallery extends Component {
 
                       <form className="input-group mt-3" onSubmit={this.onSubmit} >
                         <input type="file" accept="image/*" onChange={this.captureFile} className="custom-file-input" /> {/* mx-sm-3 */}
-                        <label className="custom-file-label ss">{this.state.fileName}</label>
+                        <label className="custom-file-label radiu">{this.state.fileName}</label>
                         <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
                       </form>
 
