@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
-// import LogInButton from './LogInButton';
 import { withRouter } from 'react-router-dom';
 
 class LogIn extends Component {
@@ -26,7 +25,6 @@ class LogIn extends Component {
   }
 
   async componentWillMount() { // Lifecycle https://stackoverflow.com/questions/38814764/componentwillmount-is-called-twice
-    await this.loadWeb3()
     await this.loadNetworkData()
 
     // Detects eth wallet account change 
@@ -44,48 +42,42 @@ class LogIn extends Component {
     }
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
-  }
-
   // Load account
   async loadNetworkData() {
-    const web3 = window.web3
-    const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })
-    const networkId = await web3.eth.net.getId()
-    const networkData = Meme.networks[networkId]
 
-    if (networkData) {
-      const contract = new web3.eth.Contract(Meme.abi, networkData.address)
-      this.setState({ contract })
-      // store and retrieve account address from localStorage
-      // localStorage.setItem('account', JSON.stringify(accounts[0]));
-      // const account_address = JSON.parse(localStorage.getItem('account'))
+    if (typeof window.ethereum !== 'undefined') {
+      
+      const web3 = new Web3(window.ethereum)
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      let username;
-      await contract.methods.get().call({ from: this.state.account }).then((r) => {
-        username = r[2]
-      }).catch((err) => {
-        console.log("New user");
-      });
+      this.setState({ account: accounts[0] })
+      const networkId = await web3.eth.net.getId()
+      const networkData = Meme.networks[networkId]
 
-      if (username !== undefined) {
-        console.log(username)
-        this.setState({ correctUsername: username })
+      if (networkData) {
+        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        this.setState({ contract })
+
+        let username;
+        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+          username = r[2]
+        }).catch((err) => {
+          console.log("New user");
+        });
+
+        if (username !== undefined) {
+          console.log(username)
+          this.setState({ correctUsername: username })
+        }
       }
-    }
-    else {
-      window.alert('Smart contract not deployed to detected network.')
+      else {
+        window.alert('Smart contract not deployed to detected network.')
+      }
+    } else {
+      // return to homepage if MetaMask is not installed
+      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
+      const { history } = this.props;
+      if (history) history.push('/');
     }
   }
 

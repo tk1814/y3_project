@@ -37,7 +37,6 @@ class Sharepoint extends Component {
   }
 
   async componentWillMount() {
-    await this.loadWeb3()
     await this.loadBlockchainData()
 
     // Detects eth wallet account change 
@@ -55,102 +54,102 @@ class Sharepoint extends Component {
     }
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    } else {
-      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
-    }
-  }
 
   async loadBlockchainData() {
-    const web3 = window.web3
-    const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })
-    const networkId = await web3.eth.net.getId()
-    const networkData = Meme.networks[networkId]
 
-    if (networkData) {
-      const contract = new web3.eth.Contract(Meme.abi, networkData.address)
-      this.setState({ contract })
+    if (typeof window.ethereum !== 'undefined') {
+      const web3 = new Web3(window.ethereum)
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      let imageSolArray, imageNameSolArray, usrname;
-      await contract.methods.get().call({ from: this.state.account }).then((r) => {
-        imageSolArray = r[0];
-        imageNameSolArray = r[1]
-        usrname = r[2]
-      })
+      this.setState({ account: accounts[0] })
+      const networkId = await web3.eth.net.getId()
+      const networkData = Meme.networks[networkId]
 
-      if (usrname !== undefined) {
-        this.setState({ usrname })
-      }
+      if (networkData) {
+        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        this.setState({ contract })
 
-      if (imageNameSolArray !== undefined) {
-        this.setState({ imageNameSolArray: imageNameSolArray })
-      }
+        let imageSolArray, imageNameSolArray, usrname;
+        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+          imageSolArray = r[0]
+          imageNameSolArray = r[1]
+          usrname = r[2]
+        })
 
-      if (imageSolArray !== undefined) {
-        let imageHashes = imageSolArray.slice();
-        imageSolArray.forEach(function (item, index) {
-          let hashHex = "1220" + item.slice(2)
-          let hashBytes = Buffer.from(hashHex, 'hex');
-          let hashStr = bs58.encode(hashBytes)
-          imageHashes[index] = hashStr;
-        });
+        if (usrname !== undefined) {
+          this.setState({ usrname })
+        }
 
-        // this.setState({ imageHashes: imageHashes })
-        this.setState({ imageHashesNotShared: imageHashes })
-      }
+        if (imageNameSolArray !== undefined) {
+          this.setState({ imageNameSolArray: imageNameSolArray })
+        }
 
-
-      // LOAD Shared images array
-      let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray;
-      await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
-        imageSharedSolArray = r[0]
-        imageNamesSharedSolArray = r[1]
-        addressSharedwithUserSolArray = r[2]
-        usernameSharedWithUserSolArray = r[3]
-
-        if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined
-          && usernameSharedWithUserSolArray !== undefined) {
-          let imageHashesShared = imageSharedSolArray.slice();
-          imageSharedSolArray.forEach(function (item, index) {
+        if (imageSolArray !== undefined) {
+          let imageHashes = imageSolArray.slice();
+          imageSolArray.forEach(function (item, index) {
             let hashHex = "1220" + item.slice(2)
-            let hashBytes = Buffer.from(hashHex, 'hex');
+            let hashBytes = Buffer.from(hashHex, 'hex')
             let hashStr = bs58.encode(hashBytes)
-            imageHashesShared[index] = hashStr;
+            imageHashes[index] = hashStr
           });
 
-          this.setState({ imageHashesShared: imageHashesShared })
-          this.setState({ imageNamesSharedSolArray: imageNamesSharedSolArray })
-          this.setState({ addressSharedwithUserSolArray: addressSharedwithUserSolArray })
-          this.setState({ usernameSharedWithUserSolArray: usernameSharedWithUserSolArray })
-
-          // IMAGE LAYOUT %%%%%%%%%%%%
-          let imageHashesSharedItems
-          imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
-            <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
-          ))
-          this.setState({ imageHashesSharedItems: imageHashesSharedItems })
-
-          let image_shared_src = [];
-          let hashes = this.state.imageHashesShared.map((image, index) =>
-            `https://ipfs.infura.io/ipfs/${image}`)
-
-          for (let i = 0; i < hashes.length; i++) {
-            image_shared_src.push({ source: hashes[i] })
-          }
-          this.setState({ image_shared_src: image_shared_src })
-
+          // this.setState({ imageHashes: imageHashes })
+          this.setState({ imageHashesNotShared: imageHashes })
         }
-      });
 
-    }
-    else {
-      window.alert('Smart contract not deployed to detected network.')
+
+        // LOAD Shared images array
+        let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray;
+        await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
+          imageSharedSolArray = r[0]
+          imageNamesSharedSolArray = r[1]
+          addressSharedwithUserSolArray = r[2]
+          usernameSharedWithUserSolArray = r[3]
+
+          if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined
+            && usernameSharedWithUserSolArray !== undefined) {
+            let imageHashesShared = imageSharedSolArray.slice()
+            imageSharedSolArray.forEach(function (item, index) {
+              let hashHex = "1220" + item.slice(2)
+              let hashBytes = Buffer.from(hashHex, 'hex');
+              let hashStr = bs58.encode(hashBytes)
+              imageHashesShared[index] = hashStr
+            });
+
+            this.setState({ imageHashesShared: imageHashesShared })
+            this.setState({ imageNamesSharedSolArray: imageNamesSharedSolArray })
+            this.setState({ addressSharedwithUserSolArray: addressSharedwithUserSolArray })
+            this.setState({ usernameSharedWithUserSolArray: usernameSharedWithUserSolArray })
+
+            // IMAGE LAYOUT %%%%%%%%%%%%
+            let imageHashesSharedItems
+            imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
+              <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+            ))
+            this.setState({ imageHashesSharedItems: imageHashesSharedItems })
+
+            let image_shared_src = [];
+            let hashes = this.state.imageHashesShared.map((image, index) =>
+              `https://ipfs.infura.io/ipfs/${image}`)
+
+            for (let i = 0; i < hashes.length; i++) {
+              image_shared_src.push({ source: hashes[i] })
+            }
+            this.setState({ image_shared_src: image_shared_src })
+
+          }
+        });
+
+      }
+      else {
+        window.alert('Smart contract not deployed to detected network.')
+      }
+
+    } else {
+      // return to homepage if MetaMask is not installed
+      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
+      const { history } = this.props;
+      if (history) history.push('/');
     }
   }
 
@@ -166,13 +165,13 @@ class Sharepoint extends Component {
     let current_address = this.state.account//await window.ethereum.selectedAddress
     try {
       if (this.state.image_links_to_be_shared.length === 0) {
-        alert('No image was selected to share. Please select an image first.');
+        alert('No image was selected to share. Please select an image first.')
       } else if (!input_address) {
-        alert('No public address was entered. Please enter a public address.');
+        alert('No public address was entered. Please enter a public address.')
       } else if (this.state.image_links_to_be_shared.length === 0) {
-        alert('No image was selected to share. Please select an image first.');
+        alert('No image was selected to share. Please select an image first.')
       } else if (input_address.toLowerCase() === current_address.toLowerCase()) {
-        alert('Cannot share images with yourself');
+        alert('Cannot share images with yourself')
       } else {
 
         let image_hash = this.state.image_links_to_be_shared.src.slice(28);
@@ -260,7 +259,7 @@ class Sharepoint extends Component {
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
                         <Carousel
-                          components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this)  }}
+                          components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
                           currentIndex={this.state.img_index}
                           views={this.state.image_shared_src}
                           styles={{

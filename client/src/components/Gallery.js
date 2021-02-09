@@ -34,7 +34,6 @@ class Gallery extends Component {
   }
 
   async componentWillMount() {
-    await this.loadWeb3()
     await this.loadBlockchainData()
 
     // Detects eth wallet account change 
@@ -44,106 +43,98 @@ class Gallery extends Component {
 
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
-
         // ***LOGOUT WHEN ACCOUNT CHANGES***
-        //   const dispatch = useDispatch();
-        //   dispatch(loggedIn());
-        // let isLogged = useSelector(state => state.isLogged);
         localStorage.setItem('state', JSON.stringify(false));
-
         this.redirectToLogin();
         window.location.reload();
       }.bind(this))
     }
   }
 
-  // needed to load blockchain data
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    } else {
-      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
-    }
-  }
-
   toggleModal(index) {
     this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
     this.setState({ img_index: index });
-    // const {onChange, onClose, isModal, ...props} = this.props;
   }
 
+  // Load account
   async loadBlockchainData() {
-    const web3 = window.web3
-    // Load account
-    const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })
-    const networkId = await web3.eth.net.getId()
-    const networkData = Meme.networks[networkId]
 
-    if (networkData) {
-      const contract = new web3.eth.Contract(Meme.abi, networkData.address)
-      this.setState({ contract })
+    if (typeof window.ethereum !== 'undefined') {
+      const web3 = new Web3(window.ethereum);
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      // ----Minimise repetition btn Gallery and LogIn
-      // ----SAVE IMGS IN LCSTORAGE so nn to get?
-      // ----mby call loadWeb3 from LogIn.js
-      // let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
+      this.setState({ account: accounts[0] })
+      const networkId = await web3.eth.net.getId()
+      const networkData = Meme.networks[networkId]
 
-      let imageSolArray, imageNameSolArray, username;
-      await contract.methods.get().call({ from: this.state.account }).then((r) => {
-        imageSolArray = r[0];
-        imageNameSolArray = r[1]
-        username = r[2]
-      })
+      if (networkData) {
+        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        this.setState({ contract })
 
-      if (username !== undefined) {
-        this.setState({ username })
-      }
+        // ----Minimise repetition btn Gallery and LogIn
+        // ----SAVE IMGS IN LCSTORAGE so nn to get?
+        // ----mby call loadWeb3 from LogIn.js
+        // let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
 
-      // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
-      if (imageNameSolArray !== undefined) {
-        // {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}
-        this.setState({ imageNameSolArray: imageNameSolArray })
-      }
+        let imageSolArray, imageNameSolArray, username;
+        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+          imageSolArray = r[0];
+          imageNameSolArray = r[1]
+          username = r[2]
+        })
 
-
-      if (imageSolArray !== undefined) {
-        // Did the hashes, imageHashes is ready to display
-        let imageHashes = imageSolArray.slice();
-        imageSolArray.forEach(function (item, index) {
-          let hashHex = "1220" + item.slice(2)
-          let hashBytes = Buffer.from(hashHex, 'hex');
-          let hashStr = bs58.encode(hashBytes)
-          imageHashes[index] = hashStr;
-        });
-
-        this.setState({ imageHashes: imageHashes })
-
-        // IMAGE LAYOUT %%%%%%%%%%%%
-        let imageItems
-        imageItems = this.state.imageHashes.map((image, index) => (
-          // if image != 0x00..
-          //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
-          <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
-        ))
-        this.setState({ imageItems: imageItems })
-
-        let image_src = [];
-        let hashes = this.state.imageHashes.map((image, index) =>
-          `https://ipfs.infura.io/ipfs/${image}`)
-
-        for (let i = 0; i < hashes.length; i++) {
-          image_src.push({ source: hashes[i] })
+        if (username !== undefined) {
+          this.setState({ username })
         }
-        this.setState({ image_src: image_src })
+
+        // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
+        if (imageNameSolArray !== undefined) {
+          // {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}
+          this.setState({ imageNameSolArray: imageNameSolArray })
+        }
+
+
+        if (imageSolArray !== undefined) {
+          // Did the hashes, imageHashes is ready to display
+          let imageHashes = imageSolArray.slice();
+          imageSolArray.forEach(function (item, index) {
+            let hashHex = "1220" + item.slice(2)
+            let hashBytes = Buffer.from(hashHex, 'hex');
+            let hashStr = bs58.encode(hashBytes)
+            imageHashes[index] = hashStr;
+          });
+
+          this.setState({ imageHashes: imageHashes })
+
+          // IMAGE LAYOUT %%%%%%%%%%%%
+          let imageItems
+          imageItems = this.state.imageHashes.map((image, index) => (
+            // if image != 0x00..
+            //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
+            <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+          ))
+          this.setState({ imageItems: imageItems })
+
+          let image_src = [];
+          let hashes = this.state.imageHashes.map((image, index) =>
+            `https://ipfs.infura.io/ipfs/${image}`)
+
+          for (let i = 0; i < hashes.length; i++) {
+            image_src.push({ source: hashes[i] })
+          }
+          this.setState({ image_src: image_src })
+        }
+
+      }
+      else {
+        window.alert('Smart contract not deployed to detected network.')
       }
 
-    }
-    else {
-      window.alert('Smart contract not deployed to detected network.')
+    } else {
+      // return to homepage if MetaMask is not installed
+      window.alert('Non-Ethereum browser detected. You should install MetaMask!')
+      const { history } = this.props;
+      if (history) history.push('/');
     }
   }
 
@@ -204,6 +195,49 @@ class Gallery extends Component {
           if (hex_filename.length > 66)
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
+
+            let encryptionPublicKey;
+
+            window.ethereum
+              .request({
+                method: 'eth_getEncryptionPublicKey',
+                params: [this.state.account], // you must have access to the specified account
+              })
+              .then((result) => {
+                encryptionPublicKey = result;
+              })
+              .catch((error) => {
+                if (error.code === 4001) {
+                  // EIP-1193 userRejectedRequest error
+                  console.log('We can encrypt anything without the key.');
+                } else {
+                  console.error(error);
+                }
+              });
+            console.log(encryptionPublicKey)
+
+
+            // const ethUtil = require('ethereumjs-util');
+            // const encryptedMessage = ethUtil.bufferToHex(
+            //   Buffer.from(
+            //     JSON.stringify(
+            //       sigUtil.encrypt(
+            //         encryptionPublicKey,
+            //         { data: 'Hello world!' },
+            //         'x25519-xsalsa20-poly1305'
+            //       )
+            //     ),
+            //     'utf8'
+            //   )
+            // );
+
+            // const identity = EthCrypto.createIdentity();
+            // 
+            // const encrypted = await EthCrypto.encryptWithPublicKey(
+            //   this.state.account, // publicKey
+            //   'foobar' // message
+            // ); console.log(encrypted)
+            // alert("Fil")
 
             // var CryptoJS = require("crypto-js");
             // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
@@ -343,7 +377,7 @@ class Gallery extends Component {
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
-                          <Carousel 
+                          <Carousel
                             components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
