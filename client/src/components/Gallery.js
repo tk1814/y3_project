@@ -196,25 +196,25 @@ class Gallery extends Component {
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
 
-            let encryptionPublicKey;
+            // let encryptionPublicKey;
 
-            window.ethereum
-              .request({
-                method: 'eth_getEncryptionPublicKey',
-                params: [this.state.account], // you must have access to the specified account
-              })
-              .then((result) => {
-                encryptionPublicKey = result;
-              })
-              .catch((error) => {
-                if (error.code === 4001) {
-                  // EIP-1193 userRejectedRequest error
-                  console.log('We can encrypt anything without the key.');
-                } else {
-                  console.error(error);
-                }
-              });
-            console.log(encryptionPublicKey)
+            // window.ethereum
+            //   .request({
+            //     method: 'eth_getEncryptionPublicKey',
+            //     params: [this.state.account], // you must have access to the specified account
+            //   })
+            //   .then((result) => {
+            //     encryptionPublicKey = result;
+            //   })
+            //   .catch((error) => {
+            //     if (error.code === 4001) {
+            //       // EIP-1193 userRejectedRequest error
+            //       console.log('We can encrypt anything without the key.');
+            //     } else {
+            //       console.error(error);
+            //     }
+            //   });
+            // console.log(encryptionPublicKey)
 
 
             // const ethUtil = require('ethereumjs-util');
