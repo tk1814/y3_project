@@ -224,9 +224,6 @@ class Sharepoint extends Component {
             }
             this.setState({ items })
             console.log(items)
-
-
-
           }
         });
 
@@ -296,9 +293,9 @@ class Sharepoint extends Component {
       // else if (this.state.file_links_to_be_shared.length === 0) {
       //   alert('No file was selected to share. Please select a file first.')
       // } 
-      // else if (input_address.toLowerCase() === current_address.toLowerCase()) {
-      //   alert('Cannot share files with yourself')
-      // } 
+      else if (input_address.toLowerCase() === current_address.toLowerCase()) {
+        alert('Cannot share files with yourself')
+      } 
       else {
 
         let file_hash = this.state.file_links_to_be_shared.value.slice(28);
@@ -364,16 +361,15 @@ class Sharepoint extends Component {
   );
 
   renderItem(item, index) {
-    console.log(item)
     return (
       <tr key={index}>
         <td>{item.id}</td>
-        <td><a href={item.File} target="_blank">{item.Name}</a></td>
+        <td><a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a></td>
         <td>{item.From}</td>
         <td>{item.Address}</td>
       </tr>
     )
-  };
+  }; //////// IF ALREADY SHARED IT DOES NOT PUT IN THE MEME ARRAY
 
   render() {
 
@@ -462,7 +458,7 @@ class Sharepoint extends Component {
                       <br></br>
                       <h4 className="mb-5">Select a file to share</h4>
 
-                      <Select className="file_picker"
+                      <Select className="file_picker mb-4"
                         value={file_links_to_be_shared}
                         onChange={this.handleChange}
                         options={this.state.fileHashesNotShared.map((file, index) => ({
@@ -476,7 +472,7 @@ class Sharepoint extends Component {
                         <div className="content mr-auto ml-auto">
                           <div className="input-group mb-3 mt-5">
                             <div className="input-group-prepend">
-                              <button className="btn btn_left_border" type="submit" onClick={(e) => this.onShareFile(e)}>Share file with:</button>
+                              <button className="btn_left_border" type="submit" onClick={(e) => this.onShareFile(e)}>Share file with:</button>
                             </div>
                             <input type="text" ref={address_inputFile => (this.inputAddressFile = address_inputFile)} className="form-control input_right_border shadow-none" placeholder="Enter public address" size="50" maxLength="42" required />
                           </div>

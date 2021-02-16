@@ -43,14 +43,33 @@
   color: rgb(192, 192, 192);
 }
 
+.btn_left_border:hover {
+  color: #222;
+}
+
 .btn_left_border {
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
   background-color: #6e967a;
   color: #fff;
   font-size: 1.2em;
+
+
+  border:1px solid transparent;
+  padding:6px 12px;
+
 }
 
+.file_store {
+  text-align: center;
+  display: inline-block;
+  margin: 0 16px;
+}
+
+.file_space {
+  margin-left: 170px;
+  margin-right: 170px;
+}
 
 .submit_btn {
   background-color: #6e967a;
@@ -105,8 +124,9 @@
 }
 
 .file_picker {
-  margin-left: 450px;
-  margin-right: 450px;
+  display: inline-block;
+  width: 30%;
+  /* position: relative; */
 }
 /* 
 .filesharing {

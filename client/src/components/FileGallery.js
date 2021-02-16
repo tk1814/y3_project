@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
-import { BsDownload } from "react-icons/bs";
-import { Document, Outline, Page } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -107,17 +106,14 @@ class Gallery extends Component {
             // QmTrEe3qpoBwmfuCvEsdFpA7opMhAWrrW3cQ1azqz2t9XF
             // {"https://ipfs.io/ipfs/" + file}
 
-            <div>
+            <div className="file_store">
 
-              {/* <Document file={`https://ipfs.infura.io/ipfs/${file}`}>
+              <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
                 <Page pageNumber={1} scale={0.3} />
-              </Document> */}
+              </Document>
 
-            <a href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
-              {/* <select name="sometext" multiple="multiple"> */}
-              {/* <option>{file}</option> */}
-              
-              {/* </select> */}
+              <a style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
+              <br></br><br></br>
             </div>
 
 
@@ -251,12 +247,8 @@ class Gallery extends Component {
                   <div className="content mr-auto ml-auto">
 
                     {(this.state.fileHashes.length !== 0) ? (
-                      <div>
+                      <div className="file_space">
                         <h4 className="mb-5">Your Files</h4>
-
-
-
-
                         {this.state.fileItems}
                       </div>
                     ) : <h3>No files to display, try uploading one.</h3>}
