@@ -11,15 +11,23 @@ contract Meme is Ownable, AccessControl {
   // array of structs // 0 default 
   struct userData {
 
+    bool userExists; 
     string username;
 
     bytes32[] imageHashes;
     bytes32[] imageNames;
-    bool userExists; 
     bytes32[] imageHashesSharedWithUser;
     bytes32[] imageNamesSharedWithUser;
+
+    bytes32[] fileHashes;
+    bytes32[] fileNames;
+    bytes32[] fileHashesSharedWithUser;
+    bytes32[] fileNamesSharedWithUser;
+
     address[] addressSharedWithUser;
+    address[] fileAddressSharedWithUser;
     string[] usernameSharedWithUser;
+    string[] fileUsernameSharedWithUser;
   }
 
   mapping (address => userData) idUserData;
@@ -32,13 +40,19 @@ contract Meme is Ownable, AccessControl {
     if (!idUserData[msg.sender].userExists) {
       idUserData[msg.sender].imageHashes = initArr;
       idUserData[msg.sender].imageNames = initArr;
+      idUserData[msg.sender].fileHashes = initArr;
+      idUserData[msg.sender].fileNames = initArr;
       idUserData[msg.sender].userExists = true;
       idUserData[msg.sender].username = _usr;
       // check why do that******** Sign up problem
       idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
       idUserData[msg.sender].imageNamesSharedWithUser; 
-      idUserData[msg.sender].addressSharedWithUser;  
-      idUserData[msg.sender].usernameSharedWithUser; 
+      idUserData[msg.sender].fileHashesSharedWithUser;// = initArrShared;
+      idUserData[msg.sender].fileNamesSharedWithUser; 
+      idUserData[msg.sender].addressSharedWithUser;
+      idUserData[msg.sender].usernameSharedWithUser;
+      idUserData[msg.sender].fileAddressSharedWithUser;   
+      idUserData[msg.sender].fileUsernameSharedWithUser;  
 
       _setupRole(USER_ROLE, msg.sender);
     } // else user already exists
@@ -72,15 +86,57 @@ contract Meme is Ownable, AccessControl {
     idUserData[msg.sender].addressSharedWithUser, idUserData[msg.sender].usernameSharedWithUser); 
   }
 
+
+    // set msg.sender [from who it was shared] 
+  function shareFile(string memory _usrName, address _address, bytes32 _fileHash, bytes32 _fileName) public {
+    require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
+
+    // prevents duplicate files from being inserted (shared again)
+    bool duplicateFound = false;
+    for (uint i = 0; i < idUserData[_address].fileHashesSharedWithUser.length; i++) {
+      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash) {
+        duplicateFound = true;
+        break;
+      }
+    }
+    if (!duplicateFound) {
+      idUserData[_address].fileHashesSharedWithUser.push(_fileHash);
+      idUserData[_address].fileNamesSharedWithUser.push(_fileName);
+      idUserData[_address].fileUsernameSharedWithUser.push(_usrName);
+      idUserData[_address].fileAddressSharedWithUser.push(msg.sender); 
+    } 
+    // return duplicateFound;
+    //************** */ else alert user that it has already been shared with that user
+  }
+
+  function getSharedFileArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory) { 
+    require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
+    return (idUserData[msg.sender].fileHashesSharedWithUser, idUserData[msg.sender].fileNamesSharedWithUser,
+    idUserData[msg.sender].fileAddressSharedWithUser, idUserData[msg.sender].fileUsernameSharedWithUser); 
+  }
+
+
+
   function set(bytes32 _imageHash, bytes32 _imageName) public { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     idUserData[msg.sender].imageHashes.push(_imageHash);
     idUserData[msg.sender].imageNames.push(_imageName);
   }
 
+  function setFile(bytes32 _fileHash, bytes32 _fileName) public { 
+    require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
+    idUserData[msg.sender].fileHashes.push(_fileHash);
+    idUserData[msg.sender].fileNames.push(_fileName);
+  }
+
   function get() public view returns (bytes32[] memory, bytes32[] memory, string memory) {  // CATCH THE EXCEPTION: CALLER IS NOT A USER - HAPPENS WHEN GETS USERNAME 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames, idUserData[msg.sender].username); 
+  }
+
+  function getFile() public view returns (bytes32[] memory, bytes32[] memory, string memory) {  // CATCH THE EXCEPTION: CALLER IS NOT A USER - HAPPENS WHEN GETS USERNAME 
+    require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
+    return (idUserData[msg.sender].fileHashes, idUserData[msg.sender].fileNames, idUserData[msg.sender].username); 
   }
 
   // delete: reset variable to default value
