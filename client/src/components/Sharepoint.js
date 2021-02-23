@@ -228,7 +228,6 @@ class Sharepoint extends Component {
               });
             }
             this.setState({ items })
-            console.log(items)
           }
         });
 

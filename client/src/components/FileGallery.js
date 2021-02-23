@@ -102,7 +102,7 @@ class Gallery extends Component {
           let fileItems
           fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
 
-            <div className="file_store">
+            <div key={index} className="file_store">
               <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
                 <Page pageNumber={1} scale={0.3} />
               </Document>
@@ -173,8 +173,6 @@ class Gallery extends Component {
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
           // let shorten_filename = this.state.fileName.slice(0, -4);
           let shorten_filename = this.state.fileName;
-
-          console.log(file_hash)
 
           let hex_filename = Web3.utils.asciiToHex(shorten_filename)
           if (hex_filename.length > 66)

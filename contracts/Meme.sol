@@ -38,21 +38,21 @@ contract Meme is Ownable, AccessControl {
   function signUpUserOrLogin(string memory _usr) public { // onlyOwner { acc2 can connect, acc3,4 cannot }
     // owner = msg.sender;
     if (!idUserData[msg.sender].userExists) {
-      idUserData[msg.sender].imageHashes = initArr;
-      idUserData[msg.sender].imageNames = initArr;
-      idUserData[msg.sender].fileHashes = initArr;
-      idUserData[msg.sender].fileNames = initArr;
+      // idUserData[msg.sender].imageHashes = initArr;
+      // idUserData[msg.sender].imageNames = initArr;
+      // idUserData[msg.sender].fileHashes = initArr;
+      // idUserData[msg.sender].fileNames = initArr;
       idUserData[msg.sender].userExists = true;
       idUserData[msg.sender].username = _usr;
       // check why do that******** Sign up problem
-      idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
-      idUserData[msg.sender].imageNamesSharedWithUser; 
-      idUserData[msg.sender].fileHashesSharedWithUser;// = initArrShared;
-      idUserData[msg.sender].fileNamesSharedWithUser; 
-      idUserData[msg.sender].addressSharedWithUser;
-      idUserData[msg.sender].usernameSharedWithUser;
-      idUserData[msg.sender].fileAddressSharedWithUser;   
-      idUserData[msg.sender].fileUsernameSharedWithUser;  
+      // idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
+      // idUserData[msg.sender].imageNamesSharedWithUser; 
+      // idUserData[msg.sender].fileHashesSharedWithUser;// = initArrShared;
+      // idUserData[msg.sender].fileNamesSharedWithUser; 
+      // idUserData[msg.sender].addressSharedWithUser;
+      // idUserData[msg.sender].usernameSharedWithUser;
+      // idUserData[msg.sender].fileAddressSharedWithUser;   
+      // idUserData[msg.sender].fileUsernameSharedWithUser;  
 
       _setupRole(USER_ROLE, msg.sender);
     } // else user already exists
