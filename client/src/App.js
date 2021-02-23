@@ -8,14 +8,17 @@ import Sharepoint from './components/Sharepoint';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
 import { BsHouse, BsImages, BsLock, BsUnlock, BsFiles } from "react-icons/bs"; // BsQuestionDiamond
-import { BiShareAlt } from "react-icons/bi";
+import { BiShareAlt } from "react-icons/bi"; 
+// import { RiHome2Line } from "react-icons/ri";  
+
+
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Root = () => (
   <div className="general_bg">
     <div className="top_space">
       <h4>Simpler Safer Faster</h4>
-      <h3 className="mt-4">Storing images on Ethereum has never been easier.</h3>
+      <h3 className="mt-4">Storing files on Ethereum has never been easier.</h3>
       {(JSON.parse(localStorage.getItem('state'))) ?
         <a href="/gallery" className="btn start_btn mt-5" role="button">Get Started</a>
         : <a href="/login" className="btn start_btn mt-5" role="button">Get Started</a>}
@@ -25,12 +28,6 @@ const Root = () => (
 
 
 class App extends Component {
-
-  // TO DO 0.8: FIX not used App.css classes AS Carousel and Modal were added. Plus polish the code, remove rendundant stuff
-  // TO DO 1.0: Authenticate user and acc
-  // TO DO 1.7: fix image layout Gallery/imageItems
-  // TO DO 2.0: ensure data privacy
-  // TO DO 3.0: Create circular svg
 
   constructor(props) {
     super(props)
@@ -67,7 +64,7 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <main>
-            {/* ChainSafe ChainX SwiftLock Lockify */}
+
             <Navbar className="nav" expand="md">
               <NavbarBrand href="/"><Header subtitle="" /></NavbarBrand>
               <Nav className="mr-auto" navbar></Nav>

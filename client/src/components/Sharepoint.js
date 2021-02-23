@@ -4,7 +4,7 @@ import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import ImagePicker from 'react-image-picker';
-import { BsDownload } from "react-icons/bs";
+import { BiDownload } from "react-icons/bi";
 import Select from 'react-select';
 import { Table } from 'react-bootstrap';
 
@@ -150,7 +150,7 @@ class Sharepoint extends Component {
           }
         });
 
-        // FILE GET REQUEST %%%%%%%%%%%%%%%%%%%%%% GET MY UPLOADED FILES (IF ANY)
+        // FILE GET REQUEST %%%%%%%%%%%%%%%%%%% GET MY UPLOADED FILES (IF ANY)
         let fileSolArray, fileNameSolArray;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0]
@@ -173,7 +173,7 @@ class Sharepoint extends Component {
           this.setState({ fileHashesNotShared: fileHashes })
         }
 
-        // LOAD Shared files array %%%%%%%%%%%%%%%%%%%%%%% GET THE FILES THAT WERE SHARED WITH ME
+        // LOAD Shared files array %%%%%%%%%%%%%%%%%%% GET THE FILES THAT WERE SHARED WITH ME
         let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray;
         await contract.methods.getSharedFileArr().call({ from: this.state.account }).then((r) => {
           fileSharedSolArray = r[0]
@@ -198,15 +198,15 @@ class Sharepoint extends Component {
 
 
 
-            let fileHashesSharedItems;
-            fileHashesSharedItems = this.state.fileHashesShared.map((file, index) => (
-              <div>
-                {/* <a href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a> */}
-                {/* <h5 className="mt-2"> From: {this.state.fileUsernameSharedWithUserSolArray[index]} </h5> */}
-                {/* <h5 className="mb-2"> Shared by: {this.state.fileAddressSharedwithUserSolArray[index]} </h5> */}
-              </div>
-            ))
-            this.setState({ fileHashesSharedItems: fileHashesSharedItems })
+            // let fileHashesSharedItems;
+            // fileHashesSharedItems = this.state.fileHashesShared.map((file, index) => (
+            //   <div>
+            //     {/* <a href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a> */}
+            //     {/* <h5 className="mt-2"> From: {this.state.fileUsernameSharedWithUserSolArray[index]} </h5> */}
+            //     {/* <h5 className="mb-2"> Shared by: {this.state.fileAddressSharedwithUserSolArray[index]} </h5> */}
+            //   </div>
+            // ))
+            // this.setState({ fileHashesSharedItems: fileHashesSharedItems })
 
             let file_shared_src = [];
             let hashes = this.state.fileHashesShared.map((file, index) =>
@@ -220,13 +220,17 @@ class Sharepoint extends Component {
             // SHARED FILES ITEMS
             const items = [];
             for (let i = 0; i < file_shared_src.length; i++) {
-              items.push({ id: i, Name: Web3.utils.hexToAscii(this.state.fileNamesSharedSolArray[i]), File: this.state.file_shared_src[i].source, From: this.state.fileUsernameSharedWithUserSolArray[i], Address: this.state.fileAddressSharedwithUserSolArray[i] });
+              items.push({
+                id: i,
+                Name: Web3.utils.hexToAscii(this.state.fileNamesSharedSolArray[i]),
+                File: this.state.file_shared_src[i].source, From: this.state.fileUsernameSharedWithUserSolArray[i],
+                Address: this.state.fileAddressSharedwithUserSolArray[i]
+              });
             }
             this.setState({ items })
             console.log(items)
           }
         });
-
 
       }
       else {
@@ -244,7 +248,6 @@ class Sharepoint extends Component {
   toggleModal(index) {
     this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
     this.setState({ img_index: index });
-    // const {onChange, onClose, isModal, ...props} = this.props;
   }
 
   onShare = async (e) => {
@@ -295,7 +298,7 @@ class Sharepoint extends Component {
       // } 
       else if (input_address.toLowerCase() === current_address.toLowerCase()) {
         alert('Cannot share files with yourself')
-      } 
+      }
       else {
 
         let file_hash = this.state.file_links_to_be_shared.value.slice(28);
@@ -318,19 +321,17 @@ class Sharepoint extends Component {
 
   onPickImages(images) {
     this.setState({ image_links_to_be_shared: images })
-    // console.log(images.value)
   }
 
   handleChange = (file_links_to_be_shared) => {
     this.setState({ file_links_to_be_shared });
-    // console.log(`Option selected:`, file_links_to_be_shared.value);
   };
 
   captionImg = (idx) => {
     return (
       <div>
-        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} | From: {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} </h5>
-        <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5>
+        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])}  </h5>
+        <h5 className="mb-2"> {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} - {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5>
       </div>
     )
   }
@@ -356,7 +357,8 @@ class Sharepoint extends Component {
 
   customFooter = ({ isModal, currentView }) => isModal && (
     <div className="react-images__footer">
-      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BsDownload size="1.8em" /></button>
+      <br></br>
+      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button>
     </div>
   );
 
@@ -383,19 +385,6 @@ class Sharepoint extends Component {
             <div className="row">
               <main role="main" className="col-lg-12 d-flex text-center">
                 <div className="content mr-auto ml-auto">
-
-                  {/* <ModalGateway>
-                    {this.state.modalIsOpen ? (
-                      <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                        <div className="imgbox">
-                          <img className="center_fit mb-1" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashesShared[this.state.img_index]}`} alt="inputFile" />
-                          <div className="img_caption">
-                            <h5 className="mt-2"> Image: {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[this.state.img_index])} </h5>
-                            <h5 className="mb-2"> Shared by: {this.state.addressSharedwithUserSolArray[this.state.img_index]}</h5>
-                          </div>
-                        </div>
-                      </Modal>) : ''}
-                  </ModalGateway> */}
 
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
@@ -431,12 +420,11 @@ class Sharepoint extends Component {
                   <div className="smaller_space"></div>
 
                   {(this.state.imageHashesNotShared.length !== 0) ? (
-                    // {(this.state.imageHashesNotShared) ? (
                     <div>
                       <h4 className="mb-5">Select an image to share</h4>
                       <ImagePicker className="image_picker"
                         images={this.state.imageHashesNotShared.map((image, index) => ({ src: `https://ipfs.infura.io/ipfs/${image}`, value: index }))}
-                        onPick={this.onPickImages.bind(this)} /> {/* multiple /> */}
+                        onPick={this.onPickImages.bind(this)} />
 
                       <div className="row">
                         <div className="content mr-auto ml-auto">

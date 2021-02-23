@@ -3,8 +3,7 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
-import { BsDownload } from "react-icons/bs";
-// import EthCrypto, { publicKey } from 'eth-crypto';
+import { BiDownload } from "react-icons/bi";
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
@@ -187,88 +186,10 @@ class Gallery extends Component {
           // let shorten_filename = this.state.fileName.slice(0, -4);
           let shorten_filename = this.state.fileName;
 
-          // var CryptoJS = require("crypto-js");
-          // var encrypted_filename = CryptoJS.AES.encrypt(asc, file_hash).toString();
-          // console.log("encrypted text", encrypted_filename.length, encrypted_filename);  
-
           let hex_filename = Web3.utils.asciiToHex(shorten_filename)
           if (hex_filename.length > 66)
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
-
-            // let encryptionPublicKey;
-
-            // window.ethereum
-            //   .request({
-            //     method: 'eth_getEncryptionPublicKey',
-            //     params: [this.state.account], // you must have access to the specified account
-            //   })
-            //   .then((result) => {
-            //     encryptionPublicKey = result;
-            //   })
-            //   .catch((error) => {
-            //     if (error.code === 4001) {
-            //       // EIP-1193 userRejectedRequest error
-            //       console.log('We can encrypt anything without the key.');
-            //     } else {
-            //       console.error(error);
-            //     }
-            //   });
-            // console.log(encryptionPublicKey)
-
-
-            // const ethUtil = require('ethereumjs-util');
-            // const encryptedMessage = ethUtil.bufferToHex(
-            //   Buffer.from(
-            //     JSON.stringify(
-            //       sigUtil.encrypt(
-            //         encryptionPublicKey,
-            //         { data: 'Hello world!' },
-            //         'x25519-xsalsa20-poly1305'
-            //       )
-            //     ),
-            //     'utf8'
-            //   )
-            // );
-
-            // const identity = EthCrypto.createIdentity();
-            // 
-            // const encrypted = await EthCrypto.encryptWithPublicKey(
-            //   this.state.account, // publicKey
-            //   'foobar' // message
-            // ); console.log(encrypted)
-            // alert("Fil")
-
-            // var CryptoJS = require("crypto-js");
-            // var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-            // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-
-            // // move this to when user is registering
-            // const alice = EthCrypto.createIdentity();
-
-            // // const entropy = Buffer.from(window.ethereum.selectedAddress, 'utf-8'); // must contain at least 128 chars
-            // // const identity = EthCrypto.createIdentity(entropy);
-            // console.log('id ', alice.address);
-
-            // const secretMessage = hash_decoded;
-            // const encrypted = await EthCrypto.encryptWithPublicKey(
-            //   alice.publicKey, // encrypt with alice's publicKey
-            //   secretMessage
-            // );
-
-            // const decrypted = await EthCrypto.decryptWithPrivateKey(
-            //   alice.privateKey,
-            //   encrypted
-            // );
-            // console.log(decrypted);
-            // if (decrypted === secretMessage) console.log('success');
-
-            // let public_key = window.ethereum.selectedAddress.slice(2);
-            // var privateKey = new Buffer(public_key, "hex");
-            // const encrypted = await EthCrypto.encryptWithPublicKey(
-            //   privateKey, // pk
-            //   hash_decoded // message
-            // ); 
 
             await this.state.contract.methods.set(hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
               // refresh to get the new image array with get() of smart contract
@@ -315,7 +236,7 @@ class Gallery extends Component {
 
   customFooter = ({ isModal, currentView }) => isModal && (
     <div className="react-images__footer">
-      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BsDownload size="1.8em" /></button>
+      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button>
     </div>
   );
 
@@ -326,7 +247,7 @@ class Gallery extends Component {
         {(JSON.parse(localStorage.getItem('state'))) ?
           <div>
             <div className="top_gallery_space">
-              <h4>Hello {this.state.username},</h4> {/* fix not correct bcs if user puts wrong usrnm it gets safe, check in Meme if correct username*/}
+              <h4>Hello {this.state.username},</h4> 
               <h3 className="mt-4">Upload an image</h3>
 
               <div className="container-fluid mt-4">

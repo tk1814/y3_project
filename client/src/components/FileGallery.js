@@ -100,14 +100,9 @@ class Gallery extends Component {
 
           // FILE LAYOUT %%%%%%%%%%%%
           let fileItems
-          fileItems = this.state.fileHashes.map((file, index) => (
-
-            // <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${file}`} alt="inputFile" />
-            // QmTrEe3qpoBwmfuCvEsdFpA7opMhAWrrW3cQ1azqz2t9XF
-            // {"https://ipfs.io/ipfs/" + file}
+          fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
 
             <div className="file_store">
-
               <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
                 <Page pageNumber={1} scale={0.3} />
               </Document>
@@ -140,16 +135,6 @@ class Gallery extends Component {
     }
   }
 
-  onItemClick = () => {
-    // alert('gsfwedas')
-    console.log('fwtfrth5et')
-    // return (
-    //   <div>
-    //     <a href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank">Open Pdf</a>
-    //   </div>
-    // )
-  }
-
 
   // Called whenever a file is uploaded, converts it to appropriate format for IPFS
   // stores the file in this component's state
@@ -164,7 +149,6 @@ class Gallery extends Component {
     // after reader finishes, initialise buffer and store in component state
     reader.onloadend = () => {
       this.setState({ buffer: Buffer(reader.result) })
-      // console.log('buffer', this.state.buffer)
     }
   }
 
@@ -220,7 +204,7 @@ class Gallery extends Component {
         {(JSON.parse(localStorage.getItem('state'))) ?
           <div>
             <div className="top_gallery_space">
-              <h4>Hello {this.state.username},</h4> {/* fix not correct bcs if user puts wrong usrnm it gets safe, check in Meme if correct username*/}
+              <h4>Hello {this.state.username},</h4>
               <h3 className="mt-4">Upload a file</h3>
 
               <div className="container-fluid mt-4">
