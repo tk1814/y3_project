@@ -7,6 +7,7 @@ import ImagePicker from 'react-image-picker';
 import { BiDownload } from "react-icons/bi";
 import Select from 'react-select';
 import { Table } from 'react-bootstrap';
+import moment from "moment"
 
 class Sharepoint extends Component {
 
@@ -29,6 +30,8 @@ class Sharepoint extends Component {
       usernameSharedWithUserSolArray: [],
       fileAddressSharedwithUserSolArray: [],
       fileUsernameSharedWithUserSolArray: [],
+      dateSharedImage: [],
+      dateSharedFile: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -109,12 +112,17 @@ class Sharepoint extends Component {
 
 
         // LOAD Shared images array
-        let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray;
+        let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray, dateSharedImage;
         await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
           imageSharedSolArray = r[0]
           imageNamesSharedSolArray = r[1]
           addressSharedwithUserSolArray = r[2]
           usernameSharedWithUserSolArray = r[3]
+          dateSharedImage = r[4]
+
+          if (dateSharedImage !== undefined) {
+            this.setState({ dateSharedImage })
+          }
 
           if (imageSharedSolArray !== undefined && imageNamesSharedSolArray !== undefined && addressSharedwithUserSolArray !== undefined
             && usernameSharedWithUserSolArray !== undefined) {
@@ -174,12 +182,17 @@ class Sharepoint extends Component {
         }
 
         // LOAD Shared files array %%%%%%%%%%%%%%%%%%% GET THE FILES THAT WERE SHARED WITH ME
-        let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray;
+        let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile;
         await contract.methods.getSharedFileArr().call({ from: this.state.account }).then((r) => {
           fileSharedSolArray = r[0]
           fileNamesSharedSolArray = r[1]
           fileAddressSharedwithUserSolArray = r[2]
           fileUsernameSharedWithUserSolArray = r[3]
+          dateSharedFile = r[4]
+
+          if (dateSharedFile !== undefined) {
+            this.setState({ dateSharedFile })
+          }
 
           if (fileSharedSolArray !== undefined && fileNamesSharedSolArray !== undefined && fileAddressSharedwithUserSolArray !== undefined
             && fileUsernameSharedWithUserSolArray !== undefined) {
@@ -219,12 +232,14 @@ class Sharepoint extends Component {
 
             // SHARED FILES ITEMS
             const items = [];
+
             for (let i = 0; i < file_shared_src.length; i++) {
               items.push({
                 id: i,
                 Name: Web3.utils.hexToAscii(this.state.fileNamesSharedSolArray[i]),
                 File: this.state.file_shared_src[i].source, From: this.state.fileUsernameSharedWithUserSolArray[i],
-                Address: this.state.fileAddressSharedwithUserSolArray[i]
+                Address: this.state.fileAddressSharedwithUserSolArray[i],
+                Date: this.state.dateSharedFile[i]
               });
             }
             this.setState({ items })
@@ -268,7 +283,7 @@ class Sharepoint extends Component {
         let img_hash_decoded = bs58.decode(image_hash).slice(2);
         let hex_filename = this.state.imageNameSolArray[this.state.image_links_to_be_shared.value]
 
-        await this.state.contract.methods.shareImage(this.state.usrname, input_address, img_hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+        await this.state.contract.methods.shareImage(this.state.usrname, input_address, img_hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
           window.location.reload();
         })
 
@@ -304,7 +319,7 @@ class Sharepoint extends Component {
         let file_hash_decoded = bs58.decode(file_hash).slice(2);
         let hex_filename = this.state.fileNameSolArray[this.state.file_links_to_be_shared.idx]
 
-        await this.state.contract.methods.shareFile(this.state.usrname, input_address, file_hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+        await this.state.contract.methods.shareFile(this.state.usrname, input_address, file_hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
           window.location.reload();
         })
 
@@ -329,7 +344,8 @@ class Sharepoint extends Component {
   captionImg = (idx) => {
     return (
       <div>
-        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])}  </h5>
+        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5>
+        <h5> {this.state.dateSharedImage[idx.currentIndex]}</h5>
         <h5 className="mb-2"> {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} - {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5>
       </div>
     )
@@ -368,9 +384,10 @@ class Sharepoint extends Component {
         <td><a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a></td>
         <td>{item.From}</td>
         <td>{item.Address}</td>
+        <td>{item.Date}</td>
       </tr>
     )
-  }; //////// IF ALREADY SHARED IT DOES NOT PUT IN THE MEME ARRAY
+  }; //////// IF ALREADY SHARED IT DOES NOT PUT IN THE MEME ARRAY     
 
   render() {
 
@@ -441,8 +458,7 @@ class Sharepoint extends Component {
 
 
                   {(this.state.fileHashesNotShared.length !== 0) ? (
-                    <div className="top_login_space">
-                      <br></br>
+                    <div className="top_file_space">
                       <h4 className="mb-5">Select a file to share</h4>
 
                       <Select className="file_picker mb-4"
@@ -466,13 +482,22 @@ class Sharepoint extends Component {
                         </div>
                       </div>
                     </div>
-                  ) : <h3>No available fles to be shared. Try uploading a file.</h3>}
+                  ) : <h3>No available files to be shared. Try uploading a file.</h3>}
+
+                  {/* <br></br> */}
+
+                  {(this.state.imageHashesShared.length !== 0) ? (
+                    <div>
+                      <h4 className="mt-3 mb-5">Images shared with you</h4>
+                      {this.state.imageHashesSharedItems}
+                    </div>
+                  ) : <h3>No images shared with you.</h3>}
 
                   <br></br>
 
                   {(this.state.fileHashesShared.length !== 0) ? (
                     <div>
-                      <h4 className="mt-5 mb-5">Files shared with you</h4>
+                      <h4 className="mb-5 mt-5">Files shared with you</h4>
 
                       <Table striped bordered hover variant="dark" className="table">
                         <thead>
@@ -481,6 +506,7 @@ class Sharepoint extends Component {
                             <th>File</th>
                             <th>From</th>
                             <th>Address</th>
+                            <th>Date</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -492,14 +518,7 @@ class Sharepoint extends Component {
                   ) : <h3>No files shared with you.</h3>}
 
 
-                  <br></br>
 
-                  {(this.state.imageHashesShared.length !== 0) ? (
-                    <div>
-                      <h4 className="mt-5">Images shared with you</h4>
-                      {this.state.imageHashesSharedItems}
-                    </div>
-                  ) : <h3>No images shared with you.</h3>}
 
                   <div className="footer_space"></div>
                 </div>

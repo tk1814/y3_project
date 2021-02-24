@@ -4,6 +4,7 @@ import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
+import moment from "moment"
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
@@ -17,6 +18,7 @@ class Gallery extends Component {
       imageItems: [],
       imageHashes: [],
       imageNameSolArray: [],
+      dateUpload: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -73,17 +75,21 @@ class Gallery extends Component {
         // ----Minimise repetition btn Gallery and LogIn
         // ----SAVE IMGS IN LCSTORAGE so nn to get?
         // ----mby call loadWeb3 from LogIn.js
-        // let imageSolArray = await contract.methods.get(this.state.account).call() // GETS
 
-        let imageSolArray, imageNameSolArray, username;
+        let imageSolArray, imageNameSolArray, username, dateUpload;
         await contract.methods.get().call({ from: this.state.account }).then((r) => {
           imageSolArray = r[0];
           imageNameSolArray = r[1]
           username = r[2]
+          dateUpload = r[3]
         })
 
         if (username !== undefined) {
           this.setState({ username })
+        }
+        
+        if (dateUpload !== undefined) { 
+          this.setState({ dateUpload })
         }
 
         // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
@@ -91,7 +97,6 @@ class Gallery extends Component {
           // {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}
           this.setState({ imageNameSolArray: imageNameSolArray })
         }
-
 
         if (imageSolArray !== undefined) {
           // Did the hashes, imageHashes is ready to display
@@ -191,7 +196,7 @@ class Gallery extends Component {
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
 
-            await this.state.contract.methods.set(hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+            await this.state.contract.methods.set(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
               // refresh to get the new image array with get() of smart contract
               window.location.reload();
             })
@@ -212,6 +217,7 @@ class Gallery extends Component {
     return (
       <div>
         <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5>
+        <h5> {this.state.dateUpload[idx.currentIndex]}</h5>
       </div>
     )
   }

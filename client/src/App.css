@@ -140,8 +140,9 @@ h5 {
 
   color:rgb(192, 192, 192);
   font-weight: 500;
-  /* text-align: center; */
 }
+
+
 
 
 .log_in_btn {
@@ -211,6 +212,7 @@ html {
 .simple_bg { background-color: #222; }
 .top_space { padding: 200px; }
 .top_login_space { padding: 130px; }
+.top_file_space { padding: 100px; }
 .top_gallery_space { padding: 150px; }
 .space { height: 250px; }
 .smaller_space { height: 100px; }

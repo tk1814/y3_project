@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
+import moment from "moment"
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -18,6 +19,7 @@ class Gallery extends Component {
       fileItems: [],
       fileHashes: [],
       fileNameSolArray: [],
+      dateUpload: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -69,15 +71,20 @@ class Gallery extends Component {
         // ----Minimise repetition btn Gallery and LogIn
         // ----mby call loadWeb3 from LogIn.js
 
-        let fileSolArray, fileNameSolArray, username;
+        let fileSolArray, fileNameSolArray, username, dateUpload;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0];
           fileNameSolArray = r[1]
           username = r[2]
+          dateUpload = r[3]
         })
 
         if (username !== undefined) {
           this.setState({ username })
+        }
+
+        if (dateUpload !== undefined) {
+          this.setState({ dateUpload })
         }
 
         // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
@@ -108,6 +115,7 @@ class Gallery extends Component {
               </Document>
 
               <a style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
+              <p>{this.state.dateUpload[index]}</p>
               <br></br><br></br>
             </div>
 
@@ -179,7 +187,8 @@ class Gallery extends Component {
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
 
-            await this.state.contract.methods.setFile(hash_decoded, hex_filename).send({ from: this.state.account }).then((r) => {
+            // dateUpload
+            await this.state.contract.methods.setFile(hash_decoded, hex_filename, moment().format('DD-MM-YYYY HH:mm')).send({ from: this.state.account }).then((r) => {
               // refresh to get the new file array with get() of smart contract
               window.location.reload();
             })
