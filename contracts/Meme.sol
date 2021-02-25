@@ -100,7 +100,7 @@ contract Meme is Ownable, AccessControl {
     // prevents duplicate files from being inserted (shared again)
     bool duplicateFound = false;
     for (uint i = 0; i < idUserData[_address].fileHashesSharedWithUser.length; i++) {
-      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash) {
+      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash && idUserData[_address].fileAddressSharedWithUser[i] == msg.sender && idUserData[_address].fileNamesSharedWithUser == _fileName) {
         duplicateFound = true;
         break;
       }

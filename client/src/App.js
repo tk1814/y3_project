@@ -7,12 +7,10 @@ import FileGallery from './components/FileGallery';
 import Sharepoint from './components/Sharepoint';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-import { BsHouse, BsImages, BsLock, BsUnlock, BsFiles } from "react-icons/bs"; // BsQuestionDiamond
+import { BsHouse, BsImages, BsLock, BsUnlock, BsFiles, BsFolder } from "react-icons/bs"; // BsQuestionDiamond
 import { BiShareAlt } from "react-icons/bi"; 
 // import { RiHome2Line } from "react-icons/ri";  
 
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Root = () => (
   <div className="general_bg">
@@ -74,11 +72,11 @@ class App extends Component {
                 <NavItem><NavLink className="nav_btn" href="/login"><BsUnlock size="2em" /></NavLink></NavItem>
                 : ''}
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" href="/gallery"><BsImages size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink className="nav_btn" href="/gallery"><BsFolder size="2em" /></NavLink></NavItem>
                 : ''}
-              {(JSON.parse(localStorage.getItem('state'))) ?
+              {/* {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" href="/filegallery"><BsFiles size="2em" /></NavLink></NavItem>
-                : ''}
+                : ''} */}
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" href="/sharepoint"><BiShareAlt size="2em" /></NavLink></NavItem>
                 : ''}
@@ -94,7 +92,7 @@ class App extends Component {
               <Route exact path='/' component={Root} />
               <Route path='/login' component={LogIn} />
               <Route path='/gallery' component={Gallery} />
-              <Route path='/filegallery' component={FileGallery} />
+              {/* <Route path='/filegallery' component={FileGallery} /> */}
               <Route path='/sharepoint' component={Sharepoint} />
               <Route path='/' component={Root} />
             </Switch>

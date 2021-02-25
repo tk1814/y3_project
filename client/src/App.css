@@ -60,6 +60,32 @@
 
 }
 
+
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  /* color: orangered; */
+  background-color: #fff;
+  border-color: none;
+}
+.nav-tabs {
+  border-bottom: none;
+
+}
+.nav-tabs .nav-link{
+  /* color:red; */
+  color: #6e967a;
+  font-weight: bold;
+  font-size: 1.3em;
+  border: none;
+}
+.nav-link:hover{
+  /* color:red; */
+  
+
+}
+
+
+
 .file_store {
   text-align: center;
   display: inline-block;
