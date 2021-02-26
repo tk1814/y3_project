@@ -50,9 +50,9 @@ contract Meme is Ownable, AccessControl {
       idUserData[msg.sender].userExists = true;
       idUserData[msg.sender].username = _usr;
       // check why do that******** Sign up problem
-      // idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
+      idUserData[msg.sender].imageHashesSharedWithUser;// = initArrShared;
       // idUserData[msg.sender].imageNamesSharedWithUser; 
-      // idUserData[msg.sender].fileHashesSharedWithUser;// = initArrShared;
+      idUserData[msg.sender].fileHashesSharedWithUser;// = initArrShared;
       // idUserData[msg.sender].fileNamesSharedWithUser; 
       // idUserData[msg.sender].addressSharedWithUser;
       // idUserData[msg.sender].usernameSharedWithUser;
@@ -70,7 +70,7 @@ contract Meme is Ownable, AccessControl {
     // prevents duplicate images from being inserted (shared again) - if same file and same address shared the file - do not allow
     bool duplicateFound = false;
     for (uint i = 0; i < idUserData[_address].imageHashesSharedWithUser.length; i++) {
-      if (idUserData[_address].imageHashesSharedWithUser[i] == _imageHash && idUserData[_address].addressSharedWithUser[i] == msg.sender && idUserData[_address].imageNamesSharedWithUser == _imageName) {
+      if (idUserData[_address].imageHashesSharedWithUser[i] == _imageHash && idUserData[_address].addressSharedWithUser[i] == msg.sender && idUserData[_address].imageNamesSharedWithUser[i] == _imageName) {
         duplicateFound = true;
         break;
       }
@@ -100,7 +100,7 @@ contract Meme is Ownable, AccessControl {
     // prevents duplicate files from being inserted (shared again)
     bool duplicateFound = false;
     for (uint i = 0; i < idUserData[_address].fileHashesSharedWithUser.length; i++) {
-      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash && idUserData[_address].fileAddressSharedWithUser[i] == msg.sender && idUserData[_address].fileNamesSharedWithUser == _fileName) {
+      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash && idUserData[_address].fileAddressSharedWithUser[i] == msg.sender && idUserData[_address].fileNamesSharedWithUser[i] == _fileName) {
         duplicateFound = true;
         break;
       }

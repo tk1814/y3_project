@@ -3,11 +3,10 @@ import './App.css';
 import Header from './components/Header';
 import LogIn from './components/LogIn';
 import Gallery from './components/Gallery';
-import FileGallery from './components/FileGallery';
 import Sharepoint from './components/Sharepoint';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-import { BsHouse, BsImages, BsLock, BsUnlock, BsFiles, BsFolder } from "react-icons/bs"; // BsQuestionDiamond
+import { BsHouse, BsLock, BsUnlock, BsFolder } from "react-icons/bs"; // BsQuestionDiamond
 import { BiShareAlt } from "react-icons/bi"; 
 // import { RiHome2Line } from "react-icons/ri";  
 

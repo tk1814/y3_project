@@ -3,34 +3,29 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
-import ImagePicker from 'react-image-picker';
 import { BiDownload } from "react-icons/bi";
-import Select from 'react-select';
 import { Table } from 'react-bootstrap';
-import moment from "moment"
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 
 class Sharepoint extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      usrname: '',
       items: [],
-      imageHashesNotShared: [],
+      imageItems: [],
       imageHashesShared: [],
-      image_links_to_be_shared: [],
       imageNameSolArray: [],
       imageNamesSharedSolArray: [],
-      fileHashesNotShared: [],
-      fileHashesShared: [],
-      file_links_to_be_shared: [],
-      fileNameSolArray: [],
-      fileNamesSharedSolArray: [],
       addressSharedwithUserSolArray: [],
       usernameSharedWithUserSolArray: [],
+      dateSharedImage: [],
+      fileHashesNotShared: [],
+      fileHashesShared: [],
+      fileNamesSharedSolArray: [],
       fileAddressSharedwithUserSolArray: [],
       fileUsernameSharedWithUserSolArray: [],
-      dateSharedImage: [],
       dateSharedFile: [],
       contract: null,
       web3: null,
@@ -41,7 +36,8 @@ class Sharepoint extends Component {
       image_shared_src: [],
       file_shared_src: []
     }
-    this.onShare = this.onShare.bind(this);
+
+    // this.toggleModal = this.toggleModal.bind(this);
   }
 
   redirectToLogin = () => {
@@ -81,35 +77,6 @@ class Sharepoint extends Component {
       if (networkData) {
         const contract = new web3.eth.Contract(Meme.abi, networkData.address)
         this.setState({ contract })
-
-        let imageSolArray, imageNameSolArray, usrname;
-        await contract.methods.get().call({ from: this.state.account }).then((r) => {
-          imageSolArray = r[0]
-          imageNameSolArray = r[1]
-          usrname = r[2]
-        })
-
-        if (usrname !== undefined) {
-          this.setState({ usrname })
-        }
-
-        if (imageNameSolArray !== undefined) {
-          this.setState({ imageNameSolArray: imageNameSolArray })
-        }
-
-        if (imageSolArray !== undefined) {
-          let imageHashes = imageSolArray.slice();
-          imageSolArray.forEach(function (item, index) {
-            let hashHex = "1220" + item.slice(2)
-            let hashBytes = Buffer.from(hashHex, 'hex')
-            let hashStr = bs58.encode(hashBytes)
-            imageHashes[index] = hashStr
-          });
-
-          // this.setState({ imageHashes: imageHashes })
-          this.setState({ imageHashesNotShared: imageHashes })
-        }
-
 
         // LOAD Shared images array
         let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray, dateSharedImage;
@@ -155,33 +122,24 @@ class Sharepoint extends Component {
             }
             this.setState({ image_shared_src: image_shared_src })
 
+            // SHARED IMAGES ITEMS
+            const imageItems = [];
+            for (let i = 0; i < image_shared_src.length; i++) {
+              imageItems.push({
+                id: i,
+                Name: Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[i]),
+                Image: this.state.image_shared_src[i].source,
+                From: this.state.usernameSharedWithUserSolArray[i],
+                Address: this.state.addressSharedwithUserSolArray[i],
+                Date: this.state.dateSharedImage[i]
+              });
+            }
+            this.setState({ imageItems })
           }
         });
 
-        // FILE GET REQUEST %%%%%%%%%%%%%%%%%%% GET MY UPLOADED FILES (IF ANY)
-        let fileSolArray, fileNameSolArray;
-        await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
-          fileSolArray = r[0]
-          fileNameSolArray = r[1]
-        })
 
-        if (fileNameSolArray !== undefined) {
-          this.setState({ fileNameSolArray: fileNameSolArray })
-        }
-
-        if (fileSolArray !== undefined) {
-          let fileHashes = fileSolArray.slice();
-          fileSolArray.forEach(function (item, index) {
-            let hashHex = "1220" + item.slice(2)
-            let hashBytes = Buffer.from(hashHex, 'hex')
-            let hashStr = bs58.encode(hashBytes)
-            fileHashes[index] = hashStr
-          });
-
-          this.setState({ fileHashesNotShared: fileHashes })
-        }
-
-        // LOAD Shared files array %%%%%%%%%%%%%%%%%%% GET THE FILES THAT WERE SHARED WITH ME
+        // LOAD Shared files array %%%%%%%%%%%%%%%
         let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile;
         await contract.methods.getSharedFileArr().call({ from: this.state.account }).then((r) => {
           fileSharedSolArray = r[0]
@@ -209,8 +167,6 @@ class Sharepoint extends Component {
             this.setState({ fileAddressSharedwithUserSolArray: fileAddressSharedwithUserSolArray })
             this.setState({ fileUsernameSharedWithUserSolArray: fileUsernameSharedWithUserSolArray })
 
-
-
             // let fileHashesSharedItems;
             // fileHashesSharedItems = this.state.fileHashesShared.map((file, index) => (
             //   <div>
@@ -232,12 +188,12 @@ class Sharepoint extends Component {
 
             // SHARED FILES ITEMS
             const items = [];
-
             for (let i = 0; i < file_shared_src.length; i++) {
               items.push({
                 id: i,
                 Name: Web3.utils.hexToAscii(this.state.fileNamesSharedSolArray[i]),
-                File: this.state.file_shared_src[i].source, From: this.state.fileUsernameSharedWithUserSolArray[i],
+                File: this.state.file_shared_src[i].source,
+                From: this.state.fileUsernameSharedWithUserSolArray[i],
                 Address: this.state.fileAddressSharedwithUserSolArray[i],
                 Date: this.state.dateSharedFile[i]
               });
@@ -259,87 +215,10 @@ class Sharepoint extends Component {
     }
   }
 
-  toggleModal(index) {
+  toggleModal = (index) => {
     this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
     this.setState({ img_index: index });
   }
-
-  onShare = async (e) => {
-
-    let input_address = this.inputAddress.value
-    let current_address = this.state.account
-    try {
-      if (this.state.image_links_to_be_shared.length === 0) {
-        alert('No image was selected to share. Please select an image first.')
-      } else if (!input_address) {
-        alert('No public address was entered. Please enter a public address.')
-      } else if (this.state.image_links_to_be_shared.length === 0) {
-        alert('No image was selected to share. Please select an image first.')
-      } else if (input_address.toLowerCase() === current_address.toLowerCase()) {
-        alert('Cannot share images with yourself')
-      } else {
-
-        let image_hash = this.state.image_links_to_be_shared.src.slice(28);
-        let img_hash_decoded = bs58.decode(image_hash).slice(2);
-        let hex_filename = this.state.imageNameSolArray[this.state.image_links_to_be_shared.value]
-
-        await this.state.contract.methods.shareImage(this.state.usrname, input_address, img_hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
-          window.location.reload();
-        })
-
-        // empty the array to check whether images were selected next time
-        this.setState({ image_links_to_be_shared: [] })
-      }
-
-    } catch (e) {
-      console.log(e);
-      alert("Wrong public address entered or request was rejected.")
-    }
-  }
-
-  onShareFile = async (e) => {
-
-    let input_address = this.inputAddressFile.value
-    let current_address = this.state.account
-    try {
-      if (this.state.file_links_to_be_shared.length === 0) {
-        alert('No file was selected to share. Please select a file first.')
-      } else if (!input_address) {
-        alert('No public address was entered. Please enter a public address.')
-      }
-      // else if (this.state.file_links_to_be_shared.length === 0) {
-      //   alert('No file was selected to share. Please select a file first.')
-      // } 
-      else if (input_address.toLowerCase() === current_address.toLowerCase()) {
-        alert('Cannot share files with yourself')
-      }
-      else {
-
-        let file_hash = this.state.file_links_to_be_shared.value.slice(28);
-        let file_hash_decoded = bs58.decode(file_hash).slice(2);
-        let hex_filename = this.state.fileNameSolArray[this.state.file_links_to_be_shared.idx]
-
-        await this.state.contract.methods.shareFile(this.state.usrname, input_address, file_hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
-          window.location.reload();
-        })
-
-        // empty the array to check whether files were selected next time
-        this.setState({ file_links_to_be_shared: [] })
-      }
-
-    } catch (e) {
-      console.log(e);
-      alert("Invalid public address entered or request was rejected.")
-    }
-  }
-
-  onPickImages(images) {
-    this.setState({ image_links_to_be_shared: images })
-  }
-
-  handleChange = (file_links_to_be_shared) => {
-    this.setState({ file_links_to_be_shared });
-  };
 
   captionImg = (idx) => {
     return (
@@ -369,13 +248,33 @@ class Sharepoint extends Component {
     });
   }
 
-
   customFooter = ({ isModal, currentView }) => isModal && (
     <div className="react-images__footer">
       <br></br>
       <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button>
     </div>
   );
+
+  renderImgItem(item, index) {
+
+
+
+    return (
+      // onChange={console.log("hello")}  onClick={()=>this.toggleModal(index).bind(this)}
+      // onClick={() => this.toggleModal(index)}
+      <tr key={index}>
+        <td>{item.id}</td>
+        <td style={{ color: '#80C2AF' }}>{item.Name}</td>
+        <td  >{<img className="img_shared" src={item.Image} alt="inputFile" />} </td>
+        <td>{item.From}</td>
+        <td>{item.Address}</td>
+        <td>{item.Date}</td>
+        {/* <td><button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button> */}
+        {/* </td> */}
+      </tr>
+    )
+    // .bind(this);
+  };
 
   renderItem(item, index) {
     return (
@@ -391,7 +290,6 @@ class Sharepoint extends Component {
 
   render() {
 
-    const { file_links_to_be_shared } = this.state;
     return (
       <div className="simple_bg ">
 
@@ -405,120 +303,83 @@ class Sharepoint extends Component {
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-
                         <Carousel
                           components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
                           currentIndex={this.state.img_index}
                           views={this.state.image_shared_src}
                           styles={{
-                            container: base => ({
-                              ...base,
-                              height: '100vh',
-                            }),
+                            container: base => ({ ...base, height: '100vh', }),
                             view: base => ({
-                              ...base,
-                              alignItems: 'center',
-                              display: 'flex ',
-                              height: 'calc(100vh - 54px)',
-                              justifyContent: 'center',
-
-                              '& > img': {
-                                maxHeight: 'calc(100vh - 94px)',
-                              },
+                              ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center',
+                              '& > img': { maxHeight: 'calc(100vh - 94px)', },
                             })
-
-                          }}
-                        />
+                          }} />
                       </Modal>
                     ) : ''}
                   </ModalGateway>
-
                   <div className="smaller_space"></div>
 
-                  {(this.state.imageHashesNotShared.length !== 0) ? (
-                    <div>
-                      <h4 className="mb-5">Select an image to share</h4>
-                      <ImagePicker className="image_picker"
-                        images={this.state.imageHashesNotShared.map((image, index) => ({ src: `https://ipfs.infura.io/ipfs/${image}`, value: index }))}
-                        onPick={this.onPickImages.bind(this)} />
 
-                      <div className="row">
-                        <div className="content mr-auto ml-auto">
-                          <div className="input-group mb-3 mt-5">
-                            <div className="input-group-prepend">
-                              <button className="btn btn_left_border" type="submit" onClick={(e) => this.onShare(e)}>Share image with:</button>
-                            </div>
-                            <input type="text" ref={address_input => (this.inputAddress = address_input)} className="form-control input_right_border shadow-none" placeholder="Enter public address" size="50" maxLength="42" required />
+                  <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
+                    defaultActiveKey="gallery" id="uncontrolled-tab-example">
+                    <Tab eventKey="gallery" title="Shared images">
+
+                      {(this.state.imageHashesShared.length !== 0) ? (
+                        <div>
+
+                          <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>From</th>
+                                <th>Address</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {this.state.imageItems.map(this.renderImgItem)}
+
+                            </tbody>
+                          </Table>
+
+
+                          <div className="mt-3 mb-5">
+                            {this.state.imageHashesSharedItems}
                           </div>
+
                         </div>
-                      </div>
-                    </div>) : <h3>No available images to be shared. Try uploading an image.</h3>}
+                      ) : <h3>No images shared with you.</h3>}
 
+                    </Tab>
+                    <Tab eventKey="files" title="Shared files">
 
+                      {(this.state.fileHashesShared.length !== 0) ? (
+                        <div>
 
+                          <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>File</th>
+                                <th>From</th>
+                                <th>Address</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
 
-                  {(this.state.fileHashesNotShared.length !== 0) ? (
-                    <div className="top_file_space">
-                      <h4 className="mb-5">Select a file to share</h4>
+                            <tbody>
+                              {this.state.items.map(this.renderItem)}
+                            </tbody>
 
-                      <Select className="file_picker mb-4"
-                        value={file_links_to_be_shared}
-                        onChange={this.handleChange}
-                        options={this.state.fileHashesNotShared.map((file, index) => ({
-                          value: `https://ipfs.infura.io/ipfs/${file}`,
-                          label: Web3.utils.hexToAscii(this.state.fileNameSolArray[index]),
-                          idx: index
-                        }))} />
+                          </Table>
 
-                      <br></br>
-                      <div className="row">
-                        <div className="content mr-auto ml-auto">
-                          <div className="input-group mb-3 mt-5">
-                            <div className="input-group-prepend">
-                              <button className="btn_left_border" type="submit" onClick={(e) => this.onShareFile(e)}>Share file with:</button>
-                            </div>
-                            <input type="text" ref={address_inputFile => (this.inputAddressFile = address_inputFile)} className="form-control input_right_border shadow-none" placeholder="Enter public address" size="50" maxLength="42" required />
-                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ) : <h3>No available files to be shared. Try uploading a file.</h3>}
+                      ) : <h3>No files shared with you.</h3>}
 
-                  {/* <br></br> */}
-
-                  {(this.state.imageHashesShared.length !== 0) ? (
-                    <div>
-                      <h4 className="mt-3 mb-5">Images shared with you</h4>
-                      {this.state.imageHashesSharedItems}
-                    </div>
-                  ) : <h3>No images shared with you.</h3>}
-
-                  <br></br>
-
-                  {(this.state.fileHashesShared.length !== 0) ? (
-                    <div>
-                      <h4 className="mb-5 mt-5">Files shared with you</h4>
-
-                      <Table striped bordered hover variant="dark" className="table">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>File</th>
-                            <th>From</th>
-                            <th>Address</th>
-                            <th>Date</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {this.state.items.map(this.renderItem)}
-                        </tbody>
-                      </Table>
-
-                    </div>
-                  ) : <h3>No files shared with you.</h3>}
-
-
-
+                    </Tab>
+                  </Tabs>
 
                   <div className="footer_space"></div>
                 </div>

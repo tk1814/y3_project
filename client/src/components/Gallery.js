@@ -3,13 +3,15 @@ import bs58 from 'bs58';
 import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
-import { BiDownload } from "react-icons/bi"; 
-import { RiUserShared2Line } from "react-icons/ri"; 
+import { BiDownload } from "react-icons/bi";
+import { RiUserShared2Line } from "react-icons/ri";
 import moment from "moment"
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import ModalForm from './ModalForm';
+import Figure from 'react-bootstrap/Figure'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ipfsClient = require('ipfs-http-client')
@@ -20,7 +22,7 @@ class Gallery extends Component {
     super(props);
     this.state = {
       username: '',
-      fileName: 'Choose an image',
+      fileName: 'Choose a file',
       imageItems: [],
       imageHashes: [],
       imageNameSolArray: [],
@@ -36,7 +38,10 @@ class Gallery extends Component {
       modalIsOpen: false,
       img_index: 0,
       image_src: [],
-      file_src: []
+      file_src: [],
+      shareModalIsOpen: null,
+      currentImgFileIndex: null,
+      typeOfFile: null
     }
   }
 
@@ -61,11 +66,6 @@ class Gallery extends Component {
         window.location.reload();
       }.bind(this))
     }
-  }
-
-  toggleModal(index) {
-    this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
-    this.setState({ img_index: index });
   }
 
   // Load account
@@ -102,9 +102,7 @@ class Gallery extends Component {
           this.setState({ dateUploadImg })
         }
 
-        // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
         if (imageNameSolArray !== undefined) {
-          // {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}
           this.setState({ imageNameSolArray: imageNameSolArray })
         }
 
@@ -125,7 +123,30 @@ class Gallery extends Component {
           imageItems = this.state.imageHashes.map((image, index) => (
             // if image != 0x00..
             //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
-            <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
+
+            // <div key={index} className='file_store' style={{  display: 'inline-block', position: 'relative' }}>
+            // <img onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" /> */}
+            // <p style={{ color: '#80C2AF' }}>{Web3.utils.hexToAscii(this.state.imageNameSolArray[index])}</p>
+            // <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(`https://ipfs.infura.io/ipfs/${image}`); }}><BiDownload size="1.8em" /></button>
+            //  <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => this.openModal(index)}><RiUserShared2Line size="1.7em" /></button>
+            // </div>
+
+            <Figure key={index} className="mr-4" style={{ textAlign: 'center' }} >
+              {/* className=" mb-2 mt-4" */}
+              <Figure.Image className="img"
+                // width={171}
+                // height={180}
+                alt="inputFile"
+                src={`https://ipfs.infura.io/ipfs/${image}`}
+                onClick={() => this.toggleModal(index)} />
+
+              <Figure.Caption className='caption' >
+                <p className="ml-3 mt-2 p1 image_name">{Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.')}</p>
+                <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, image, 'image')}><RiUserShared2Line size="1.4em" /></button>
+                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'image'); }}><BiDownload size="1.5em" /></button>
+
+              </Figure.Caption>
+            </Figure>
           ))
           this.setState({ imageItems: imageItems })
 
@@ -139,11 +160,7 @@ class Gallery extends Component {
           this.setState({ image_src: image_src })
         }
 
-
-
-
-
-
+        // FILES **************************
         let fileSolArray, fileNameSolArray, dateUploadFile;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0];
@@ -155,7 +172,6 @@ class Gallery extends Component {
           this.setState({ dateUploadFile })
         }
 
-        // let filename_ascii = Web3.utils.hexToAscii(shorten_filename)
         if (fileNameSolArray !== undefined) {
           this.setState({ fileNameSolArray: fileNameSolArray })
         }
@@ -176,14 +192,18 @@ class Gallery extends Component {
           let fileItems
           fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
 
-            <div key={index} className="file_store">
+            <div key={index} className="file_store mb-4">
               <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
                 <Page pageNumber={1} scale={0.35} />
               </Document>
 
-              <a style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
-              <p>{this.state.dateUploadFile[index]}</p>
-              <br></br><br></br>
+              <div className='caption'>
+                <a className='mb-4' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
+                <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
+                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file'); }}><BiDownload size="1.5em" /></button>
+
+                <p className='white-text' >{this.state.dateUploadFile[index]}</p>
+              </div>
             </div>
 
           ))
@@ -197,10 +217,6 @@ class Gallery extends Component {
           }
           this.setState({ file_src: file_src })
         }
-
-
-
-
 
       }
       else {
@@ -261,27 +277,22 @@ class Gallery extends Component {
         } else {
 
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
-          // let shorten_filename = this.state.fileName.slice(0, -4);
-          let shorten_filename = this.state.fileName;
+          let file_name = this.state.fileName;
 
-          let hex_filename = Web3.utils.asciiToHex(shorten_filename)
+          let hex_filename = Web3.utils.asciiToHex(file_name)
           if (hex_filename.length > 66)
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
 
+            let file_extension = file_name.split('.').pop();
 
-            let file_extension = shorten_filename.split('.').pop();
-            console.log(file_extension)
-
-            if (file_extension == 'pdf') {
-              await this.state.contract.methods.setFile(hash_decoded, hex_filename, moment().format('DD-MM-YYYY HH:mm')).send({ from: this.state.account }).then((r) => {
+            if (file_extension === 'pdf') {
+              await this.state.contract.methods.setFile(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
                 // refresh to get the new file array with get() of smart contract
                 window.location.reload();
               })
             } else {
-
               await this.state.contract.methods.set(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
-                // refresh to get the new image array with get() of smart contract
                 window.location.reload();
               })
             }
@@ -300,15 +311,15 @@ class Gallery extends Component {
 
   captionImg = (idx) => {
     return (
-      <div>
-        <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5>
-        <h5> {this.state.dateUploadImg[idx.currentIndex]}</h5>
-      </div>
+      // <div>
+      // {/* <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5> */}
+      <h5> {this.state.dateUploadImg[idx.currentIndex]}</h5>
+      // </div>
     )
   }
 
-  downloadImage = (img) => {
-    fetch(img, {
+  downloadFile = (file, typeOfFile) => {
+    fetch(file, {
       method: "GET",
       headers: {}
     }).then(response => {
@@ -316,7 +327,10 @@ class Gallery extends Component {
         const url = window.URL.createObjectURL(new Blob([buffer]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "image.png");
+        if (typeOfFile === 'file')
+          link.setAttribute("download", "file.pdf");
+        else if (typeOfFile === 'image')
+          link.setAttribute("download", "image.png");
         document.body.appendChild(link);
         link.click();
       });
@@ -325,16 +339,74 @@ class Gallery extends Component {
     });
   }
 
-  customFooter = ({ isModal, currentView }) => isModal && (
-    <div className="react-images__footer">
-      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button> 
-      {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><RiUserShared2Line size="1.8em" /></button>  */}
+  toggleModal(index) {
+    this.setState(state => ({ modalIsOpen: !state.modalIsOpen }));
+    this.setState({ img_index: index });
+  }
 
-    </div>
-  );
+  openModal = (currentImgFileIndex, link_to_be_shared, typeOfFile) => {
+    this.setState({ shareModalIsOpen: true });
+    this.setState({ link_to_be_shared })
+    this.setState({ currentImgFileIndex })
+    this.setState({ typeOfFile })
+  }
+
+  closeModal = () => { this.setState({ shareModalIsOpen: false }); }
+
+  handleSubmit = async (input_address) => {
+
+    let current_address = this.state.account
+    try {
+      if (!input_address) {
+        alert('No public address was entered. Please enter a public address.')
+      } else if (input_address.toLowerCase() !== current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        alert('Cannot share images with yourself')
+      } else {
+
+        let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
+
+        if (this.state.typeOfFile === 'image') {
+
+          let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
+          await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+            this.closeModal();
+            window.location.reload();
+          })
+
+        } else if (this.state.typeOfFile === 'file') {
+
+          let hex_filename = this.state.fileNameSolArray[this.state.currentImgFileIndex]
+          await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+            this.closeModal();
+            window.location.reload();
+          })
+
+        }
+
+
+
+
+
+        // empty the array to check whether images were selected next time
+        this.setState({ link_to_be_shared: null })
+      }
+
+    } catch (e) {
+      console.log(e);
+      alert("Wrong public address entered or request was rejected.")
+    }
+  }
+
+  // customFooter = ({ isModal, currentView }) => isModal && (
+  //   <div className="react-images__footer">
+  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button> */}
+  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={this.openModal}><RiUserShared2Line size="1.7em" /></button> */}
+  //   </div>
+  // );
 
 
   render() {
+
     return (
       <div className="gallery_bg">
         {(JSON.parse(localStorage.getItem('state'))) ?
@@ -366,34 +438,36 @@ class Gallery extends Component {
                 <main role="main" className="col-lg-12 d-flex text-center">
                   <div className="content mr-auto ml-auto">
 
-                    <Tabs className="file_space"  style={{ backgroundColor: '#222', borderBottom: '5px solid white' }} 
-                    defaultActiveKey="gallery" id="uncontrolled-tab-example">
+                    <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
+                      defaultActiveKey="gallery" id="uncontrolled-tab-example">
                       <Tab eventKey="gallery" title="Gallery">
-                       
-                      {(this.state.imageHashes.length !== 0 && this.state.fileHashes.length !== 0) ? (
 
-                        <div className="file_space mt-5">
-                          {/* <h4 className="mb-5 mt-5">Gallery</h4> */}
-                          {this.state.imageItems}
-                        </div>
+                        {(this.state.imageHashes.length !== 0) ? (
 
-                    ) : <h3>No files to display, try uploading one.</h3>}
+                          <div className="file_space mt-5">
+
+                            {this.state.imageItems}
+                            { this.state.shareModalIsOpen ?
+                              <ModalForm
+                                closeModal={this.closeModal}
+                                isOpen={this.state.shareModalIsOpen}
+                                handleSubmit={this.handleSubmit} /> : null}
+
+                          </div>
+                        ) : <h3 className="mt-5">No images to display, try uploading one.</h3>}
 
                       </Tab>
                       <Tab eventKey="files" title="Files">
-                        
-                      {(this.state.imageHashes.length !== 0 && this.state.fileHashes.length !== 0) ? (
 
-                        <div className="file_space mt-5">
-                          {/* <h4 className="mb-5 mt-5">Files</h4> */}
-                          {this.state.fileItems}
-                        </div>
+                        {(this.state.fileHashes.length !== 0) ? (
 
-                    ) : <h3>No files to display, try uploading one.</h3>}
+                          <div className="file_space mt-5">
+                            {this.state.fileItems}
+                          </div>
 
+                        ) : <h3 className="mt-5">No files to display, try uploading one.</h3>}
 
                       </Tab>
-
                     </Tabs>
 
                     {/* {(this.state.imageHashes.length !== 0 && this.state.fileHashes.length !== 0) ? (
@@ -429,7 +503,7 @@ class Gallery extends Component {
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
                           <Carousel
-                            components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
+                            components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this) 
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{
