@@ -359,9 +359,9 @@ class Sharepoint extends Component {
                           </Table>
 
 
-                          <div className="mt-3 mb-5">
+                          {/* <div className="mt-3 mb-5">
                             {this.state.imageHashesSharedItems}
-                          </div>
+                          </div> */}
 
                         </div>
                       ) : <h3>No images shared with you.</h3>}

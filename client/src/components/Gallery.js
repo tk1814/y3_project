@@ -209,16 +209,29 @@ class Gallery extends Component {
           fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
 
             <div key={index} className="file_store mb-4">
-              <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
+              {/* <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
                 <Page pageNumber={1} scale={0.35} />
-              </Document>
+              </Document> */}
+
+              <React.Fragment>
+                <div className="block-icon">
+                  <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2 block-icon">
+                    <Page pageNumber={1} scale={0.35} />
+                  </Document>
+
+                  <button className="btn btn_download download_icon icon-tag" type="button"
+                    onClick={() => this.openDetailsModal(index, file, 'file')}><BsInfoCircle size="1.2em" style={{ color: '#000' }} /></button>
+
+                </div>
+              </React.Fragment>
+
 
               <div className='caption'>
                 <a className='mb-4' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
                 <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
                 <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file'); }}><BiDownload size="1.5em" /></button>
 
-                <p className='white-text' >{this.state.dateUploadFile[index]}</p>
+                {/* <p className='white-text' >{this.state.dateUploadFile[index]}</p> */}
               </div>
             </div>
 
@@ -428,6 +441,12 @@ class Gallery extends Component {
 
   render() {
 
+    let fileType;
+    if (this.state.typeOfFile === 'image')
+      fileType = true
+    else if (this.state.typeOfFile === 'file')
+      fileType = false
+
     return (
       <div className="gallery_bg">
         {(JSON.parse(localStorage.getItem('state'))) ?
@@ -460,7 +479,7 @@ class Gallery extends Component {
                   <div className="content mr-auto ml-auto">
 
                     <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
-                      defaultActiveKey="files" id="uncontrolled-tab-example">
+                      defaultActiveKey="gallery" id="uncontrolled-tab-example">
                       <Tab eventKey="gallery" title="Gallery">
 
                         {(this.state.imageHashes.length !== 0) ? (
@@ -469,20 +488,34 @@ class Gallery extends Component {
 
                             {this.state.imageItems}
                             {this.state.shareModalIsOpen ?
-                              <ModalForm
+                              <ModalForm  
                                 closeModal={this.closeModal}
                                 isOpen={this.state.shareModalIsOpen}
                                 handleSubmit={this.handleSubmit} /> : null}
 
 
-                            {this.state.detailsModalIsOpen ?
-                              <ModalDetails
+                            {this.state.detailsModalIsOpen && fileType ?
+
+                              <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
                                 isOpen={this.state.detailsModalIsOpen}
-                                handleSubmit={this.handleSubmit}
+                                type={'Image name:        '}
+                                detailType={'Image Details'}
                                 fileName={Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.currentImgFileIndex])}
-                                fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]}
-                              /> : null}
+                                fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]} />
+
+                              : null}
+
+                            {this.state.detailsModalIsOpen && !fileType ?
+
+                              <ModalDetails  className='whitespace_wrap'
+                                closeModal={this.closeDetailsModal}
+                                isOpen={this.state.detailsModalIsOpen}
+                                type={'File name:            '}
+                                detailType={'File Details'}
+                                fileName={Web3.utils.hexToAscii(this.state.fileNameSolArray[this.state.currentImgFileIndex])}
+                                fileDate={this.state.dateUploadFile[this.state.currentImgFileIndex]} />
+                              : null}
 
 
                           </div>

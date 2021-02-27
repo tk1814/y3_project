@@ -81,6 +81,8 @@ contract Meme is Ownable, AccessControl {
       idUserData[_address].usernameSharedWithUser.push(_usrName);
       idUserData[_address].addressSharedWithUser.push(msg.sender); 
       idUserData[_address].dateImageShareWithUser.push(_date);
+
+      
     } 
     // return duplicateFound;
     //************** */ else alert user that it has already been shared with that user

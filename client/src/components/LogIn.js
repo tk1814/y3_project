@@ -17,11 +17,12 @@ class LogIn extends Component {
       account: null,
       inputUsername: '',
       correctUsername: "unregistered",
-      wrongUsrname: false
+      wrongUsrname: false,
+      acceptTerms: false,
+      showWarningNotAcceptedTerms: false
     }
     // this.onSignUp = this.onSignUp.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
-
   }
 
   async componentWillMount() { // Lifecycle https://stackoverflow.com/questions/38814764/componentwillmount-is-called-twice
@@ -46,7 +47,7 @@ class LogIn extends Component {
   async loadNetworkData() {
 
     if (typeof window.ethereum !== 'undefined') {
-      
+
       const web3 = new Web3(window.ethereum)
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
@@ -81,7 +82,6 @@ class LogIn extends Component {
     }
   }
 
-
   redirectToGallery = () => {
     const { history } = this.props;
     if (history) history.push('/gallery');
@@ -94,23 +94,31 @@ class LogIn extends Component {
     if ((this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) && !/\s/.test(this.state.inputUsername)) {
       this.setState({ wrongUsrname: false })
 
-      try {
-        // check username size dipls? 
-        await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername).send({ from: this.state.account }).then((r) => {
-          localStorage.setItem('state', JSON.stringify(true));
+      if (this.state.acceptTerms) {
+        this.setState({ showWarningNotAcceptedTerms: false })
+        this.setState({ wrongUsrname: false })
+        try {
+          // check username size dupls? 
+          await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername).send({ from: this.state.account }).then((r) => {
+            localStorage.setItem('state', JSON.stringify(true));
 
-          this.redirectToGallery();
-          window.location.reload();
-        })
-        event.preventDefault()
-      } catch (e) {
-        localStorage.setItem('state', JSON.stringify(false));
-        console.log('Error logging in', e)
+            this.redirectToGallery();
+            window.location.reload();
+          })
+          event.preventDefault()
+        } catch (e) {
+          localStorage.setItem('state', JSON.stringify(false));
+          console.log('Error logging in', e)
+        }
       }
+      else {
+        this.setState({ showWarningNotAcceptedTerms: true })
+      }
+
     } else if (this.state.inputUsername !== this.state.correctUsername) { //this.state.inputUsername.indexOf(' ') >= 0 ||
       this.setState({ wrongUsrname: true })
+      this.setState({ showWarningNotAcceptedTerms: false })
     }
-
   }
 
   handleOnChange = (event) => {
@@ -120,7 +128,6 @@ class LogIn extends Component {
   render() {
     return (
       <div className='login'>
-        {/* <h2>Log In</h2> */}
         <div className="container-fluid">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
@@ -129,12 +136,18 @@ class LogIn extends Component {
 
                   <div className="top_login_space">
                     <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
-
                     <form onSubmit={(e) => { this.onSignUp(e) }}>
                       <label>
                         <input type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
                       </label>
-                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified, please try again.</div>}
+
+                      <br></br>
+                      <input type="checkbox" id="agree" onChange={() => this.setState(state => ({ acceptTerms: !state.acceptTerms }))} />
+                      <label htmlFor="agree" style={{textIndent: '0.5em'}}><p> I agree to terms and conditions.*</p></label>
+
+                      {this.state.showWarningNotAcceptedTerms && <div className="err">You have not accepted the terms and conditions, please accept to proceed.</div>}
+
+                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified. <br></br> Please check that the username is without whitespaces.</div>}
                       <br></br>
 
                       <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>
@@ -144,7 +157,6 @@ class LogIn extends Component {
                                             onClick={(e) => { this.onSignUp(e) }}>Login</button> */}
 
                   </div>
-                  // <LogInButton onSignUp={this.onSignUp}></LogInButton>
 
                 ) : <h3>You are already logged in</h3>}
               </div>
