@@ -95,16 +95,13 @@ class Sharepoint extends Component {
             && usernameSharedWithUserSolArray !== undefined) {
             let imageHashesShared = imageSharedSolArray.slice()
             imageSharedSolArray.forEach(function (item, index) {
-              let hashHex = "1220" + item.slice(2)
-              let hashBytes = Buffer.from(hashHex, 'hex');
-              let hashStr = bs58.encode(hashBytes)
-              imageHashesShared[index] = hashStr
+              imageHashesShared[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
             });
 
-            this.setState({ imageHashesShared: imageHashesShared })
-            this.setState({ imageNamesSharedSolArray: imageNamesSharedSolArray })
-            this.setState({ addressSharedwithUserSolArray: addressSharedwithUserSolArray })
-            this.setState({ usernameSharedWithUserSolArray: usernameSharedWithUserSolArray })
+            this.setState({ imageHashesShared })
+            this.setState({ imageNamesSharedSolArray })
+            this.setState({ addressSharedwithUserSolArray })
+            this.setState({ usernameSharedWithUserSolArray })
 
             // IMAGE LAYOUT %%%%%%%%%%%%
             let imageHashesSharedItems
@@ -156,26 +153,13 @@ class Sharepoint extends Component {
             && fileUsernameSharedWithUserSolArray !== undefined) {
             let fileHashesShared = fileSharedSolArray.slice()
             fileSharedSolArray.forEach(function (item, index) {
-              let hashHex = "1220" + item.slice(2)
-              let hashBytes = Buffer.from(hashHex, 'hex');
-              let hashStr = bs58.encode(hashBytes)
-              fileHashesShared[index] = hashStr
+              fileHashesShared[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
             });
 
-            this.setState({ fileHashesShared: fileHashesShared })
-            this.setState({ fileNamesSharedSolArray: fileNamesSharedSolArray })
-            this.setState({ fileAddressSharedwithUserSolArray: fileAddressSharedwithUserSolArray })
-            this.setState({ fileUsernameSharedWithUserSolArray: fileUsernameSharedWithUserSolArray })
-
-            // let fileHashesSharedItems;
-            // fileHashesSharedItems = this.state.fileHashesShared.map((file, index) => (
-            //   <div>
-            //     {/* <a href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a> */}
-            //     {/* <h5 className="mt-2"> From: {this.state.fileUsernameSharedWithUserSolArray[index]} </h5> */}
-            //     {/* <h5 className="mb-2"> Shared by: {this.state.fileAddressSharedwithUserSolArray[index]} </h5> */}
-            //   </div>
-            // ))
-            // this.setState({ fileHashesSharedItems: fileHashesSharedItems })
+            this.setState({ fileHashesShared })
+            this.setState({ fileNamesSharedSolArray })
+            this.setState({ fileAddressSharedwithUserSolArray })
+            this.setState({ fileUsernameSharedWithUserSolArray })
 
             let file_shared_src = [];
             let hashes = this.state.fileHashesShared.map((file, index) =>
@@ -220,18 +204,9 @@ class Sharepoint extends Component {
     this.setState({ img_index: index });
   }
 
-  captionImg = (idx) => {
-    return (
-      <div>
-        {/* <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5> */}
-        {/* <h5> {this.state.dateSharedImage[idx.currentIndex]}</h5> */}
-        {/* <h5 className="mb-2"> {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} - {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5> */}
-      </div>
-    )
-  }
-
-  downloadImage = (img) => {
-    fetch(img, {
+  downloadFile = (file, typeOfFile, nameWithExt) => {
+    let file_name = nameWithExt.split('.').slice(0, -1).join('.')
+    fetch(file, {
       method: "GET",
       headers: {}
     }).then(response => {
@@ -239,7 +214,12 @@ class Sharepoint extends Component {
         const url = window.URL.createObjectURL(new Blob([buffer]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "image.png");
+        if (typeOfFile === 'file')
+          link.setAttribute("download", file_name + ".pdf");
+        else if (typeOfFile === 'image')
+          link.setAttribute("download", file_name + ".png");
+        else if (typeOfFile === 'gif')
+          link.setAttribute("download", file_name + ".gif");
         document.body.appendChild(link);
         link.click();
       });
@@ -247,31 +227,6 @@ class Sharepoint extends Component {
       console.log(err);
     });
   }
-
-  // customFooter = ({ isModal, currentView }) => isModal && (
-  //   <div className="react-images__footer">
-  //     <br></br>
-  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button> */}
-  //   </div>
-  // );
-
-  // renderImgItem(item, index) {
-  //   return (
-  //     // onChange={console.log("hello")}  onClick={()=>this.toggleModal(index).bind(this)}
-  //     // onClick={() => this.toggleModal(index)}
-  //     <tr key={index}>
-  //       <td>{item.id}</td>
-  //       <td style={{ color: '#80C2AF' }}>{item.Name}</td>
-  //       <td  >{<img className="img_shared" src={item.Image} alt="inputFile" />} </td>
-  //       <td>{item.From}</td>
-  //       <td>{item.Address}</td>
-  //       <td>{item.Date}</td>
-  //       {/* <td><button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button> */}
-  //       {/* </td> */}
-  //     </tr>
-  //   )
-  //   // .bind(this);
-  // };
 
   renderItem(item, index) {
     return (
@@ -283,7 +238,7 @@ class Sharepoint extends Component {
         <td>{item.Date}</td>
       </tr>
     )
-  }; //////// IF ALREADY SHARED IT DOES NOT PUT IN THE MEME ARRAY     
+  };    
 
   render() {
 
@@ -301,7 +256,6 @@ class Sharepoint extends Component {
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                         <Carousel
-                          components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this)
                           currentIndex={this.state.img_index}
                           views={this.state.image_shared_src}
                           styles={{
@@ -317,13 +271,13 @@ class Sharepoint extends Component {
                   <div className="smaller_space"></div>
 
 
-                  <Tabs className="file_space table" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
+                  <Tabs className="file_space table"
                     defaultActiveKey="gallery" id="uncontrolled-tab-example">
                     <Tab eventKey="gallery" title="Shared images">
 
                       {(this.state.imageHashesShared.length !== 0) ? (
-                        <div>
-
+                        <div style={{display: 'table-cell'}}>
+                    
                           <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
                             <thead>
                               <tr>
@@ -337,12 +291,8 @@ class Sharepoint extends Component {
                               </tr>
                             </thead>
                             <tbody>
-                              {/* {this.state.imageItems.map(this.renderImgItem)} */}
-                              {/* <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" /> */}
-
 
                               {this.state.imageItems.map((item, index) => (
-
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td style={{ color: '#80C2AF' }}>{item.Name}</td>
@@ -350,24 +300,23 @@ class Sharepoint extends Component {
                                   <td>{item.From}</td>
                                   <td>{item.Address}</td>
                                   <td> {item.Date}</td>
-                                  <td><button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button></td>
+                                  <td><button className="btn btn_download download_icon" type="button" onClick={() => {
+                                    if (item.Name.match(/.(gif)/i))
+                                      this.downloadFile(item.Image, 'gif', item.Name);
+                                    else
+                                      this.downloadFile(item.Image, 'image', item.Name);
+                                  }}><BiDownload size="1.8em" /></button></td>
                                 </tr>
-
                               ))}
 
                             </tbody>
                           </Table>
 
-
-                          {/* <div className="mt-3 mb-5">
-                            {this.state.imageHashesSharedItems}
-                          </div> */}
-
                         </div>
-                      ) : <h3>No images shared with you.</h3>}
+                      ) : <h3 className='mt-5'>No images shared with you.</h3>}
 
                     </Tab>
-                    <Tab eventKey="files" title="Shared files">
+                    <Tab eventKey="files" title="Shared files table">
 
                       {(this.state.fileHashesShared.length !== 0) ? (
                         <div>
@@ -390,7 +339,7 @@ class Sharepoint extends Component {
                           </Table>
 
                         </div>
-                      ) : <h3>No files shared with you.</h3>}
+                      ) : <h3 className='mt-5'>No files shared with you.</h3>}
 
                     </Tab>
                   </Tabs>

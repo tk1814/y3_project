@@ -19,7 +19,8 @@ class LogIn extends Component {
       correctUsername: "unregistered",
       wrongUsrname: false,
       acceptTerms: false,
-      showWarningNotAcceptedTerms: false
+      showWarningNotAcceptedTerms: false,
+      newUser: false
     }
     // this.onSignUp = this.onSignUp.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
@@ -64,10 +65,13 @@ class LogIn extends Component {
           username = r[2]
         }).catch((err) => {
           console.log("New user");
+          this.setState({newUser: true})
         });
 
+        // if user created an account
         if (username !== undefined) {
           console.log(username)
+          this.setState({ acceptTerms: true })
           this.setState({ correctUsername: username })
         }
       }
@@ -90,7 +94,7 @@ class LogIn extends Component {
   onSignUp = async (event) => {
     event.preventDefault();
 
-    // no whitespaces
+    // if user not registered OR put correct username AND without whitespaces
     if ((this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) && !/\s/.test(this.state.inputUsername)) {
       this.setState({ wrongUsrname: false })
 
@@ -99,7 +103,7 @@ class LogIn extends Component {
         this.setState({ wrongUsrname: false })
         try {
           // check username size dupls? 
-          await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername).send({ from: this.state.account }).then((r) => {
+          await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername, 'Accepted Terms and Conditions: ' + Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
             localStorage.setItem('state', JSON.stringify(true));
 
             this.redirectToGallery();
@@ -142,12 +146,16 @@ class LogIn extends Component {
                       </label>
 
                       <br></br>
+
+                      {this.state.newUser &&
+                      <div>
                       <input type="checkbox" id="agree" onChange={() => this.setState(state => ({ acceptTerms: !state.acceptTerms }))} />
                       <label htmlFor="agree" style={{textIndent: '0.5em'}}><p> I agree to terms and conditions.*</p></label>
+                      </div>}
+                      
+                      {this.state.newUser && this.state.showWarningNotAcceptedTerms && <div className="err">You have not accepted terms and conditions, please accept to proceed.</div>}
 
-                      {this.state.showWarningNotAcceptedTerms && <div className="err">You have not accepted the terms and conditions, please accept to proceed.</div>}
-
-                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified. <br></br> Please check that the username is without whitespaces.</div>}
+                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified. <br></br> Or check that the username is without whitespaces.</div>}
                       <br></br>
 
                       <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>

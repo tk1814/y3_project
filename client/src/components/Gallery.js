@@ -13,8 +13,6 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 import ModalDetails from './ModalDetails';
-import Form from 'react-bootstrap/Form'
-
 import Figure from 'react-bootstrap/Figure'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -30,10 +28,14 @@ class Gallery extends Component {
       imageItems: [],
       imageHashes: [],
       imageNameSolArray: [],
+      imageAddressUserSharedWithSol: [],
+      imageHashUserSharedWith: [],
+      dateUploadImg: [],
       fileItems: [],
       fileHashes: [],
       fileNameSolArray: [],
-      dateUploadImg: [],
+      fileAddressUserSharedWithSol: [],
+      fileHashUserSharedWith: [],
       dateUploadFile: [],
       contract: null,
       web3: null,
@@ -46,7 +48,8 @@ class Gallery extends Component {
       shareModalIsOpen: null,
       currentImgFileIndex: null,
       typeOfFile: null,
-      detailsModalIsOpen: null
+      detailsModalIsOpen: null,
+      alreadyShared: false
     }
   }
 
@@ -91,13 +94,27 @@ class Gallery extends Component {
         // ----Minimise repetition btn Gallery and LogIn
         // ----mby call loadWeb3 from LogIn.js
 
-        let imageSolArray, imageNameSolArray, username, dateUploadImg;
+        let imageSolArray, imageNameSolArray, username, dateUploadImg, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
         await contract.methods.get().call({ from: this.state.account }).then((r) => {
           imageSolArray = r[0];
           imageNameSolArray = r[1]
           username = r[2]
           dateUploadImg = r[3]
+          imageAddressUserSharedWithSol = r[4]
+          imageHashUserSharedWithSol = r[5]
         })
+
+        if (imageAddressUserSharedWithSol !== undefined) {
+          this.setState({ imageAddressUserSharedWithSol })
+        }
+
+        if (imageHashUserSharedWithSol !== undefined) {
+          let imageHashUserSharedWith = imageHashUserSharedWithSol.slice();
+          imageHashUserSharedWithSol.forEach(function (item, index) {
+            imageHashUserSharedWith[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
+          });
+          this.setState({ imageHashUserSharedWith })
+        }
 
         if (username !== undefined) {
           this.setState({ username })
@@ -108,20 +125,17 @@ class Gallery extends Component {
         }
 
         if (imageNameSolArray !== undefined) {
-          this.setState({ imageNameSolArray: imageNameSolArray })
+          this.setState({ imageNameSolArray })
         }
 
         if (imageSolArray !== undefined) {
           // Did the hashes, imageHashes is ready to display
           let imageHashes = imageSolArray.slice();
           imageSolArray.forEach(function (item, index) {
-            let hashHex = "1220" + item.slice(2)
-            let hashBytes = Buffer.from(hashHex, 'hex');
-            let hashStr = bs58.encode(hashBytes)
-            imageHashes[index] = hashStr;
+            imageHashes[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
           });
 
-          this.setState({ imageHashes: imageHashes })
+          this.setState({ imageHashes })
 
           // IMAGE LAYOUT %%%%%%%%%%%%
           let imageItems
@@ -130,41 +144,33 @@ class Gallery extends Component {
             //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
 
             <Figure key={index} className="mr-4" style={{ textAlign: 'center' }} >
-
-              {/* <Figure.Image className="img"
-                // width={171}
-                // height={180}
-                alt="inputFile"
-                src={`https://ipfs.infura.io/ipfs/${image}`}
-                onClick={() => this.toggleModal(index)} /> */}
-              {/* <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'image'); }}><BsInfoCircle size="1.5em" /></button> */}
-
               <React.Fragment>
                 <div className="block-icon">
-
                   <Figure.Image className="img"
                     alt="inputFile"
                     src={`https://ipfs.infura.io/ipfs/${image}`}
                     onClick={() => this.toggleModal(index)} />
 
                   <button className="btn btn_download download_icon icon-tag" type="button"
-                    onClick={() => this.openDetailsModal(index, image, 'image')}
-
+                    onClick={() => this.openDetailsModal(index, 'image')}
                   ><BsInfoCircle size="1.2em" /></button>
-
                 </div>
               </React.Fragment>
-
 
               <Figure.Caption className='caption' >
                 <p className="ml-3 mt-2 p1 image_name">{Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.')}</p>
                 <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, image, 'image')}><RiUserShared2Line size="1.4em" /></button>
-                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'image'); }}><BiDownload size="1.5em" /></button>
+                <button className="btn btn_download download_icon" type="button" onClick={() => {
+                  if (Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).match(/.(gif)/i))
+                    this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'gif', Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.'));
+                  else
+                    this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'image', Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.'));
+                }}><BiDownload size="1.5em" /></button>
 
               </Figure.Caption>
             </Figure>
           ))
-          this.setState({ imageItems: imageItems })
+          this.setState({ imageItems })
 
           let image_src = [];
           let hashes = this.state.imageHashes.map((image, index) =>
@@ -173,46 +179,54 @@ class Gallery extends Component {
           for (let i = 0; i < hashes.length; i++) {
             image_src.push({ source: hashes[i] })
           }
-          this.setState({ image_src: image_src })
+          this.setState({ image_src })
         }
 
         // FILES **************************
-        let fileSolArray, fileNameSolArray, dateUploadFile;
+        let fileSolArray, fileNameSolArray, dateUploadFile, fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0];
           fileNameSolArray = r[1]
           dateUploadFile = r[3]
+          fileAddressUserSharedWithSol = r[4]
+          fileHashUserSharedWithSol = r[5]
         })
+
+        if (fileAddressUserSharedWithSol !== undefined) {
+          this.setState({ fileAddressUserSharedWithSol })
+        }
+
+        if (fileHashUserSharedWithSol !== undefined) {
+          let fileHashUserSharedWith = fileHashUserSharedWithSol.slice();
+          fileHashUserSharedWithSol.forEach(function (item, index) {
+            fileHashUserSharedWith[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
+          });
+          this.setState({ fileHashUserSharedWith })
+        }
 
         if (dateUploadFile !== undefined) {
           this.setState({ dateUploadFile })
         }
 
         if (fileNameSolArray !== undefined) {
-          this.setState({ fileNameSolArray: fileNameSolArray })
+          this.setState({ fileNameSolArray })
         }
 
+        // Did the hashes, fileHashes is ready to display
         if (fileSolArray !== undefined) {
-          // Did the hashes, fileHashes is ready to display
           let fileHashes = fileSolArray.slice();
           fileSolArray.forEach(function (item, index) {
-            let hashHex = "1220" + item.slice(2)
-            let hashBytes = Buffer.from(hashHex, 'hex');
-            let hashStr = bs58.encode(hashBytes)
-            fileHashes[index] = hashStr;
+            fileHashes[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
+
           });
 
-          this.setState({ fileHashes: fileHashes })
+          this.setState({ fileHashes })
 
           // FILE LAYOUT %%%%%%%%%%%%
           let fileItems
           fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
 
             <div key={index} className="file_store mb-4">
-              {/* <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2">
-                <Page pageNumber={1} scale={0.35} />
-              </Document> */}
-
               <React.Fragment>
                 <div className="block-icon">
                   <Document file={`https://ipfs.infura.io/ipfs/${file}`} className="mb-2 block-icon">
@@ -220,7 +234,7 @@ class Gallery extends Component {
                   </Document>
 
                   <button className="btn btn_download download_icon icon-tag" type="button"
-                    onClick={() => this.openDetailsModal(index, file, 'file')}><BsInfoCircle size="1.2em" style={{ color: '#000' }} /></button>
+                    onClick={() => this.openDetailsModal(index, 'file')}><BsInfoCircle size="1.2em" style={{ color: '#000' }} /></button>
 
                 </div>
               </React.Fragment>
@@ -229,14 +243,12 @@ class Gallery extends Component {
               <div className='caption'>
                 <a className='mb-4' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
                 <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
-                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file'); }}><BiDownload size="1.5em" /></button>
-
-                {/* <p className='white-text' >{this.state.dateUploadFile[index]}</p> */}
+                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file', Web3.utils.hexToAscii(this.state.fileNameSolArray[index]).split('.').slice(0, -1).join('.')); }}><BiDownload size="1.5em" /></button>
               </div>
             </div>
 
           ))
-          this.setState({ fileItems: fileItems })
+          this.setState({ fileItems })
           let file_src = [];
           let hashes = this.state.fileHashes.map((file, index) =>
             `https://ipfs.infura.io/ipfs/${file}`)
@@ -244,7 +256,7 @@ class Gallery extends Component {
           for (let i = 0; i < hashes.length; i++) {
             file_src.push({ source: hashes[i] })
           }
-          this.setState({ file_src: file_src })
+          this.setState({ file_src })
         }
 
       }
@@ -260,17 +272,6 @@ class Gallery extends Component {
     }
   }
 
-  // deleteImg(e, index) {
-  //   console.log(index)
-  //   let img_hashes = this.state.imageHashes.splice(index, 1);
-  //   this.setState({ imageHashes: img_hashes });
-  //   // await 
-  //   this.state.contract.methods.deleteImage(this.state.account, index).send({ from: this.state.account }).then((r) => {
-  //     window.location.reload();
-  //   })
-  //   console.log(this.state.imageHashes)
-  // }
-
   // Called whenever a file is uploaded, converts it to appropriate format for IPFS
   // stores the file in this component's state
   captureFile = (event) => {
@@ -278,7 +279,7 @@ class Gallery extends Component {
     event.preventDefault()
     const file = event.target.files[0]     // access file from user input
     const fileName = event.target.files[0].name;
-    this.setState({ fileName: fileName })
+    this.setState({ fileName })
     const reader = new window.FileReader()
     reader.readAsArrayBuffer(file)
     // after reader finishes, initialise buffer and store in component state
@@ -299,28 +300,29 @@ class Gallery extends Component {
       try {
         const file = await ipfs.add(this.state.buffer)
         let file_hash = file.path //https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
+        let file_name = this.state.fileName;
 
-        // check if hash exists so the user does not pay to re-execute the contract
-        if (this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
+        // check if hash exists so the user does not pay to re-execute the contract <<<<<<<<<<<<<<<<<<
+
+        if (file_name.match(/.(jpg|jpeg|gif)$/i) && this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
           alert('This image already exists. Please select a different one.');
+        } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
+          alert('This file already exists. Please select a different one.');
         } else {
 
           let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
-          let file_name = this.state.fileName;
-
           let hex_filename = Web3.utils.asciiToHex(file_name)
+
           if (hex_filename.length > 66)
             alert("File name is too large to be stored in the blockchain, please try a shorter name.")
           else {
 
-            let file_extension = file_name.split('.').pop();
-
-            if (file_extension === 'pdf') {
+            if (file_name.match(/.(pdf)$/i)) {
               await this.state.contract.methods.setFile(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
                 // refresh to get the new file array with get() of smart contract
                 window.location.reload();
               })
-            } else {
+            } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
               await this.state.contract.methods.set(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
                 window.location.reload();
               })
@@ -338,16 +340,8 @@ class Gallery extends Component {
     }
   }
 
-  // captionImg = (idx) => {
-  //   return (
-  //     // <div>
-  //     // {/* <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5> */}
-  //     // <h5> {this.state.dateUploadImg[idx.currentIndex]}</h5>
-  //     // </div>
-  //   )
-  // }
-
-  downloadFile = (file, typeOfFile) => {
+  downloadFile = (file, typeOfFile, nameWithoutExt) => {
+    console.log(nameWithoutExt)
     fetch(file, {
       method: "GET",
       headers: {}
@@ -357,9 +351,11 @@ class Gallery extends Component {
         const link = document.createElement("a");
         link.href = url;
         if (typeOfFile === 'file')
-          link.setAttribute("download", "file.pdf");
+          link.setAttribute("download", nameWithoutExt + ".pdf");
         else if (typeOfFile === 'image')
-          link.setAttribute("download", "image.png");
+          link.setAttribute("download", nameWithoutExt + ".png");
+        else if (typeOfFile === 'gif')
+          link.setAttribute("download", nameWithoutExt + ".gif");
         document.body.appendChild(link);
         link.click();
       });
@@ -374,15 +370,16 @@ class Gallery extends Component {
   }
 
   openModal = (currentImgFileIndex, link_to_be_shared, typeOfFile) => {
+    // set to false to remove the warning for the next share
+    this.setState({ alreadyShared: false })
     this.setState({ shareModalIsOpen: true });
     this.setState({ link_to_be_shared })
     this.setState({ currentImgFileIndex })
     this.setState({ typeOfFile })
   }
 
-  openDetailsModal = (currentImgFileIndex, link_to_be_shared, typeOfFile) => {
+  openDetailsModal = (currentImgFileIndex, typeOfFile) => {
     this.setState({ detailsModalIsOpen: true });
-    // this.setState({ link_to_be_shared })
     this.setState({ currentImgFileIndex })
     this.setState({ typeOfFile })
   }
@@ -397,7 +394,7 @@ class Gallery extends Component {
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      } else if (input_address.toLowerCase() !== current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         alert('Cannot share images with yourself')
       } else {
 
@@ -405,20 +402,32 @@ class Gallery extends Component {
 
         if (this.state.typeOfFile === 'image') {
 
-          let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
-          await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
-            this.closeModal();
-            window.location.reload();
-          })
+          if (this.state.imageHashUserSharedWith.find(img_itm => img_itm === this.state.link_to_be_shared)
+            && this.state.imageAddressUserSharedWithSol.find(img_addr => img_addr === input_address))
+            this.setState({ alreadyShared: true })
+
+          else {
+
+            let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
+            await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+              this.closeModal();
+              window.location.reload();
+            })
+          }
 
         } else if (this.state.typeOfFile === 'file') {
 
-          let hex_filename = this.state.fileNameSolArray[this.state.currentImgFileIndex]
-          await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
-            this.closeModal();
-            window.location.reload();
-          })
+          if (this.state.fileHashUserSharedWith.find(file_itm => file_itm === this.state.link_to_be_shared)
+            && this.state.fileAddressUserSharedWithSol.find(file_addr => file_addr === input_address))
+            this.setState({ alreadyShared: true })
+          else {
 
+            let hex_filename = this.state.fileNameSolArray[this.state.currentImgFileIndex]
+            await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+              this.closeModal();
+              window.location.reload();
+            })
+          }
         }
 
         // empty the array to check whether images were selected next time
@@ -426,18 +435,13 @@ class Gallery extends Component {
       }
 
     } catch (e) {
+      // set to false to remove the warning for the next share
+      this.setState({ alreadyShared: false })
+      this.closeModal();
       console.log(e);
-      alert("Wrong public address entered or request was rejected.")
+      // alert("Wrong public address entered or request was rejected.")
     }
   }
-
-  // customFooter = ({ isModal, currentView }) => isModal && (
-  //   <div className="react-images__footer">
-  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button> */}
-  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={this.openModal}><RiUserShared2Line size="1.7em" /></button> */}
-  //   </div>
-  // );
-
 
   render() {
 
@@ -463,7 +467,7 @@ class Gallery extends Component {
                       <form className="input-group mt-3" onSubmit={this.onSubmit} >
                         <input type="file" accept="image/*, application/pdf" onChange={this.captureFile} className="custom-file-input" /> {/* mx-sm-3 */}
                         <label className="custom-file-label radiu">{this.state.fileName}</label>
-                        <button type='submit' className="btn submit_btn mt-4 container">Submit</button>
+                        <button type='submit' className="btn submit_btn mt-4 container input_box">Submit</button>
                       </form>
 
                     </div>
@@ -478,7 +482,7 @@ class Gallery extends Component {
                 <main role="main" className="col-lg-12 d-flex text-center">
                   <div className="content mr-auto ml-auto">
 
-                    <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
+                    <Tabs className="file_space table"
                       defaultActiveKey="gallery" id="uncontrolled-tab-example">
                       <Tab eventKey="gallery" title="Gallery">
 
@@ -488,10 +492,13 @@ class Gallery extends Component {
 
                             {this.state.imageItems}
                             {this.state.shareModalIsOpen ?
-                              <ModalForm  
+                              <ModalForm
                                 closeModal={this.closeModal}
                                 isOpen={this.state.shareModalIsOpen}
-                                handleSubmit={this.handleSubmit} /> : null}
+                                handleSubmit={this.handleSubmit}
+                                shared={this.state.alreadyShared}
+
+                              /> : null}
 
 
                             {this.state.detailsModalIsOpen && fileType ?
@@ -508,7 +515,7 @@ class Gallery extends Component {
 
                             {this.state.detailsModalIsOpen && !fileType ?
 
-                              <ModalDetails  className='whitespace_wrap'
+                              <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
                                 isOpen={this.state.detailsModalIsOpen}
                                 type={'File name:            '}
@@ -542,7 +549,6 @@ class Gallery extends Component {
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
                           <Carousel
-                            // components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this) 
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{
