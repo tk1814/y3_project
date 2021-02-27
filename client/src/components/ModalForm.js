@@ -13,12 +13,6 @@ export default class ModalForm extends Component {
     return (
 
       <div>
-      <div
-      // className="d-flex align-items-center justify-content-center"
-      // style={{ height: "100vh" }}
-      // style={{ backgroundColor: '#222'}}
-      >
-      </div>
 
       <Modal className='modal'
         show={this.props.isOpen}

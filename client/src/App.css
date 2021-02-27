@@ -162,10 +162,29 @@
 .img {
   /* margin: 0 16px; */
   /* float: left; */
-  width:  185px;
+  width:  215px;
   height: 185px;
   object-fit: cover;
+  border-radius: 4px;
 }
+
+.block-icon {
+  position: relative;
+  display: inline-flex;
+}
+
+.icon-tag {
+  position: absolute;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  /* width: 10px !important; */
+  /* height: 10px !important; */
+}
+
+
+
 
 .img_shared {
   width:  135px;
@@ -303,9 +322,9 @@ html {
 }
 
 .table {
-  /* background-color: #222; */
+  /* background-color: #222;  //<<<<<<<<<<<<<<<<<<<<<<< */
 
-  width: 900px; 
+  width: 1000px; 
   margin-left: auto;
   margin-right: auto; 
 }

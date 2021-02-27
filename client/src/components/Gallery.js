@@ -4,6 +4,7 @@ import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
+import { BsInfoCircle } from "react-icons/bs";
 import { RiUserShared2Line } from "react-icons/ri";
 import moment from "moment"
 import { Document, Page } from 'react-pdf';
@@ -11,6 +12,9 @@ import { pdfjs } from 'react-pdf';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
+import ModalDetails from './ModalDetails';
+import Form from 'react-bootstrap/Form'
+
 import Figure from 'react-bootstrap/Figure'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -41,7 +45,8 @@ class Gallery extends Component {
       file_src: [],
       shareModalIsOpen: null,
       currentImgFileIndex: null,
-      typeOfFile: null
+      typeOfFile: null,
+      detailsModalIsOpen: null
     }
   }
 
@@ -124,21 +129,32 @@ class Gallery extends Component {
             // if image != 0x00..
             //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
 
-            // <div key={index} className='file_store' style={{  display: 'inline-block', position: 'relative' }}>
-            // <img onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" /> */}
-            // <p style={{ color: '#80C2AF' }}>{Web3.utils.hexToAscii(this.state.imageNameSolArray[index])}</p>
-            // <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(`https://ipfs.infura.io/ipfs/${image}`); }}><BiDownload size="1.8em" /></button>
-            //  <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => this.openModal(index)}><RiUserShared2Line size="1.7em" /></button>
-            // </div>
-
             <Figure key={index} className="mr-4" style={{ textAlign: 'center' }} >
-              {/* className=" mb-2 mt-4" */}
-              <Figure.Image className="img"
+
+              {/* <Figure.Image className="img"
                 // width={171}
                 // height={180}
                 alt="inputFile"
                 src={`https://ipfs.infura.io/ipfs/${image}`}
-                onClick={() => this.toggleModal(index)} />
+                onClick={() => this.toggleModal(index)} /> */}
+              {/* <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'image'); }}><BsInfoCircle size="1.5em" /></button> */}
+
+              <React.Fragment>
+                <div className="block-icon">
+
+                  <Figure.Image className="img"
+                    alt="inputFile"
+                    src={`https://ipfs.infura.io/ipfs/${image}`}
+                    onClick={() => this.toggleModal(index)} />
+
+                  <button className="btn btn_download download_icon icon-tag" type="button"
+                    onClick={() => this.openDetailsModal(index, image, 'image')}
+
+                  ><BsInfoCircle size="1.2em" /></button>
+
+                </div>
+              </React.Fragment>
+
 
               <Figure.Caption className='caption' >
                 <p className="ml-3 mt-2 p1 image_name">{Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.')}</p>
@@ -309,14 +325,14 @@ class Gallery extends Component {
     }
   }
 
-  captionImg = (idx) => {
-    return (
-      // <div>
-      // {/* <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5> */}
-      <h5> {this.state.dateUploadImg[idx.currentIndex]}</h5>
-      // </div>
-    )
-  }
+  // captionImg = (idx) => {
+  //   return (
+  //     // <div>
+  //     // {/* <h5 className="mt-2 mb-2"> {Web3.utils.hexToAscii(this.state.imageNameSolArray[idx.currentIndex])}</h5> */}
+  //     // <h5> {this.state.dateUploadImg[idx.currentIndex]}</h5>
+  //     // </div>
+  //   )
+  // }
 
   downloadFile = (file, typeOfFile) => {
     fetch(file, {
@@ -351,6 +367,15 @@ class Gallery extends Component {
     this.setState({ typeOfFile })
   }
 
+  openDetailsModal = (currentImgFileIndex, link_to_be_shared, typeOfFile) => {
+    this.setState({ detailsModalIsOpen: true });
+    // this.setState({ link_to_be_shared })
+    this.setState({ currentImgFileIndex })
+    this.setState({ typeOfFile })
+  }
+
+  closeDetailsModal = () => { this.setState({ detailsModalIsOpen: false }); }
+
   closeModal = () => { this.setState({ shareModalIsOpen: false }); }
 
   handleSubmit = async (input_address) => {
@@ -382,10 +407,6 @@ class Gallery extends Component {
           })
 
         }
-
-
-
-
 
         // empty the array to check whether images were selected next time
         this.setState({ link_to_be_shared: null })
@@ -439,7 +460,7 @@ class Gallery extends Component {
                   <div className="content mr-auto ml-auto">
 
                     <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
-                      defaultActiveKey="gallery" id="uncontrolled-tab-example">
+                      defaultActiveKey="files" id="uncontrolled-tab-example">
                       <Tab eventKey="gallery" title="Gallery">
 
                         {(this.state.imageHashes.length !== 0) ? (
@@ -447,11 +468,22 @@ class Gallery extends Component {
                           <div className="file_space mt-5">
 
                             {this.state.imageItems}
-                            { this.state.shareModalIsOpen ?
+                            {this.state.shareModalIsOpen ?
                               <ModalForm
                                 closeModal={this.closeModal}
                                 isOpen={this.state.shareModalIsOpen}
                                 handleSubmit={this.handleSubmit} /> : null}
+
+
+                            {this.state.detailsModalIsOpen ?
+                              <ModalDetails
+                                closeModal={this.closeDetailsModal}
+                                isOpen={this.state.detailsModalIsOpen}
+                                handleSubmit={this.handleSubmit}
+                                fileName={Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.currentImgFileIndex])}
+                                fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]}
+                              /> : null}
+
 
                           </div>
                         ) : <h3 className="mt-5">No images to display, try uploading one.</h3>}
@@ -470,58 +502,25 @@ class Gallery extends Component {
                       </Tab>
                     </Tabs>
 
-                    {/* {(this.state.imageHashes.length !== 0 && this.state.fileHashes.length !== 0) ? (
-                      <div>
-                        <div>
-                          <h4 className="mb-5">Gallery</h4>
-                          {this.state.imageItems}
-                        </div>
 
-                        <div className="file_space top_file_space">
-                          <h4 className="mb-5 mt-5">Files</h4>
-                          {this.state.fileItems}
-                        </div>
-                      </div>
-                    ) : <h3>No files to display, try uploading one.</h3>} */}
-
-                    {/* <ModalGateway>
-                          {this.state.modalIsOpen ? (
-                            <Modal
-                              allowFullscreenBoolean={true}
-                              components={{ Header: CustomHeader }} allowFullscreen={false} onClose={() => this.toggleModal(this.state.img_index)}>
-                              <div className="imgbox">
-                                <img className="center_fit mb-1" src={`https://ipfs.infura.io/ipfs/${this.state.imageHashes[this.state.img_index]}`} alt="inputFile" />
-                                <div className="img_caption">
-                                  <h5 className="mt-2 mb-2"> Image name: {Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.img_index])}</h5>
-                                </div>
-                              </div>
-                            </Modal>) : ''}
-                        </ModalGateway> */}
 
                     <ModalGateway>
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
 
                           <Carousel
-                            components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this) 
+                            // components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this) 
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{
                               container: base => ({
-                                ...base,
-                                height: '100vh',
+                                ...base, height: '100vh',
                               }),
                               view: base => ({
-                                ...base,
-                                alignItems: 'center',
-                                display: 'flex ',
-                                height: 'calc(100vh - 54px)',
-                                justifyContent: 'center',
-                                '& > img': {
+                                ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': {
                                   maxHeight: 'calc(100vh - 94px)',
                                 },
                               })
-
                             }}
                           />
                         </Modal>

@@ -223,9 +223,9 @@ class Sharepoint extends Component {
   captionImg = (idx) => {
     return (
       <div>
-        <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5>
-        <h5> {this.state.dateSharedImage[idx.currentIndex]}</h5>
-        <h5 className="mb-2"> {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} - {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5>
+        {/* <h5 className="mt-2"> {Web3.utils.hexToAscii(this.state.imageNamesSharedSolArray[idx.currentIndex])} </h5> */}
+        {/* <h5> {this.state.dateSharedImage[idx.currentIndex]}</h5> */}
+        {/* <h5 className="mb-2"> {this.state.usernameSharedWithUserSolArray[idx.currentIndex]} - {this.state.addressSharedwithUserSolArray[idx.currentIndex]} </h5> */}
       </div>
     )
   }
@@ -248,33 +248,30 @@ class Sharepoint extends Component {
     });
   }
 
-  customFooter = ({ isModal, currentView }) => isModal && (
-    <div className="react-images__footer">
-      <br></br>
-      <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button>
-    </div>
-  );
+  // customFooter = ({ isModal, currentView }) => isModal && (
+  //   <div className="react-images__footer">
+  //     <br></br>
+  //     {/* <button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(currentView.source); }}><BiDownload size="1.8em" /></button> */}
+  //   </div>
+  // );
 
-  renderImgItem(item, index) {
-
-
-
-    return (
-      // onChange={console.log("hello")}  onClick={()=>this.toggleModal(index).bind(this)}
-      // onClick={() => this.toggleModal(index)}
-      <tr key={index}>
-        <td>{item.id}</td>
-        <td style={{ color: '#80C2AF' }}>{item.Name}</td>
-        <td  >{<img className="img_shared" src={item.Image} alt="inputFile" />} </td>
-        <td>{item.From}</td>
-        <td>{item.Address}</td>
-        <td>{item.Date}</td>
-        {/* <td><button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button> */}
-        {/* </td> */}
-      </tr>
-    )
-    // .bind(this);
-  };
+  // renderImgItem(item, index) {
+  //   return (
+  //     // onChange={console.log("hello")}  onClick={()=>this.toggleModal(index).bind(this)}
+  //     // onClick={() => this.toggleModal(index)}
+  //     <tr key={index}>
+  //       <td>{item.id}</td>
+  //       <td style={{ color: '#80C2AF' }}>{item.Name}</td>
+  //       <td  >{<img className="img_shared" src={item.Image} alt="inputFile" />} </td>
+  //       <td>{item.From}</td>
+  //       <td>{item.Address}</td>
+  //       <td>{item.Date}</td>
+  //       {/* <td><button className="btn btn_download" style={{ outline: "none" }} type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button> */}
+  //       {/* </td> */}
+  //     </tr>
+  //   )
+  //   // .bind(this);
+  // };
 
   renderItem(item, index) {
     return (
@@ -304,7 +301,7 @@ class Sharepoint extends Component {
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                         <Carousel
-                          components={{ FooterCaption: this.captionImg.bind(this), FooterCount: this.customFooter.bind(this) }}
+                          components={{ FooterCaption: this.captionImg.bind(this) }} // , FooterCount: this.customFooter.bind(this)
                           currentIndex={this.state.img_index}
                           views={this.state.image_shared_src}
                           styles={{
@@ -320,7 +317,7 @@ class Sharepoint extends Component {
                   <div className="smaller_space"></div>
 
 
-                  <Tabs className="file_space" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
+                  <Tabs className="file_space table" style={{ backgroundColor: '#222', borderBottom: '5px solid white' }}
                     defaultActiveKey="gallery" id="uncontrolled-tab-example">
                     <Tab eventKey="gallery" title="Shared images">
 
@@ -336,10 +333,27 @@ class Sharepoint extends Component {
                                 <th>From</th>
                                 <th>Address</th>
                                 <th>Date</th>
+                                <th></th>
                               </tr>
                             </thead>
                             <tbody>
-                              {this.state.imageItems.map(this.renderImgItem)}
+                              {/* {this.state.imageItems.map(this.renderImgItem)} */}
+                              {/* <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" /> */}
+
+
+                              {this.state.imageItems.map((item, index) => (
+
+                                <tr key={index}>
+                                  <td>{item.id}</td>
+                                  <td style={{ color: '#80C2AF' }}>{item.Name}</td>
+                                  <td>{<img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />} </td>
+                                  <td>{item.From}</td>
+                                  <td>{item.Address}</td>
+                                  <td> {item.Date}</td>
+                                  <td><button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadImage(index); }}><BiDownload size="1.8em" /></button></td>
+                                </tr>
+
+                              ))}
 
                             </tbody>
                           </Table>
