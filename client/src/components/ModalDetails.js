@@ -36,9 +36,11 @@ export default class ModalDetails extends Component {
             <br></br> */}
             {this.props.fileType === 'image' && <div><Form.Label className='white-text whitespace_wrap'>Dimensions:      {this.props.height} x {this.props.width}</Form.Label><br></br></div>}
 
-            {this.props.fileType === 'image' && <div><Form.Label className='white-text'>Shared with: {this.props.whoSharedWith.map(itm => (<li key={0}>{itm}</li>))}</Form.Label><br></br></div>}
+            <div><Form.Label className='white-text whitespace_wrap'>Size:                   {this.props.filesize}</Form.Label><br></br></div>
 
-            {this.props.fileType === 'file' && <Form.Label className='white-text'>Shared with: {this.props.whoSharedWith.map(itm => (<li key={0}>{itm}</li>))}</Form.Label>}
+            {this.props.fileType === 'image' && <div><Form.Label className='white-text'>Shared with: {this.props.whoSharedWith.map((itm, index) => (<li key={index}>{itm}</li>))}</Form.Label><br></br></div>}
+
+            {this.props.fileType === 'file' && <Form.Label className='white-text'>Shared with: {this.props.whoSharedWith.map((itm, index) => (<li key={index}>{itm}</li>))}</Form.Label>}
 
           </Form.Group>
         </Modal.Body>

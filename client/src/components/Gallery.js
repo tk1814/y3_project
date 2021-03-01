@@ -52,6 +52,7 @@ class Gallery extends Component {
       alreadyShared: false,
       height: 0,
       width: 0,
+      filesize: 0,
       imageSharedWith: ['No one'],
       fileSharedWith: ['No one'],
       link_to_be_shared: '',
@@ -383,6 +384,9 @@ class Gallery extends Component {
   }
 
   openDetailsModal = (currentImgFileIndex, typeOfFile) => {
+    var remote = require('remote-file-size');
+    const prettyBytes = require('pretty-bytes');
+
     this.setState({ detailsModalIsOpen: true });
     this.setState({ currentImgFileIndex })
     this.setState({ typeOfFile })
@@ -397,6 +401,7 @@ class Gallery extends Component {
         this.setState({ width: img.width })
       };
 
+      // get shared with whom
       let imageSharedWith = [];
       for (let i = 0; i < this.state.imageAddressUserSharedWithSol.length; i++) {
         if (this.state.imageHashUserSharedWith[i] === this.state.imageHashes[currentImgFileIndex]) {
@@ -405,8 +410,18 @@ class Gallery extends Component {
         }
       }
 
+      // get image size
+      remote(this.state.image_src[currentImgFileIndex].source, (err, res) =>{
+        this.setState({ filesize: prettyBytes(res) })
+      })
+
+
     } else if (typeOfFile === 'file') {
+
       // get file size
+      remote(this.state.file_src[currentImgFileIndex].source, (err, res) =>{
+        this.setState({ filesize: prettyBytes(res) })
+      })
 
       let fileSharedWith = [];
       for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
@@ -438,7 +453,7 @@ class Gallery extends Component {
       }
       else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         alert('Cannot share images with yourself')
-      } 
+      }
       else {
 
         let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
@@ -567,6 +582,7 @@ class Gallery extends Component {
                                 fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]}
                                 height={this.state.height}
                                 width={this.state.width}
+                                filesize={this.state.filesize}
                                 whoSharedWith={this.state.imageSharedWith} />
                               : null}
                           </div>
@@ -588,6 +604,7 @@ class Gallery extends Component {
                                 detailType={'File Details'}
                                 fileName={Web3.utils.hexToAscii(this.state.fileNameSolArray[this.state.currentImgFileIndex])}
                                 fileDate={this.state.dateUploadFile[this.state.currentImgFileIndex]}
+                                filesize={this.state.filesize}
                                 whoSharedWith={this.state.fileSharedWith} />
                               : null}
                           </div>

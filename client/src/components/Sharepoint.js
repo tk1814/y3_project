@@ -53,6 +53,7 @@ class Sharepoint extends Component {
       fileAddressUserSharedWithSol: [],
       height: 0,
       width: 0,
+      filesize: 0,
       imageSharedWith: ['No one'],
       fileSharedWith: ['No one'],
       link_to_be_shared: '',
@@ -395,6 +396,9 @@ class Sharepoint extends Component {
 
   // TEMPORARY bcs need to show file size
   openDetailsModal = (currentImgFileIndex, typeOfFile) => {
+    var remote = require('remote-file-size');
+    const prettyBytes = require('pretty-bytes');
+
     this.setState({ detailsModalIsOpen: true });
     this.setState({ currentImgFileIndex })
     this.setState({ typeOfFile })
@@ -417,8 +421,17 @@ class Sharepoint extends Component {
         }
       }
 
+      // get image size
+      remote(this.state.imageItems[currentImgFileIndex].Image, (err, res) => {
+        this.setState({ filesize: prettyBytes(res) })
+      })
+
     } else if (typeOfFile === 'file') {
+
       // get file size
+      remote(this.state.items[currentImgFileIndex].File, (err, res) => {
+        this.setState({ filesize: prettyBytes(res) })
+      })
 
       // populate array with addresses that the selected file was shared with 
       let fileSharedWith = [];
@@ -536,6 +549,7 @@ class Sharepoint extends Component {
                                 detailType={'Image Details'}
                                 height={this.state.height}
                                 width={this.state.width}
+                                filesize={this.state.filesize}
                                 whoSharedWith={this.state.imageSharedWith} />
                               : null}
 
@@ -615,6 +629,7 @@ class Sharepoint extends Component {
                                 fileType={'file'}
                                 type={'File name:         '}
                                 detailType={'File Details'}
+                                filesize={this.state.filesize}
                                 whoSharedWith={this.state.fileSharedWith} />
                               : null}
 
