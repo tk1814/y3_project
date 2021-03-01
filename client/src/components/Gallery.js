@@ -6,14 +6,14 @@ import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
 import { BsInfoCircle } from "react-icons/bs";
 import { RiUserShared2Line } from "react-icons/ri";
-import moment from "moment"
+// import moment from "moment"
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 import ModalDetails from './ModalDetails';
-import Figure from 'react-bootstrap/Figure'
+import Figure from 'react-bootstrap/Figure';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ipfsClient = require('ipfs-http-client')
@@ -49,7 +49,12 @@ class Gallery extends Component {
       currentImgFileIndex: null,
       typeOfFile: null,
       detailsModalIsOpen: null,
-      alreadyShared: false
+      alreadyShared: false,
+      height: 0,
+      width: 0,
+      imageSharedWith: ['No one'],
+      fileSharedWith: ['No one'],
+      link_to_be_shared: '',
     }
   }
 
@@ -58,7 +63,7 @@ class Gallery extends Component {
     if (history) history.push('/login');
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     await this.loadBlockchainData()
 
     // Detects eth wallet account change 
@@ -318,12 +323,12 @@ class Gallery extends Component {
           else {
 
             if (file_name.match(/.(pdf)$/i)) {
-              await this.state.contract.methods.setFile(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+              await this.state.contract.methods.setFile(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
                 // refresh to get the new file array with get() of smart contract
                 window.location.reload();
               })
             } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
-              await this.state.contract.methods.set(hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+              await this.state.contract.methods.set(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
                 window.location.reload();
               })
             }
@@ -341,7 +346,6 @@ class Gallery extends Component {
   }
 
   downloadFile = (file, typeOfFile, nameWithoutExt) => {
-    console.log(nameWithoutExt)
     fetch(file, {
       method: "GET",
       headers: {}
@@ -382,34 +386,82 @@ class Gallery extends Component {
     this.setState({ detailsModalIsOpen: true });
     this.setState({ currentImgFileIndex })
     this.setState({ typeOfFile })
+
+    if (typeOfFile === 'image') {
+
+      const img = new Image();
+      img.src = this.state.image_src[currentImgFileIndex].source;
+      img.onload = () => {
+        // image  has been loaded
+        this.setState({ height: img.height })
+        this.setState({ width: img.width })
+      };
+
+      let imageSharedWith = [];
+      for (let i = 0; i < this.state.imageAddressUserSharedWithSol.length; i++) {
+        if (this.state.imageHashUserSharedWith[i] === this.state.imageHashes[currentImgFileIndex]) {
+          imageSharedWith.push(this.state.imageAddressUserSharedWithSol[i])
+          this.setState({ imageSharedWith })
+        }
+      }
+
+    } else if (typeOfFile === 'file') {
+      // get file size
+
+      let fileSharedWith = [];
+      for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
+        if (this.state.fileHashUserSharedWith[i] === this.state.fileHashes[currentImgFileIndex]) {
+          fileSharedWith.push(this.state.fileAddressUserSharedWithSol[i])
+          this.setState({ fileSharedWith })
+        }
+      }
+
+    }
   }
 
-  closeDetailsModal = () => { this.setState({ detailsModalIsOpen: false }); }
+  closeDetailsModal = () => {
+    this.setState({ detailsModalIsOpen: false });
+    this.setState({ imageSharedWith: ['No one'] })
+    this.setState({ fileSharedWith: ['No one'] })
+  }
 
   closeModal = () => { this.setState({ shareModalIsOpen: false }); }
 
-  handleSubmit = async (input_address) => {
+  handleSubmit = async (input_address, viewOnly) => {
+
+    console.log(viewOnly) //<<<<<<<<<<<<<<<<<<<<<<<
 
     let current_address = this.state.account
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      }
+      else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         alert('Cannot share images with yourself')
-      } else {
+      } 
+      else {
 
         let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
-
         if (this.state.typeOfFile === 'image') {
 
-          if (this.state.imageHashUserSharedWith.find(img_itm => img_itm === this.state.link_to_be_shared)
-            && this.state.imageAddressUserSharedWithSol.find(img_addr => img_addr === input_address))
+          // watermark(['img/photo.jpg', 'img/logo.png'])
+          //   .image(watermark.image.lowerRight(0.5))
+          //   .then(img => document.getElementById('container').appendChild(img));
+
+
+          let fileAlreadyShared = false;
+          for (let i = 0; i < this.state.imageHashUserSharedWith.length; i++) {
+            if (this.state.imageHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.imageAddressUserSharedWithSol[i] === input_address) {
+              fileAlreadyShared = true;
+              break;
+            }
+          }
+
+          if (fileAlreadyShared) {
             this.setState({ alreadyShared: true })
-
-          else {
-
+          } else {
             let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
-            await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+            await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
               window.location.reload();
             })
@@ -417,29 +469,35 @@ class Gallery extends Component {
 
         } else if (this.state.typeOfFile === 'file') {
 
-          if (this.state.fileHashUserSharedWith.find(file_itm => file_itm === this.state.link_to_be_shared)
-            && this.state.fileAddressUserSharedWithSol.find(file_addr => file_addr === input_address))
-            this.setState({ alreadyShared: true })
-          else {
+          let fileAlreadyShared = false;
+          for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
+            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address)
+              fileAlreadyShared = true;
+            break;
+          }
 
+          if (fileAlreadyShared) {
+            this.setState({ alreadyShared: true })
+          } else {
             let hex_filename = this.state.fileNameSolArray[this.state.currentImgFileIndex]
-            await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, moment().format('DD-MM-YYYY, HH:mm')).send({ from: this.state.account }).then((r) => {
+            // moment().format('DD-MM-YYYY, HH:mm') 
+            await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
               window.location.reload();
             })
           }
         }
-
-        // empty the array to check whether images were selected next time
-        this.setState({ link_to_be_shared: null })
       }
+
+      // empty the array to check whether images were selected next time
+      this.setState({ link_to_be_shared: null })
 
     } catch (e) {
       // set to false to remove the warning for the next share
       this.setState({ alreadyShared: false })
       this.closeModal();
       console.log(e);
-      // alert("Wrong public address entered or request was rejected.")
+      alert("Wrong public address entered or request was rejected.")
     }
   }
 
@@ -482,49 +540,35 @@ class Gallery extends Component {
                 <main role="main" className="col-lg-12 d-flex text-center">
                   <div className="content mr-auto ml-auto">
 
+                    {this.state.shareModalIsOpen ?
+                      <ModalForm
+                        closeModal={this.closeModal}
+                        isOpen={this.state.shareModalIsOpen}
+                        handleSubmit={this.handleSubmit}
+                        shared={this.state.alreadyShared}
+                      /> : null}
+
                     <Tabs className="file_space table"
                       defaultActiveKey="gallery" id="uncontrolled-tab-example">
                       <Tab eventKey="gallery" title="Gallery">
 
                         {(this.state.imageHashes.length !== 0) ? (
-
                           <div className="file_space mt-5">
-
                             {this.state.imageItems}
-                            {this.state.shareModalIsOpen ?
-                              <ModalForm
-                                closeModal={this.closeModal}
-                                isOpen={this.state.shareModalIsOpen}
-                                handleSubmit={this.handleSubmit}
-                                shared={this.state.alreadyShared}
-
-                              /> : null}
-
-
+                            {/* IMAGE DETAILS */}
                             {this.state.detailsModalIsOpen && fileType ?
-
                               <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
                                 isOpen={this.state.detailsModalIsOpen}
-                                type={'Image name:        '}
+                                fileType={'image'}
+                                type={'Image name:    '}
                                 detailType={'Image Details'}
                                 fileName={Web3.utils.hexToAscii(this.state.imageNameSolArray[this.state.currentImgFileIndex])}
-                                fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]} />
-
+                                fileDate={this.state.dateUploadImg[this.state.currentImgFileIndex]}
+                                height={this.state.height}
+                                width={this.state.width}
+                                whoSharedWith={this.state.imageSharedWith} />
                               : null}
-
-                            {this.state.detailsModalIsOpen && !fileType ?
-
-                              <ModalDetails className='whitespace_wrap'
-                                closeModal={this.closeDetailsModal}
-                                isOpen={this.state.detailsModalIsOpen}
-                                type={'File name:            '}
-                                detailType={'File Details'}
-                                fileName={Web3.utils.hexToAscii(this.state.fileNameSolArray[this.state.currentImgFileIndex])}
-                                fileDate={this.state.dateUploadFile[this.state.currentImgFileIndex]} />
-                              : null}
-
-
                           </div>
                         ) : <h3 className="mt-5">No images to display, try uploading one.</h3>}
 
@@ -532,11 +576,21 @@ class Gallery extends Component {
                       <Tab eventKey="files" title="Files">
 
                         {(this.state.fileHashes.length !== 0) ? (
-
                           <div className="file_space mt-5">
                             {this.state.fileItems}
+                            {/* FILE DETAILS */}
+                            {this.state.detailsModalIsOpen && !fileType ?
+                              <ModalDetails className='whitespace_wrap'
+                                closeModal={this.closeDetailsModal}
+                                isOpen={this.state.detailsModalIsOpen}
+                                fileType={'file'}
+                                type={'File name:         '}
+                                detailType={'File Details'}
+                                fileName={Web3.utils.hexToAscii(this.state.fileNameSolArray[this.state.currentImgFileIndex])}
+                                fileDate={this.state.dateUploadFile[this.state.currentImgFileIndex]}
+                                whoSharedWith={this.state.fileSharedWith} />
+                              : null}
                           </div>
-
                         ) : <h3 className="mt-5">No files to display, try uploading one.</h3>}
 
                       </Tab>

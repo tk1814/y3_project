@@ -42,7 +42,7 @@ class App extends Component {
   }
 
 
-  async componentWillMount() {
+  async componentDidMount() {
 
     // Detects metamask eth wallet account change 
     this.ethereum = window.ethereum

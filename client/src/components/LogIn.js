@@ -26,7 +26,7 @@ class LogIn extends Component {
     // this.handleOnChange = this.handleOnChange.bind(this);
   }
 
-  async componentWillMount() { // Lifecycle https://stackoverflow.com/questions/38814764/componentwillmount-is-called-twice
+  async componentDidMount() { 
     await this.loadNetworkData()
 
     // Detects eth wallet account change 

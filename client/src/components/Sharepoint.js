@@ -7,26 +7,35 @@ import { BiDownload } from "react-icons/bi";
 import { Table } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import ModalForm from './ModalForm';
+// import Alert from 'react-bootstrap/Alert';
+// import ReactWaterMark from 'react-watermark-component';
+import { RiUserShared2Line } from "react-icons/ri";
+import { BsInfoCircle } from "react-icons/bs";
+import ModalDetails from './ModalDetails';
 
 class Sharepoint extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       items: [],
       imageItems: [],
       imageHashesShared: [],
-      imageNameSolArray: [],
+      // imageNameSolArray: [],
       imageNamesSharedSolArray: [],
       addressSharedwithUserSolArray: [],
       usernameSharedWithUserSolArray: [],
       dateSharedImage: [],
-      fileHashesNotShared: [],
+      viewOnlyImageArr: [],
+      // fileHashesNotShared: [],
       fileHashesShared: [],
       fileNamesSharedSolArray: [],
       fileAddressSharedwithUserSolArray: [],
       fileUsernameSharedWithUserSolArray: [],
       dateSharedFile: [],
+      viewOnlyFileArr: [],
       contract: null,
       web3: null,
       buffer: null,
@@ -34,9 +43,20 @@ class Sharepoint extends Component {
       modalIsOpen: false,
       img_index: 0,
       image_shared_src: [],
-      file_shared_src: []
+      file_shared_src: [],
+      detailsModalIsOpen: null,
+      shareModalIsOpen: null,
+      alreadyShared: false,
+      imageHashUserSharedWith: [],
+      imageAddressUserSharedWithSol: [],
+      fileHashUserSharedWith: [],
+      fileAddressUserSharedWithSol: [],
+      height: 0,
+      width: 0,
+      imageSharedWith: ['No one'],
+      fileSharedWith: ['No one'],
+      link_to_be_shared: '',
     }
-
     // this.toggleModal = this.toggleModal.bind(this);
   }
 
@@ -45,7 +65,7 @@ class Sharepoint extends Component {
     if (history) history.push('/login');
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     await this.loadBlockchainData()
 
     // Detects eth wallet account change 
@@ -61,6 +81,10 @@ class Sharepoint extends Component {
         window.location.reload();
       }.bind(this))
     }
+    // disable right click menu
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
   }
 
 
@@ -79,13 +103,18 @@ class Sharepoint extends Component {
         this.setState({ contract })
 
         // LOAD Shared images array
-        let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray, dateSharedImage;
+        let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray, dateSharedImage, viewOnlyImageArr;
         await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
           imageSharedSolArray = r[0]
           imageNamesSharedSolArray = r[1]
           addressSharedwithUserSolArray = r[2]
           usernameSharedWithUserSolArray = r[3]
           dateSharedImage = r[4]
+          viewOnlyImageArr = r[5]
+
+          if (viewOnlyImageArr !== undefined) {
+            this.setState({ viewOnlyImageArr })
+          }
 
           if (dateSharedImage !== undefined) {
             this.setState({ dateSharedImage })
@@ -108,7 +137,7 @@ class Sharepoint extends Component {
             imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
               <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
             ))
-            this.setState({ imageHashesSharedItems: imageHashesSharedItems })
+            this.setState({ imageHashesSharedItems })
 
             let image_shared_src = [];
             let hashes = this.state.imageHashesShared.map((image, index) =>
@@ -117,7 +146,7 @@ class Sharepoint extends Component {
             for (let i = 0; i < hashes.length; i++) {
               image_shared_src.push({ source: hashes[i] })
             }
-            this.setState({ image_shared_src: image_shared_src })
+            this.setState({ image_shared_src })
 
             // SHARED IMAGES ITEMS
             const imageItems = [];
@@ -137,13 +166,18 @@ class Sharepoint extends Component {
 
 
         // LOAD Shared files array %%%%%%%%%%%%%%%
-        let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile;
+        let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile, viewOnlyFileArr;
         await contract.methods.getSharedFileArr().call({ from: this.state.account }).then((r) => {
           fileSharedSolArray = r[0]
           fileNamesSharedSolArray = r[1]
           fileAddressSharedwithUserSolArray = r[2]
           fileUsernameSharedWithUserSolArray = r[3]
           dateSharedFile = r[4]
+          viewOnlyFileArr = r[5]
+
+          if (viewOnlyFileArr !== undefined) {
+            this.setState({ viewOnlyFileArr })
+          }
 
           if (dateSharedFile !== undefined) {
             this.setState({ dateSharedFile })
@@ -168,7 +202,7 @@ class Sharepoint extends Component {
             for (let i = 0; i < hashes.length; i++) {
               file_shared_src.push({ source: hashes[i] })
             }
-            this.setState({ file_shared_src: file_shared_src })
+            this.setState({ file_shared_src })
 
             // SHARED FILES ITEMS
             const items = [];
@@ -185,6 +219,52 @@ class Sharepoint extends Component {
             this.setState({ items })
           }
         });
+
+
+
+        // get images user shared with others &&&&&&&&&&&&&&&&&
+        let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
+        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+          username = r[2]
+          imageAddressUserSharedWithSol = r[4]
+          imageHashUserSharedWithSol = r[5]
+        })
+
+        if (imageAddressUserSharedWithSol !== undefined) {
+          this.setState({ imageAddressUserSharedWithSol })
+        }
+
+        if (imageHashUserSharedWithSol !== undefined) {
+          let imageHashUserSharedWith = imageHashUserSharedWithSol.slice();
+          imageHashUserSharedWithSol.forEach(function (item, index) {
+            imageHashUserSharedWith[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
+          });
+          this.setState({ imageHashUserSharedWith })
+        }
+
+        if (username !== undefined) {
+          this.setState({ username })
+        }
+
+        // get files user shared with others &&&&&&&&&&&&&&&&&
+        let fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
+        await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
+          fileAddressUserSharedWithSol = r[4]
+          fileHashUserSharedWithSol = r[5]
+        })
+
+        if (fileAddressUserSharedWithSol !== undefined) {
+          this.setState({ fileAddressUserSharedWithSol })
+        }
+
+        if (fileHashUserSharedWithSol !== undefined) {
+          let fileHashUserSharedWith = fileHashUserSharedWithSol.slice();
+          fileHashUserSharedWithSol.forEach(function (item, index) {
+            fileHashUserSharedWith[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
+          });
+          this.setState({ fileHashUserSharedWith })
+        }
+
 
       }
       else {
@@ -228,19 +308,159 @@ class Sharepoint extends Component {
     });
   }
 
-  renderItem(item, index) {
-    return (
-      <tr key={index}>
-        <td>{item.id}</td>
-        <td><a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a></td>
-        <td>{item.From}</td>
-        <td>{item.Address}</td>
-        <td>{item.Date}</td>
-      </tr>
-    )
-  };    
+  openModal = (currentImgFileIndex, typeOfFile) => {
+    // set to false to remove the warning for the next share
+    this.setState({ alreadyShared: false })
+    this.setState({ shareModalIsOpen: true });
+
+    if (typeOfFile === 'image')
+      this.setState({ link_to_be_shared: this.state.imageHashesShared[currentImgFileIndex] })
+    else if (typeOfFile === 'file')
+      this.setState({ link_to_be_shared: this.state.fileHashesShared[currentImgFileIndex] })
+
+    this.setState({ currentImgFileIndex })
+    this.setState({ typeOfFile })
+  }
+
+  closeModal = () => { this.setState({ shareModalIsOpen: false }); }
+
+
+  handleSubmit = async (input_address, viewOnly) => {
+
+    let current_address = this.state.account
+    try {
+      if (!input_address) {
+        alert('No public address was entered. Please enter a public address.')
+      }
+      else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        alert('Cannot share images with yourself')
+      }
+      else {
+
+        let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
+        if (this.state.typeOfFile === 'image') {
+
+          let fileAlreadyShared = false;
+          for (let i = 0; i < this.state.imageHashUserSharedWith.length; i++) {
+            if (this.state.imageHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.imageAddressUserSharedWithSol[i] === input_address) {
+              fileAlreadyShared = true;
+              break;
+            }
+          }
+
+          if (fileAlreadyShared) {
+            this.setState({ alreadyShared: true })
+          } else {
+            let hex_filename = this.state.imageNamesSharedSolArray[this.state.currentImgFileIndex]
+            await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
+              this.closeModal();
+              window.location.reload();
+            })
+          }
+
+        } else if (this.state.typeOfFile === 'file') {
+
+          let fileAlreadyShared = false;
+          for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
+            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address)
+              fileAlreadyShared = true;
+            break;
+          }
+
+          if (fileAlreadyShared) {
+            this.setState({ alreadyShared: true })
+          } else {
+            let hex_filename = this.state.fileNamesSharedSolArray[this.state.currentImgFileIndex]
+            await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
+              this.closeModal();
+              window.location.reload();
+            })
+          }
+        }
+      }
+
+      // empty the array to check whether images were selected next time
+      this.setState({ link_to_be_shared: null })
+
+    } catch (e) {
+      // set to false to remove the warning for the next share
+      this.setState({ alreadyShared: false })
+      this.closeModal();
+      console.log(e);
+      alert("Wrong public address entered or request was rejected.")
+    }
+  }
+
+
+
+  // TEMPORARY bcs need to show file size
+  openDetailsModal = (currentImgFileIndex, typeOfFile) => {
+    this.setState({ detailsModalIsOpen: true });
+    this.setState({ currentImgFileIndex })
+    this.setState({ typeOfFile })
+
+    if (typeOfFile === 'image') {
+
+      const img = new Image();
+      img.src = this.state.imageItems[currentImgFileIndex].Image;
+      img.onload = () => {
+        this.setState({ height: img.height })
+        this.setState({ width: img.width })
+      };
+
+      // populate array with addresses that the selected image was shared with 
+      let imageSharedWith = [];
+      for (let i = 0; i < this.state.imageAddressUserSharedWithSol.length; i++) {
+        if (this.state.imageHashUserSharedWith[i] === this.state.imageHashesShared[currentImgFileIndex]) {
+          imageSharedWith.push(this.state.imageAddressUserSharedWithSol[i])
+          this.setState({ imageSharedWith })
+        }
+      }
+
+    } else if (typeOfFile === 'file') {
+      // get file size
+
+      // populate array with addresses that the selected file was shared with 
+      let fileSharedWith = [];
+      for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
+        if (this.state.fileHashUserSharedWith[i] === this.state.fileHashesShared[currentImgFileIndex]) {
+          fileSharedWith.push(this.state.fileAddressUserSharedWithSol[i])
+          this.setState({ fileSharedWith })
+        }
+      }
+
+    }
+  }
+
+  closeDetailsModal = () => {
+    this.setState({ detailsModalIsOpen: false });
+    this.setState({ imageSharedWith: ['No one'] })
+    this.setState({ fileSharedWith: ['No one'] })
+  }
+
+
+
 
   render() {
+
+    // const text = this.state.account;
+    // const beginAlarm = function () { console.log('start alarm'); };
+    // const options = {
+    //   chunkWidth: 200,
+    //   chunkHeight: 60,
+    //   textAlign: 'left',
+    //   textBaseline: 'bottom',
+    //   globalAlpha: 0.17,
+    //   font: '14px Microsoft Yahei',
+    //   rotateAngle: -0.26,
+    //   fillStyle: '#666',
+    // }
+
+    let fileType;
+    if (this.state.typeOfFile === 'image')
+      fileType = true
+    else if (this.state.typeOfFile === 'file')
+      fileType = false
 
     return (
       <div className="simple_bg ">
@@ -255,29 +475,42 @@ class Sharepoint extends Component {
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                        <Carousel
-                          currentIndex={this.state.img_index}
-                          views={this.state.image_shared_src}
-                          styles={{
-                            container: base => ({ ...base, height: '100vh', }),
-                            view: base => ({
-                              ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center',
-                              '& > img': { maxHeight: 'calc(100vh - 94px)', },
-                            })
-                          }} />
-                      </Modal>
-                    ) : ''}
+                        <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
+                          container: base => ({ ...base, height: '100vh', }),
+                          view: base => ({
+                            ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', },
+                          })
+                        }} />
+                      </Modal>) : ''}
                   </ModalGateway>
                   <div className="smaller_space"></div>
 
+                  {/* <div style={{ maxWidth: 500 }}>
+                    {
+                      ['primary',
+                      //  'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark',
+                      ].map((variant, idx) => (
+                        <Alert key={idx} variant={variant}>
+                          This is a {variant} alert—check it out!
+                        </Alert>
+                      ))
+                    }
+                  </div> */}
+
+                  {this.state.shareModalIsOpen ?
+                    <ModalForm
+                      closeModal={this.closeModal}
+                      isOpen={this.state.shareModalIsOpen}
+                      handleSubmit={this.handleSubmit}
+                      shared={this.state.alreadyShared} /> : null}
 
                   <Tabs className="file_space table"
                     defaultActiveKey="gallery" id="uncontrolled-tab-example">
                     <Tab eventKey="gallery" title="Shared images">
 
                       {(this.state.imageHashesShared.length !== 0) ? (
-                        <div style={{display: 'table-cell'}}>
-                    
+
+                        <div style={{ display: 'table-cell' }}>
                           <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
                             <thead>
                               <tr>
@@ -288,24 +521,63 @@ class Sharepoint extends Component {
                                 <th>Address</th>
                                 <th>Date</th>
                                 <th></th>
+                                <th></th>
+                                <th></th>
                               </tr>
                             </thead>
+
+
+                            {/* IMAGE DETAILS */}
+                            {this.state.detailsModalIsOpen && fileType ?
+                              <ModalDetails className='whitespace_wrap'
+                                closeModal={this.closeDetailsModal}
+                                isOpen={this.state.detailsModalIsOpen}
+                                fileType={'image'}
+                                detailType={'Image Details'}
+                                height={this.state.height}
+                                width={this.state.width}
+                                whoSharedWith={this.state.imageSharedWith} />
+                              : null}
+
                             <tbody>
 
                               {this.state.imageItems.map((item, index) => (
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td style={{ color: '#80C2AF' }}>{item.Name}</td>
-                                  <td>{<img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />} </td>
+
+                                  <td>
+                                    {/* {!this.state.viewOnlyImageArr[index] && */}
+                                    <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />
+                                    {/* } */}
+
+                                    {/* {this.state.viewOnlyImageArr[index] &&
+                                      <ReactWaterMark
+                                        waterMarkText={text}
+                                        openSecurityDefense
+                                        securityAlarm={beginAlarm}
+                                        options={options}>
+                                        <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />
+                                      </ReactWaterMark>} */}
+                                  </td>
                                   <td>{item.From}</td>
                                   <td>{item.Address}</td>
                                   <td> {item.Date}</td>
-                                  <td><button className="btn btn_download download_icon" type="button" onClick={() => {
-                                    if (item.Name.match(/.(gif)/i))
-                                      this.downloadFile(item.Image, 'gif', item.Name);
-                                    else
-                                      this.downloadFile(item.Image, 'image', item.Name);
-                                  }}><BiDownload size="1.8em" /></button></td>
+                                  <td>
+                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'image')}><BsInfoCircle size="1.2em" /></button>
+                                  </td>
+                                  <td>
+                                    {!this.state.viewOnlyImageArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
+                                      if (item.Name.match(/.(gif)/i))
+                                        this.downloadFile(item.Image, 'gif', item.Name);
+                                      else
+                                        this.downloadFile(item.Image, 'image', item.Name);
+                                    }}><BiDownload size="1.8em" /></button>}
+                                  </td>
+                                  <td>
+                                    {!this.state.viewOnlyImageArr[index] &&
+                                      <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, 'image')}><RiUserShared2Line size="1.4em" /></button>}
+                                  </td>
                                 </tr>
                               ))}
 
@@ -316,7 +588,7 @@ class Sharepoint extends Component {
                       ) : <h3 className='mt-5'>No images shared with you.</h3>}
 
                     </Tab>
-                    <Tab eventKey="files" title="Shared files table">
+                    <Tab eventKey="files" title="Shared files">
 
                       {(this.state.fileHashesShared.length !== 0) ? (
                         <div>
@@ -329,14 +601,49 @@ class Sharepoint extends Component {
                                 <th>From</th>
                                 <th>Address</th>
                                 <th>Date</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                               </tr>
                             </thead>
 
-                            <tbody>
-                              {this.state.items.map(this.renderItem)}
-                            </tbody>
+                            {/* FILE DETAILS */}
+                            {this.state.detailsModalIsOpen && !fileType ?
+                              <ModalDetails className='whitespace_wrap'
+                                closeModal={this.closeDetailsModal}
+                                isOpen={this.state.detailsModalIsOpen}
+                                fileType={'file'}
+                                type={'File name:         '}
+                                detailType={'File Details'}
+                                whoSharedWith={this.state.fileSharedWith} />
+                              : null}
 
+                            <tbody>
+                              {this.state.items.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{item.id}</td>
+                                  <td><a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a></td>
+                                  <td>{item.From}</td>
+                                  <td>{item.Address}</td>
+                                  <td>{item.Date}</td>
+                                  <td>
+                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'file')}><BsInfoCircle size="1.2em" /></button>
+                                  </td>
+                                  <td>
+                                    {!this.state.viewOnlyFileArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
+                                      this.downloadFile(item.File, 'file', item.Name);
+                                    }}><BiDownload size="1.8em" /></button>}
+                                  </td>
+                                  <td>
+                                    {!this.state.viewOnlyFileArr[index] &&
+                                      <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, 'file')}><RiUserShared2Line size="1.4em" /></button>}
+                                  </td>
+                                </tr>
+                              ))}
+
+                            </tbody>
                           </Table>
+
 
                         </div>
                       ) : <h3 className='mt-5'>No files shared with you.</h3>}

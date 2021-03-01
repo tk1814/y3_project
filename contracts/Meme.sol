@@ -14,6 +14,9 @@ contract Meme is Ownable, AccessControl {
     bool userExists; 
     string acceptTermsConditionsDate; 
     string username;
+    bool[] viewOnlyImage;
+    bool[] viewOnlyFile;
+    // int256 newlySharedItems;
 
     bytes32[] imageHashes;
     bytes32[] imageNames;
@@ -73,8 +76,7 @@ contract Meme is Ownable, AccessControl {
     } // else user already exists
   }
 
-  // set msg.sender [from who it was shared] 
-  function shareImage(string memory _usrName, address _address, bytes32 _imageHash, bytes32 _imageName, string memory _date) public {
+  function shareImage(string memory _usrName, address _address, bytes32 _imageHash, bytes32 _imageName, string memory _date, bool _viewOnly) public {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate images from being inserted (shared again) - if same file and same address shared the file - do not allow
@@ -95,21 +97,19 @@ contract Meme is Ownable, AccessControl {
       // new: User shared a file//image with the following address
       idUserData[msg.sender].imageAddressUserSharedWith.push(_address);
       idUserData[msg.sender].imageHashUserSharedWith.push(_imageHash);
-
-    } 
-    // return duplicateFound;
-    //************** */ else alert user that it has already been shared with that user
+      // view Only or nah
+      idUserData[_address].viewOnlyImage.push(_viewOnly);
+    }   
   }
 
-  function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory) { 
+  function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory, bool[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].imageHashesSharedWithUser, idUserData[msg.sender].imageNamesSharedWithUser,
-    idUserData[msg.sender].addressSharedWithUser, idUserData[msg.sender].usernameSharedWithUser, idUserData[msg.sender].dateImageShareWithUser); 
+    idUserData[msg.sender].addressSharedWithUser, idUserData[msg.sender].usernameSharedWithUser, idUserData[msg.sender].dateImageShareWithUser,
+    idUserData[msg.sender].viewOnlyImage); 
   }
 
-
-    // set msg.sender [from who it was shared] 
-  function shareFile(string memory _usrName, address _address, bytes32 _fileHash, bytes32 _fileName, string memory _date) public {
+  function shareFile(string memory _usrName, address _address, bytes32 _fileHash, bytes32 _fileName, string memory _date, bool _viewOnly) public {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate files from being inserted (shared again)
@@ -130,15 +130,16 @@ contract Meme is Ownable, AccessControl {
       // new: User shared a file//image with the following address
       idUserData[msg.sender].fileAddressUserSharedWith.push(_address);
       idUserData[msg.sender].fileHashUserSharedWith.push(_fileHash);
+      // view Only or nah
+      idUserData[_address].viewOnlyFile.push(_viewOnly);
     } 
-    // return duplicateFound;
-    //************** */ else alert user that it has already been shared with that user
   }
 
-  function getSharedFileArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory) { 
+  function getSharedFileArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory, bool[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].fileHashesSharedWithUser, idUserData[msg.sender].fileNamesSharedWithUser,
-    idUserData[msg.sender].fileAddressSharedWithUser, idUserData[msg.sender].fileUsernameSharedWithUser, idUserData[msg.sender].dateFileShareWithUser); 
+    idUserData[msg.sender].fileAddressSharedWithUser, idUserData[msg.sender].fileUsernameSharedWithUser, idUserData[msg.sender].dateFileShareWithUser,
+    idUserData[msg.sender].viewOnlyImage); 
   }
 
 
@@ -156,7 +157,8 @@ contract Meme is Ownable, AccessControl {
     idUserData[msg.sender].dateFileUpload.push(_date);
   }
 
-  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory) {  // CATCH THE EXCEPTION: CALLER IS NOT A USER - HAPPENS WHEN GETS USERNAME 
+  // CATCH THE EXCEPTION: CALLER IS NOT A USER - HAPPENS WHEN GETS USERNAME 
+  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory) {  
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames, idUserData[msg.sender].username, idUserData[msg.sender].dateImageUpload,
     idUserData[msg.sender].imageAddressUserSharedWith, idUserData[msg.sender].imageHashUserSharedWith, idUserData[msg.sender].acceptTermsConditionsDate); 
