@@ -17,6 +17,7 @@ contract Meme is Ownable, AccessControl {
     bool[] viewOnlyImage;
     bool[] viewOnlyFile;
     // int256 newlySharedItems;
+    // if user does getSharedFileArr & getSharedImageArr means that user logged in and is in sharepoint 
 
     bytes32[] imageHashes;
     bytes32[] imageNames;

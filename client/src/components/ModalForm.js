@@ -41,9 +41,11 @@ export default class ModalForm extends Component {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            {!this.props.shared && <Button className='btn share_btn shadow-none' type="submit" onClick={() => this.props.handleSubmit(this.state.name, this.state.viewOnly)}>
+            {!this.props.shared && 
+            <Button className='btn share_btn shadow-none' type="submit" onClick={() => this.props.handleSubmit(this.state.name, this.state.viewOnly)}>
               Share
-          </Button>}
+          </Button>
+          }
 
           </Modal.Footer>
         </Modal>

@@ -4,8 +4,8 @@ import Web3 from "web3";
 import Meme from '../contracts/Meme.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
-import { BsInfoCircle } from "react-icons/bs";
-import { RiUserShared2Line } from "react-icons/ri";
+// import { BsInfoCircle } from "react-icons/bs"; 
+import { RiUserShared2Line, RiInformationLine } from "react-icons/ri";
 // import moment from "moment"
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
@@ -146,8 +146,6 @@ class Gallery extends Component {
           // IMAGE LAYOUT %%%%%%%%%%%%
           let imageItems
           imageItems = this.state.imageHashes.map((image, index) => (
-            // if image != 0x00..
-            //   <button onClick={(e) => this.deleteImg(e, index)}>DELETE</button>
 
             <Figure key={index} className="mr-4" style={{ textAlign: 'center' }} >
               <React.Fragment>
@@ -159,7 +157,7 @@ class Gallery extends Component {
 
                   <button className="btn btn_download download_icon icon-tag" type="button"
                     onClick={() => this.openDetailsModal(index, 'image')}
-                  ><BsInfoCircle size="1.2em" /></button>
+                  ><RiInformationLine size="1.6em" /></button>
                 </div>
               </React.Fragment>
 
@@ -240,7 +238,7 @@ class Gallery extends Component {
                   </Document>
 
                   <button className="btn btn_download download_icon icon-tag" type="button"
-                    onClick={() => this.openDetailsModal(index, 'file')}><BsInfoCircle size="1.2em" style={{ color: '#000' }} /></button>
+                    onClick={() => this.openDetailsModal(index, 'file')}><RiInformationLine size="1.6em" style={{ color: '#000' }} /></button>
 
                 </div>
               </React.Fragment>
@@ -583,7 +581,8 @@ class Gallery extends Component {
                                 height={this.state.height}
                                 width={this.state.width}
                                 filesize={this.state.filesize}
-                                whoSharedWith={this.state.imageSharedWith} />
+                                whoSharedWith={this.state.imageSharedWith}
+                                gallery={true} />
                               : null}
                           </div>
                         ) : <h3 className="mt-5">No images to display, try uploading one.</h3>}
@@ -605,7 +604,8 @@ class Gallery extends Component {
                                 fileName={Web3.utils.hexToAscii(this.state.fileNameSolArray[this.state.currentImgFileIndex])}
                                 fileDate={this.state.dateUploadFile[this.state.currentImgFileIndex]}
                                 filesize={this.state.filesize}
-                                whoSharedWith={this.state.fileSharedWith} />
+                                whoSharedWith={this.state.fileSharedWith}
+                                gallery={true} />
                               : null}
                           </div>
                         ) : <h3 className="mt-5">No files to display, try uploading one.</h3>}

@@ -10,8 +10,8 @@ import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 // import Alert from 'react-bootstrap/Alert';
 // import ReactWaterMark from 'react-watermark-component';
-import { RiUserShared2Line } from "react-icons/ri";
-import { BsInfoCircle } from "react-icons/bs";
+import { RiUserShared2Line, RiInformationLine } from "react-icons/ri"; 
+// import { BsInfoCircle } from "react-icons/bs";
 import ModalDetails from './ModalDetails';
 
 class Sharepoint extends Component {
@@ -388,13 +388,11 @@ class Sharepoint extends Component {
       this.setState({ alreadyShared: false })
       this.closeModal();
       console.log(e);
-      alert("Wrong public address entered or request was rejected.")
+      alert("Wrong public address entered or Request was rejected.")
     }
   }
 
 
-
-  // TEMPORARY bcs need to show file size
   openDetailsModal = (currentImgFileIndex, typeOfFile) => {
     var remote = require('remote-file-size');
     const prettyBytes = require('pretty-bytes');
@@ -550,7 +548,8 @@ class Sharepoint extends Component {
                                 height={this.state.height}
                                 width={this.state.width}
                                 filesize={this.state.filesize}
-                                whoSharedWith={this.state.imageSharedWith} />
+                                whoSharedWith={this.state.imageSharedWith}
+                                gallery={false} />
                               : null}
 
                             <tbody>
@@ -578,7 +577,7 @@ class Sharepoint extends Component {
                                   <td>{item.Address}</td>
                                   <td> {item.Date}</td>
                                   <td>
-                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'image')}><BsInfoCircle size="1.2em" /></button>
+                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'image')}><RiInformationLine size="1.6em" /></button>
                                   </td>
                                   <td>
                                     {!this.state.viewOnlyImageArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
@@ -630,7 +629,8 @@ class Sharepoint extends Component {
                                 type={'File name:         '}
                                 detailType={'File Details'}
                                 filesize={this.state.filesize}
-                                whoSharedWith={this.state.fileSharedWith} />
+                                whoSharedWith={this.state.fileSharedWith}
+                                gallery={false} />
                               : null}
 
                             <tbody>
@@ -642,7 +642,7 @@ class Sharepoint extends Component {
                                   <td>{item.Address}</td>
                                   <td>{item.Date}</td>
                                   <td>
-                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'file')}><BsInfoCircle size="1.2em" /></button>
+                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'file')}><RiInformationLine size="1.6em" /></button>
                                   </td>
                                   <td>
                                     {!this.state.viewOnlyFileArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
