@@ -7,7 +7,8 @@ import Sharepoint from './components/Sharepoint';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
 import { BsHouse, BsLock, BsUnlock, BsFolder } from "react-icons/bs"; // BsQuestionDiamond
-import { BiShareAlt } from "react-icons/bi"; 
+import { BiShareAlt } from "react-icons/bi";
+import PdfViewer from './components/PdfViewer';
 // import { RiHome2Line } from "react-icons/ri";  
 
 
@@ -61,7 +62,6 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <main>
-
             <Navbar className="nav" expand="md">
               <NavbarBrand href="/"><Header subtitle="" /></NavbarBrand>
               <Nav className="mr-auto" navbar></Nav>
@@ -91,7 +91,8 @@ class App extends Component {
               <Route exact path='/' component={Root} />
               <Route path='/login' component={LogIn} />
               <Route path='/gallery' component={Gallery} />
-              {/* <Route path='/filegallery' component={FileGallery} /> */}
+              {/* <Route path='/WaterMarkExample' component={WaterMarkExample} />  */}
+              <Route path='/PdfViewer' component={PdfViewer} /> 
               <Route path='/sharepoint' component={Sharepoint} />
               <Route path='/' component={Root} />
             </Switch>

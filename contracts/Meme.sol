@@ -81,26 +81,25 @@ contract Meme is Ownable, AccessControl {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate images from being inserted (shared again) - if same file and same address shared the file - do not allow
-    bool duplicateFound = false;
-    for (uint i = 0; i < idUserData[_address].imageHashesSharedWithUser.length; i++) {
-      if (idUserData[_address].imageHashesSharedWithUser[i] == _imageHash && idUserData[_address].addressSharedWithUser[i] == msg.sender && idUserData[_address].imageNamesSharedWithUser[i] == _imageName) {
-        duplicateFound = true;
-        break;
-      }
-    }
-    if (!duplicateFound) {
+    // bool duplicateFound = false;
+    // for (uint i = 0; i < idUserData[_address].imageHashesSharedWithUser.length; i++) {
+    //   if (idUserData[_address].imageHashesSharedWithUser[i] == _imageHash && idUserData[_address].addressSharedWithUser[i] == msg.sender && idUserData[_address].imageNamesSharedWithUser[i] == _imageName) {
+    //     duplicateFound = true;
+    //     break;
+    //   }
+    // }
+    // if (!duplicateFound) {
       idUserData[_address].imageHashesSharedWithUser.push(_imageHash);
       idUserData[_address].imageNamesSharedWithUser.push(_imageName);
       idUserData[_address].usernameSharedWithUser.push(_usrName);
       idUserData[_address].addressSharedWithUser.push(msg.sender); 
       idUserData[_address].dateImageShareWithUser.push(_date);
 
-      // new: User shared a file//image with the following address
+      // new: User shared a file//image with the following address - viewOnly option
       idUserData[msg.sender].imageAddressUserSharedWith.push(_address);
       idUserData[msg.sender].imageHashUserSharedWith.push(_imageHash);
-      // view Only or nah
       idUserData[_address].viewOnlyImage.push(_viewOnly);
-    }   
+    // }   
   }
 
   function getSharedImageArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory, bool[] memory) { 
@@ -114,33 +113,32 @@ contract Meme is Ownable, AccessControl {
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     // prevents duplicate files from being inserted (shared again)
-    bool duplicateFound = false;
-    for (uint i = 0; i < idUserData[_address].fileHashesSharedWithUser.length; i++) {
-      if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash && idUserData[_address].fileAddressSharedWithUser[i] == msg.sender && idUserData[_address].fileNamesSharedWithUser[i] == _fileName) {
-        duplicateFound = true;
-        break;
-      }
-    }
-    if (!duplicateFound) {
+    // bool duplicateFound = false;
+    // for (uint i = 0; i < idUserData[_address].fileHashesSharedWithUser.length; i++) {
+    //   if (idUserData[_address].fileHashesSharedWithUser[i] == _fileHash && idUserData[_address].fileAddressSharedWithUser[i] == msg.sender && idUserData[_address].fileNamesSharedWithUser[i] == _fileName) {
+    //     duplicateFound = true;
+    //     break;
+    //   }
+    // }
+    // if (!duplicateFound) {
       idUserData[_address].fileHashesSharedWithUser.push(_fileHash);
       idUserData[_address].fileNamesSharedWithUser.push(_fileName);
       idUserData[_address].fileUsernameSharedWithUser.push(_usrName);
       idUserData[_address].fileAddressSharedWithUser.push(msg.sender); 
       idUserData[_address].dateFileShareWithUser.push(_date);
 
-      // new: User shared a file//image with the following address
+      // new: User shared a file//image with the following address - viewOnly option
       idUserData[msg.sender].fileAddressUserSharedWith.push(_address);
       idUserData[msg.sender].fileHashUserSharedWith.push(_fileHash);
-      // view Only or nah
       idUserData[_address].viewOnlyFile.push(_viewOnly);
-    } 
+    // } 
   }
 
   function getSharedFileArr() public view returns (bytes32[] memory, bytes32[] memory, address[] memory, string[] memory, string[] memory, bool[] memory) { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
     return (idUserData[msg.sender].fileHashesSharedWithUser, idUserData[msg.sender].fileNamesSharedWithUser,
     idUserData[msg.sender].fileAddressSharedWithUser, idUserData[msg.sender].fileUsernameSharedWithUser, idUserData[msg.sender].dateFileShareWithUser,
-    idUserData[msg.sender].viewOnlyImage); 
+    idUserData[msg.sender].viewOnlyFile); 
   }
 
 

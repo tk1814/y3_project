@@ -10,9 +10,18 @@ import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 // import Alert from 'react-bootstrap/Alert';
 // import ReactWaterMark from 'react-watermark-component';
-import { RiUserShared2Line, RiInformationLine } from "react-icons/ri"; 
-// import { BsInfoCircle } from "react-icons/bs";
+import { RiUserShared2Line, RiInformationLine } from "react-icons/ri";
+import { BiSort } from "react-icons/bi";
 import ModalDetails from './ModalDetails';
+import ReactImageProcess from 'react-image-process';
+// import PDF from 'react-pdf-watermark';
+// import PDFViewer from './PDFViewer';
+// import WaterMarkExample from './WaterMarkExample';
+// import PdfViewer from './PdfViewer';
+// import jsPDF from "jspdf";
+// import WebViewer from '@pdftron/pdfjs-express';
+// {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> */ }
+
 
 class Sharepoint extends Component {
 
@@ -83,9 +92,9 @@ class Sharepoint extends Component {
       }.bind(this))
     }
     // disable right click menu
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
+    // document.addEventListener('contextmenu', (e) => {
+    //   e.preventDefault();
+    // });
   }
 
 
@@ -163,6 +172,7 @@ class Sharepoint extends Component {
             }
             this.setState({ imageItems })
           }
+
         });
 
 
@@ -265,8 +275,6 @@ class Sharepoint extends Component {
           });
           this.setState({ fileHashUserSharedWith })
         }
-
-
       }
       else {
         window.alert('Smart contract not deployed to detected network.')
@@ -332,13 +340,128 @@ class Sharepoint extends Component {
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      }
-      else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      } else if (input_address.toLowerCase() === current_address.toLowerCase()) {
         alert('Cannot share images with yourself')
-      }
-      else {
+      } else {
 
-        let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
+        // var watermark = require('image-watermark');
+        // var options = {
+        //   'text' : 'sample watermark',
+        //   'override-image' : true
+        // };
+        // watermark.embedWatermark(this.state.imageItems[0].Image, options);
+
+        // var im = require('imagemagick');
+        // im.readMetadata(this.state.imageItems[this.state.currentImgFileIndex].Image, function (err, metadata) {
+        //   if (err) throw err;
+        //   console.log('Shot at ' + metadata.exif.dateTimeOriginal);
+        // })
+
+        // var watermark = require('dynamic-watermark');
+        // var optionsImageWatermark = {
+        //   type: "image",
+        //   source: "this.state.imageItems[this.state.currentImgFileIndex].Image",
+        //   // logo: "logo.png", // This is optional if you have provided text Watermark
+        //   destination: "output.png",
+        //   position: {
+        //     logoX: 200,
+        //     logoY: 200,
+        //     logoHeight: 200,
+        //     logoWidth: 200
+        //   }
+        // };
+
+        // var optionsTextWatermark = {
+        //   type: "text",
+        //   text: "Watermark text", // This is optional if you have provided text Watermark
+        //   destination: "output.png",
+        //   source: this.state.imageItems[this.state.currentImgFileIndex].Image,
+        //   position: {
+        //     logoX: 200,
+        //     logoY: 200,
+        //     logoHeight: 200,
+        //     logoWidth: 200
+        //   },
+        //   textOption: {
+        //     fontSize: 100, //In px default : 20
+        //     color: '#AAF122' // Text color in hex default: #000000
+        //   }
+        // };
+        // //optionsImageWatermark or optionsTextWatermark
+        // watermark.embed(optionsTextWatermark, function (status) {
+        //   //Do what you want to do here
+        //   console.log(status);
+        // });
+
+
+
+        // var dyWatermark = require('imagemagick-dynamic-watermark');
+
+        // var options = {
+        //   source: this.state.imageItems[this.state.currentImgFileIndex].Image,
+        //   destination: './images/a1_edited/jpg',
+        //   type: 'watermark',
+
+        //   //if type contain watermark
+        //   watermark: {
+        //     logo: './assets/logo.png',
+        //     gravity: 'Center',
+        //     logoWidth: 100,
+        //     logoHeight: 100,
+        //     logoWidthPercent: 0.1,
+        //     logoHeightPercent: 0.1
+        //   },
+
+        //   //if type contain crop
+        //   crop: {
+        //     gravity: 'Center',
+        //     width: 100,
+        //     height: 100
+        //   }
+        // }
+
+        // dyWatermark.apply(options, (err, isOk) => {
+        //   if (err) throw new Error(err);
+        //   //do something, happy coding!
+        //   console.log(isOk)
+        // });
+
+
+        // // place a watermark in the upper left hand corner of an image
+        // watermark([this.state.imageItems[this.state.currentImgFileIndex].Image, '/img/logo.png'])
+        //   .image(function (coffee, logo) {
+        //     var context = coffee.getContext('2d');
+        //     context.save();
+
+        //     context.globalAlpha = alpha;
+        //     context.drawImage(logo, 10, 10);
+
+        //     context.restore();
+        //     return target;
+        //   });
+
+        // var options = {
+        //   init: function (img) {
+        //     img.crossOrigin = "anonymous";
+        //   }
+        // };
+        // watermark(
+        //   ["https://www.hometown.in/media/product/88/5392/57299/1-product_500.jpg"],
+        //   options
+        // )
+        //   .image(
+        //     watermark.text.lowerRight(
+        //       "watermark.js",
+        //       "48px Josefin Slab",
+        //       "#fff",
+        //       0.5
+        //     )
+        //   )
+        //   .then(function (img) {
+        //     console.log(img);
+        //   });
+
+
         if (this.state.typeOfFile === 'image') {
 
           let fileAlreadyShared = false;
@@ -352,6 +475,8 @@ class Sharepoint extends Component {
           if (fileAlreadyShared) {
             this.setState({ alreadyShared: true })
           } else {
+            this.setState({ alreadyShared: false })
+            let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.imageNamesSharedSolArray[this.state.currentImgFileIndex]
             await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
@@ -363,14 +488,17 @@ class Sharepoint extends Component {
 
           let fileAlreadyShared = false;
           for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
-            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address)
+            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address) {
               fileAlreadyShared = true;
-            break;
+              break;
+            }
           }
 
           if (fileAlreadyShared) {
             this.setState({ alreadyShared: true })
           } else {
+            this.setState({ alreadyShared: false })
+            let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.fileNamesSharedSolArray[this.state.currentImgFileIndex]
             await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
@@ -381,13 +509,13 @@ class Sharepoint extends Component {
       }
 
       // empty the array to check whether images were selected next time
-      this.setState({ link_to_be_shared: null })
+      // this.setState({ link_to_be_shared: null })
 
     } catch (e) {
       // set to false to remove the warning for the next share
       this.setState({ alreadyShared: false })
       this.closeModal();
-      console.log(e);
+      // console.log(e);
       alert("Wrong public address entered or Request was rejected.")
     }
   }
@@ -439,7 +567,6 @@ class Sharepoint extends Component {
           this.setState({ fileSharedWith })
         }
       }
-
     }
   }
 
@@ -449,8 +576,26 @@ class Sharepoint extends Component {
     this.setState({ fileSharedWith: ['No one'] })
   }
 
+  onComplete = data => {
+    console.log(data);
+    console.log('somsers')
+  };
 
+  reverseItems = (typeOfFile) => {
+    if (typeOfFile === 'image') {
+      let reverseImageItems = this.state.imageItems.reverse();
+      this.setState({ imageItems: reverseImageItems })
+    } else if (typeOfFile === 'file') {
+      let reverseFileItems = this.state.items.reverse();
+      this.setState({ items: reverseFileItems })
+    }
+  }
 
+  redirectToPDFViewer = (itm) => {
+    localStorage.setItem('item', JSON.stringify(itm));
+    localStorage.setItem('address', JSON.stringify(this.state.items[this.state.img_index].Address));
+    window.open('/PdfViewer')
+  }
 
   render() {
 
@@ -461,10 +606,10 @@ class Sharepoint extends Component {
     //   chunkHeight: 60,
     //   textAlign: 'left',
     //   textBaseline: 'bottom',
-    //   globalAlpha: 0.17,
-    //   font: '14px Microsoft Yahei',
+    //   globalAlpha: 2.17,
+    //   font: '12px Microsoft Yahei',
     //   rotateAngle: -0.26,
-    //   fillStyle: '#666',
+    //   fillStyle: '#000',
     // }
 
     let fileType;
@@ -474,10 +619,9 @@ class Sharepoint extends Component {
       fileType = false
 
     return (
-      <div className="simple_bg ">
+      <div className="simple_bg">
 
         {(JSON.parse(localStorage.getItem('state'))) ?
-
           <div className="container-fluid">
             <div className="row">
               <main role="main" className="col-lg-12 d-flex text-center">
@@ -486,14 +630,79 @@ class Sharepoint extends Component {
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                        <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
+                        {this.state.viewOnlyImageArr[this.state.img_index] ?
+
+                          <ReactImageProcess onComplete={this.onComplete}
+                            mode="waterMark"
+                            waterMarkType="text"
+                            waterMark={this.state.imageItems[this.state.img_index].Address}
+                            fontBold={false}
+                            fontSize={20}
+                            fontColor="#fff"
+                            coordinate={[10, 20]}>
+
+                            {/* {       let image_shared_src = [];
+                                        let hashes = this.state.imageHashesShared.map((image, index) =>
+                                          `https://ipfs.infura.io/ipfs/${image}`)
+
+                                        for (let i = 0; i < hashes.length; i++) {
+                                          image_shared_src.push({ source: hashes[i] })
+                                        }
+                                        this.setState({ image_shared_src }) } */}
+                            {/* } */}
+
+                            {/* // <ReactWaterMark
+                          //   waterMarkText={text}
+                          //   openSecurityDefense
+                          //   securityAlarm={beginAlarm}
+                          //   options={options}> */}
+
+                            <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
+                              container: base => ({ ...base, height: '100vh', }),
+                              view: base => ({ ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', }, })
+                            }} />
+
+                            {/* </ReactWaterMark> */}
+                          </ReactImageProcess>
+
+                          :
+
+                          <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
+                            container: base => ({ ...base, height: '100vh', }),
+                            view: base => ({ ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', }, })
+                          }} />}
+
+                        {/*                          
+                        {!this.state.viewOnlyImageArr[this.state.img_index] &&
+
+                            <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
+                              container: base => ({ ...base, height: '100vh', }),
+                              view: base => ({
+                                ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', },
+                              })
+                            }} /> } */}
+
+
+                        {/* <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
                           container: base => ({ ...base, height: '100vh', }),
                           view: base => ({
                             ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', },
                           })
-                        }} />
+                        }} /> */}
+
                       </Modal>) : ''}
                   </ModalGateway>
+
+                  {/* // <ReactImageProcess onComplete={this.onComplete}
+                    //   mode="waterMark"
+                    //   waterMarkType="text"
+                    //   waterMark={this.state.imageItems[this.state.img_index].Address}
+                    //   fontBold={false}
+                    //   fontSize={20}
+                    //   fontColor="#fff"
+                    //   coordinate={[10, 20]}>
+                    // </ReactImageProcess>} */}
+
                   <div className="smaller_space"></div>
 
                   {/* <div style={{ maxWidth: 500 }}>
@@ -516,13 +725,13 @@ class Sharepoint extends Component {
                       shared={this.state.alreadyShared} /> : null}
 
                   <Tabs className="file_space table"
-                    defaultActiveKey="gallery" id="uncontrolled-tab-example">
+                    defaultActiveKey="files" id="uncontrolled-tab-example">
                     <Tab eventKey="gallery" title="Shared images">
 
-                      {(this.state.imageHashesShared.length !== 0) ? (
 
+                      {(this.state.imageHashesShared.length !== 0) ? (
                         <div style={{ display: 'table-cell' }}>
-                          <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
+                          <Table className="mb-5 mt-5 table" striped borderless hover variant="dark">
                             <thead>
                               <tr>
                                 <th>#</th>
@@ -530,13 +739,12 @@ class Sharepoint extends Component {
                                 <th>Image</th>
                                 <th>From</th>
                                 <th>Address</th>
-                                <th>Date</th>
+                                <th>Date <button className="btn btn_reverse" type="button" onClick={() => this.reverseItems('image')}><BiSort size="1.2em" /></button></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
                               </tr>
                             </thead>
-
 
                             {/* IMAGE DETAILS */}
                             {this.state.detailsModalIsOpen && fileType ?
@@ -553,67 +761,74 @@ class Sharepoint extends Component {
                               : null}
 
                             <tbody>
-
                               {this.state.imageItems.map((item, index) => (
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td style={{ color: '#80C2AF' }}>{item.Name}</td>
-
                                   <td>
-                                    {/* {!this.state.viewOnlyImageArr[index] && */}
-                                    <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />
-                                    {/* } */}
+                                    {!this.state.viewOnlyImageArr[item.id] &&
 
-                                    {/* {this.state.viewOnlyImageArr[index] &&
+                                      <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />}
+
+                                    {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
+                                    {/* {this.state.viewOnlyImageArr[item.id] &&
                                       <ReactWaterMark
                                         waterMarkText={text}
                                         openSecurityDefense
                                         securityAlarm={beginAlarm}
                                         options={options}>
-                                        <img onClick={() => this.toggleModal(index)} className="img_shared" src={item.Image} alt="inputFile" />
+                                        <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />
                                       </ReactWaterMark>} */}
+                                    {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
+
+                                    {this.state.viewOnlyImageArr[item.id] &&
+                                      <ReactImageProcess onComplete={this.onComplete}
+                                        mode="waterMark"
+                                        waterMarkType="text"
+                                        waterMark={item.Address}
+                                        fontBold={false}
+                                        fontSize={12}
+                                        fontColor="#fff"
+                                        coordinate={[5, 50]}>
+                                        <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />
+                                      </ReactImageProcess>}
+
                                   </td>
                                   <td>{item.From}</td>
                                   <td>{item.Address}</td>
                                   <td> {item.Date}</td>
                                   <td>
-                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'image')}><RiInformationLine size="1.6em" /></button>
+                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(item.id, 'image')}><RiInformationLine size="1.6em" /></button>
                                   </td>
-                                  <td>
-                                    {!this.state.viewOnlyImageArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
-                                      if (item.Name.match(/.(gif)/i))
-                                        this.downloadFile(item.Image, 'gif', item.Name);
-                                      else
-                                        this.downloadFile(item.Image, 'image', item.Name);
-                                    }}><BiDownload size="1.8em" /></button>}
+                                  <td>{!this.state.viewOnlyImageArr[item.id] && <button className="btn btn_download download_icon" type="button" onClick={() => {
+                                    if (item.Name.match(/.(gif)/i))
+                                      this.downloadFile(item.Image, 'gif', item.Name);
+                                    else
+                                      this.downloadFile(item.Image, 'image', item.Name);
+                                  }}><BiDownload size="1.8em" /></button>}
                                   </td>
-                                  <td>
-                                    {!this.state.viewOnlyImageArr[index] &&
-                                      <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, 'image')}><RiUserShared2Line size="1.4em" /></button>}
+                                  <td>{!this.state.viewOnlyImageArr[item.id] &&
+                                    <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(item.id, 'image')}><RiUserShared2Line size="1.4em" /></button>}
                                   </td>
                                 </tr>
                               ))}
-
                             </tbody>
                           </Table>
-
                         </div>
                       ) : <h3 className='mt-5'>No images shared with you.</h3>}
-
                     </Tab>
                     <Tab eventKey="files" title="Shared files">
 
                       {(this.state.fileHashesShared.length !== 0) ? (
                         <div>
-
-                          <Table className="mb-5 mt-5 table" striped bordered hover variant="dark">
+                          <Table className="mb-5 mt-5 table" striped borderless hover variant="dark">
                             <thead>
                               <tr>
                                 <th>#</th>
                                 <th>File</th>
                                 <th>From</th>
                                 <th>Address</th>
-                                <th>Date</th>
+                                <th>Date <button className="btn btn_reverse" type="button" onClick={() => this.reverseItems('file')}><BiSort size="1.2em" /></button></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -637,35 +852,30 @@ class Sharepoint extends Component {
                               {this.state.items.map((item, index) => (
                                 <tr key={index}>
                                   <td>{item.id}</td>
-                                  <td><a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a></td>
+                                  <td>
+                                    {/* >>>>>>>>>>>>>>>>>>>>..... PDF VIEWER WITH WATERMARK <<<<<<<<<<<<<<<<<<<<<<< */}
+                                    {this.state.viewOnlyFileArr[item.id] ?
+                                      // CORRECT Opens in protected view
+                                      // <a onClick={() => this.redirectToPDFViewer(item.File)} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>
+                                      <button className="btn file_btn" onClick={() => this.redirectToPDFViewer(item.File)} target="_blank" rel="noopener noreferrer">{item.Name}</button>
+                                      : <a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>}
+                                  </td>
                                   <td>{item.From}</td>
                                   <td>{item.Address}</td>
                                   <td>{item.Date}</td>
-                                  <td>
-                                    <button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(index, 'file')}><RiInformationLine size="1.6em" /></button>
-                                  </td>
-                                  <td>
-                                    {!this.state.viewOnlyFileArr[index] && <button className="btn btn_download download_icon" type="button" onClick={() => {
-                                      this.downloadFile(item.File, 'file', item.Name);
-                                    }}><BiDownload size="1.8em" /></button>}
-                                  </td>
-                                  <td>
-                                    {!this.state.viewOnlyFileArr[index] &&
-                                      <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, 'file')}><RiUserShared2Line size="1.4em" /></button>}
-                                  </td>
+                                  <td><button className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(item.id, 'file')}><RiInformationLine size="1.6em" /></button></td>
+                                  <td>{!this.state.viewOnlyFileArr[item.id] && <button className="btn btn_download download_icon" type="button" onClick={() => {
+                                    this.downloadFile(item.File, 'file', item.Name);
+                                  }}><BiDownload size="1.8em" /></button>} </td>
+                                  <td>{!this.state.viewOnlyFileArr[item.id] && <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(item.id, 'file')}><RiUserShared2Line size="1.4em" /></button>}</td>
                                 </tr>
                               ))}
-
                             </tbody>
                           </Table>
-
-
                         </div>
                       ) : <h3 className='mt-5'>No files shared with you.</h3>}
-
                     </Tab>
                   </Tabs>
-
                   <div className="footer_space"></div>
                 </div>
               </main>

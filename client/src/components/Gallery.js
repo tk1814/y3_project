@@ -409,7 +409,7 @@ class Gallery extends Component {
       }
 
       // get image size
-      remote(this.state.image_src[currentImgFileIndex].source, (err, res) =>{
+      remote(this.state.image_src[currentImgFileIndex].source, (err, res) => {
         this.setState({ filesize: prettyBytes(res) })
       })
 
@@ -417,7 +417,7 @@ class Gallery extends Component {
     } else if (typeOfFile === 'file') {
 
       // get file size
-      remote(this.state.file_src[currentImgFileIndex].source, (err, res) =>{
+      remote(this.state.file_src[currentImgFileIndex].source, (err, res) => {
         this.setState({ filesize: prettyBytes(res) })
       })
 
@@ -441,9 +441,7 @@ class Gallery extends Component {
   closeModal = () => { this.setState({ shareModalIsOpen: false }); }
 
   handleSubmit = async (input_address, viewOnly) => {
-
-    console.log(viewOnly) //<<<<<<<<<<<<<<<<<<<<<<<
-
+console.log(viewOnly)
     let current_address = this.state.account
     try {
       if (!input_address) {
@@ -454,13 +452,7 @@ class Gallery extends Component {
       }
       else {
 
-        let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
         if (this.state.typeOfFile === 'image') {
-
-          // watermark(['img/photo.jpg', 'img/logo.png'])
-          //   .image(watermark.image.lowerRight(0.5))
-          //   .then(img => document.getElementById('container').appendChild(img));
-
 
           let fileAlreadyShared = false;
           for (let i = 0; i < this.state.imageHashUserSharedWith.length; i++) {
@@ -473,6 +465,9 @@ class Gallery extends Component {
           if (fileAlreadyShared) {
             this.setState({ alreadyShared: true })
           } else {
+            this.setState({ alreadyShared: false })
+
+            let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
             await this.state.contract.methods.shareImage(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
@@ -484,16 +479,19 @@ class Gallery extends Component {
 
           let fileAlreadyShared = false;
           for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
-            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address)
+            if (this.state.fileHashUserSharedWith[i] === this.state.link_to_be_shared && this.state.fileAddressUserSharedWithSol[i] === input_address) {
               fileAlreadyShared = true;
-            break;
+              break;
+            }
           }
 
           if (fileAlreadyShared) {
             this.setState({ alreadyShared: true })
           } else {
+            this.setState({ alreadyShared: false })
+
+            let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.fileNameSolArray[this.state.currentImgFileIndex]
-            // moment().format('DD-MM-YYYY, HH:mm') 
             await this.state.contract.methods.shareFile(this.state.username, input_address, hash_decoded, hex_filename, Date().toLocaleString(), viewOnly).send({ from: this.state.account }).then((r) => {
               this.closeModal();
               window.location.reload();
@@ -503,14 +501,14 @@ class Gallery extends Component {
       }
 
       // empty the array to check whether images were selected next time
-      this.setState({ link_to_be_shared: null })
+      // this.setState({ link_to_be_shared: null })
 
     } catch (e) {
       // set to false to remove the warning for the next share
       this.setState({ alreadyShared: false })
       this.closeModal();
-      console.log(e);
-      alert("Wrong public address entered or request was rejected.")
+      // console.log(e);
+      alert("Wrong public address entered or Request was rejected.")
     }
   }
 
