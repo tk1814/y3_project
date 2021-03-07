@@ -51,6 +51,8 @@ class App extends Component {
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
         localStorage.setItem('state', JSON.stringify(false));
+        localStorage.setItem('item', JSON.stringify(''));
+        localStorage.setItem('address', JSON.stringify(''));
         window.location.reload();
       }.bind(this))
     }

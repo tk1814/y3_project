@@ -77,6 +77,8 @@ class Gallery extends Component {
         this.setState({ account: accounts[0] })
         // ***LOGOUT WHEN ACCOUNT CHANGES***
         localStorage.setItem('state', JSON.stringify(false));
+        localStorage.setItem('item', JSON.stringify(''));
+        localStorage.setItem('address', JSON.stringify(''));
         this.redirectToLogin();
         window.location.reload();
       }.bind(this))
