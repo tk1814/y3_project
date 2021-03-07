@@ -16,8 +16,6 @@ class PdfViewer extends React.Component {
   renderPagination = (page, pages) => {
     let previousButton =
       <div className="previous" onClick={this.handlePrevious}> <BiCaretLeft size="1.6em"/></div>;
-    // <div className="previous" onClick={this.handlePrevious}><a href="#"><i className=" "></i><BiCaretLeft size="1.6em" /></a></div>;
-
     if (page === 1) {
       previousButton = <div className="previous disabled"> <BiCaretLeft size="1.6em" /></div>;
     }
@@ -34,7 +32,7 @@ class PdfViewer extends React.Component {
   }
 
   applyWatermark = (canvas, context) => {
-    context.globalAlpha = 0.25
+    context.globalAlpha = 0.30
     context.font = '35px bold Arial'
     context.translate(canvas.width / 2, canvas.height / 2)
     context.rotate(-Math.atan(canvas.height / canvas.width))
@@ -56,7 +54,7 @@ class PdfViewer extends React.Component {
           file={JSON.parse(localStorage.getItem('item'))}
           page={this.state.page}
           watermark={this.applyWatermark}
-          onDocumentComplete={() => { /* Do anything on document loaded like remove loading, etc */ }}
+          // onDocumentComplete={() => { /* Do anything on document loaded like remove loading, etc */ }}
           onPageRenderComplete={(pages, page) => this.setState({ page, pages })}
         />
         {pagination}

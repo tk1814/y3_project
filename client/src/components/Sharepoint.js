@@ -8,6 +8,7 @@ import { Table } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
+// import { Link } from 'react-router-dom' 
 // import Alert from 'react-bootstrap/Alert';
 // import ReactWaterMark from 'react-watermark-component';
 import { RiUserShared2Line, RiInformationLine } from "react-icons/ri";
@@ -591,10 +592,10 @@ class Sharepoint extends Component {
     }
   }
 
-  redirectToPDFViewer = (itm) => {
+  redirectToPDFViewer = (itm, id) => {
     localStorage.setItem('item', JSON.stringify(itm));
-    localStorage.setItem('address', JSON.stringify(this.state.items[this.state.img_index].Address));
-    window.open('/PdfViewer')
+    localStorage.setItem('address', JSON.stringify(this.state.items[id].Address));
+    window.open('/PdfViewer?id=' + id)
   }
 
   render() {
@@ -682,7 +683,6 @@ class Sharepoint extends Component {
                               })
                             }} /> } */}
 
-
                         {/* <Carousel currentIndex={this.state.img_index} views={this.state.image_shared_src} styles={{
                           container: base => ({ ...base, height: '100vh', }),
                           view: base => ({
@@ -725,9 +725,8 @@ class Sharepoint extends Component {
                       shared={this.state.alreadyShared} /> : null}
 
                   <Tabs className="file_space table"
-                    defaultActiveKey="files" id="uncontrolled-tab-example">
+                    defaultActiveKey="gallery" id="uncontrolled-tab-example">
                     <Tab eventKey="gallery" title="Shared images">
-
 
                       {(this.state.imageHashesShared.length !== 0) ? (
                         <div style={{ display: 'table-cell' }}>
@@ -856,8 +855,8 @@ class Sharepoint extends Component {
                                     {/* >>>>>>>>>>>>>>>>>>>>..... PDF VIEWER WITH WATERMARK <<<<<<<<<<<<<<<<<<<<<<< */}
                                     {this.state.viewOnlyFileArr[item.id] ?
                                       // CORRECT Opens in protected view
-                                      // <a onClick={() => this.redirectToPDFViewer(item.File)} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>
-                                      <button className="btn file_btn" onClick={() => this.redirectToPDFViewer(item.File)} target="_blank" rel="noopener noreferrer">{item.Name}</button>
+                                      <button className="btn file_btn" onClick={() => this.redirectToPDFViewer(item.File, item.id)} target="_blank" rel="noopener noreferrer">{item.Name}</button>
+                                      // <Link to={{ pathname: "/PdfViewer",  data: item.File  }} target="_blank">{item.Name}</Link>
                                       : <a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>}
                                   </td>
                                   <td>{item.From}</td>

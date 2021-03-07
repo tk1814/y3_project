@@ -164,6 +164,11 @@
   color: #222!important;
 }
 
+a:hover {
+  text-decoration:none;
+  cursor:pointer;
+}
+
 .arrow_btn {
   color: #6e967a!important;
 }
