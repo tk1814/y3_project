@@ -14,6 +14,7 @@ import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 import ModalDetails from './ModalDetails';
 import Figure from 'react-bootstrap/Figure';
+// import photoMagician from "photo-magician";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ipfsClient = require('ipfs-http-client')
@@ -441,16 +442,14 @@ class Gallery extends Component {
   closeModal = () => { this.setState({ shareModalIsOpen: false }); }
 
   handleSubmit = async (input_address, viewOnly) => {
-console.log(viewOnly)
+    console.log(viewOnly)
     let current_address = this.state.account
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      }
-      else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         alert('Cannot share images with yourself')
-      }
-      else {
+      } else {
 
         if (this.state.typeOfFile === 'image') {
 
@@ -466,6 +465,53 @@ console.log(viewOnly)
             this.setState({ alreadyShared: true })
           } else {
             this.setState({ alreadyShared: false })
+
+            // let hashh;
+            // if (viewOnly) {
+
+            //   //>>>>>... watermark here
+            //   const magician = new photoMagician();
+            //   magician.addWaterMark({
+            //     cover: `https://ipfs.infura.io/ipfs/${this.state.link_to_be_shared}`,
+            //     mode: "text",
+            //     waterMark: this.state.account,
+            //     fontBold: false,
+            //     fontSize: 20,
+            //     fontColor: "#396",
+            //     coordinate: [10, 20]
+            //   }).then(async(data) => {
+
+            //     console.log(typeof (data))
+
+            //     // var binary_string = window.atob(data);
+            //     // var len = binary_string.length;
+            //     // var bytes = new Uint8Array(len);
+            //     // for (var i = 0; i < len; i++) {
+            //     //   bytes[i] = binary_string.charCodeAt(i);
+            //     // }
+            //     // // return bytes.buffer;
+
+            //     var arrayBufferView = new Uint8Array( data );
+            //     // var blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
+            //     // var urlCreator = window.URL || window.webkitURL;
+            //     // var imageUrl = urlCreator.createObjectURL( blob );
+                
+
+            //     // const reader = new window.FileReader()
+            //     // reader.readAsArrayBuffer(bytes.buffer)
+            //     // const file = ipfs.add(Buffer(reader.result))
+            //     const file = await ipfs.add(data)
+            //     let file_hash = file.path
+            //     console.log(file_hash)
+            //     hashh = file_hash
+
+            //   }).catch((err) => {
+            //     console.error('add text WaterMark error', err);
+            //   })
+
+            //   console.log(hashh)
+            // }
+
 
             let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
