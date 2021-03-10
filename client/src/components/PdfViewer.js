@@ -10,10 +10,7 @@ class PdfViewer extends React.Component {
     if (this.ethereum) {
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
-        // ***LOGOUT WHEN ACCOUNT CHANGES***
-        localStorage.setItem('state', JSON.stringify(false));
-        localStorage.setItem('item', JSON.stringify(''));
-        localStorage.setItem('address', JSON.stringify(''));
+        localStorage.clear();
         this.redirectToLogin();
         window.location.reload();
       }.bind(this))
@@ -57,7 +54,7 @@ class PdfViewer extends React.Component {
     context.translate(canvas.width / 2, canvas.height / 2)
     context.rotate(-Math.atan(canvas.height / canvas.width))
 
-    const text = JSON.parse(localStorage.getItem('address'))
+    const text = JSON.parse(localStorage.getItem(this.props.location.search.replace('?', '')))[1]
     let metrics = context.measureText(text)
     context.fillText(text, -metrics.width / 2, (95 / 2))
 
@@ -68,7 +65,7 @@ class PdfViewer extends React.Component {
 
   render() {
     let fileLoaded;
-    if (JSON.parse(localStorage.getItem('item') === null))
+    if (JSON.parse(localStorage.getItem(this.props.location.search.replace('?', ''))) === null)
       fileLoaded = false
     else
       fileLoaded = true
@@ -84,7 +81,7 @@ class PdfViewer extends React.Component {
           <div>
             {fileLoaded ?
               <div>
-                <PDF file={JSON.parse(localStorage.getItem('item'))}
+                <PDF file={JSON.parse(localStorage.getItem(this.props.location.search.replace('?', '')))[0]}
                   page={this.state.page}
                   watermark={this.applyWatermark}
                   onPageRenderComplete={(pages, page) => this.setState({ page, pages })} />

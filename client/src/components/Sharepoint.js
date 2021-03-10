@@ -13,7 +13,6 @@ import { BiSort } from "react-icons/bi";
 import ModalDetails from './ModalDetails';
 import ReactImageProcess from 'react-image-process';
 import photoMagician from "photo-magician";
-// import { Link } from 'react-router-dom' 
 // import Alert from 'react-bootstrap/Alert';
 
 class Sharepoint extends Component {
@@ -73,20 +72,14 @@ class Sharepoint extends Component {
     // Detects eth wallet account change 
     this.ethereum = window.ethereum
     if (this.ethereum) {
-      console.log('Window: ' + window.ethereum.selectedAddress)
-
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
-        localStorage.setItem('state', JSON.stringify(false));
-        localStorage.setItem('item', JSON.stringify(''));
-        localStorage.setItem('address', JSON.stringify(''));
-
+        localStorage.clear();
         this.redirectToLogin();
         window.location.reload();
       }.bind(this))
     }
   }
-
 
   async loadBlockchainData() {
 
@@ -163,7 +156,6 @@ class Sharepoint extends Component {
             this.setState({ imageItems })
 
 
-
             // Shared Watermarked image items
             let imageItemsModal = [...image_shared_src];
             const magician = new photoMagician();
@@ -189,7 +181,6 @@ class Sharepoint extends Component {
             this.setState({ imageItemsModal })
           }
         });
-
 
         // Load shared files array 
         let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile, viewOnlyFileArr;
@@ -245,8 +236,6 @@ class Sharepoint extends Component {
             this.setState({ items })
           }
         });
-
-
 
         // get images user shared with others 
         let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
@@ -403,10 +392,6 @@ class Sharepoint extends Component {
           }
         }
       }
-
-      // empty the array to check whether images were selected next time
-      // this.setState({ link_to_be_shared: null })
-
     } catch (e) {
       // set to false to remove the warning for the next share
       this.setState({ alreadyShared: false })
@@ -483,10 +468,9 @@ class Sharepoint extends Component {
   }
 
   redirectToPDFViewer = (itm, id) => {
-    localStorage.setItem('item', JSON.stringify(itm));
-    localStorage.setItem('address', JSON.stringify(this.state.items[id].Address));
-    window.open('/PdfViewer')
-    // window.open('/PdfViewer?id=' + id)
+    let fileData = [itm, this.state.items[id].Address];
+    localStorage.setItem(id, JSON.stringify(fileData));
+    window.open('/PdfViewer?' + id)
   }
 
   render() {
@@ -554,7 +538,7 @@ class Sharepoint extends Component {
                               </tr>
                             </thead>
 
-                            {/* IMAGE DETAILS */}
+                            {/* Image details modal */}
                             {this.state.detailsModalIsOpen && fileType ?
                               <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
@@ -625,7 +609,7 @@ class Sharepoint extends Component {
                               </tr>
                             </thead>
 
-                            {/* FILE DETAILS */}
+                            {/* File details modal */}
                             {this.state.detailsModalIsOpen && !fileType ?
                               <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}

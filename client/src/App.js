@@ -5,13 +5,11 @@ import LogIn from './components/LogIn';
 import Gallery from './components/Gallery';
 import Sharepoint from './components/Sharepoint';
 import About from './components/About';
-import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-import { BsHouse, BsLock, BsUnlock, BsFolder, BsQuestion } from "react-icons/bs"; // BsQuestionDiamond
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { BsHouse, BsLock, BsUnlock, BsFolder, BsQuestion } from "react-icons/bs";
 import { BiShareAlt } from "react-icons/bi";
 import PdfViewer from './components/PdfViewer';
-// import { BsQuestion } from "react-icons/ri";  
-
 
 const Root = () => (
   <div className="general_bg">
@@ -25,7 +23,6 @@ const Root = () => (
   </div>
 );
 
-
 class App extends Component {
 
   constructor(props) {
@@ -35,7 +32,6 @@ class App extends Component {
     }
   }
 
-
   async componentDidMount() {
 
     // Detects metamask eth wallet account change 
@@ -43,14 +39,11 @@ class App extends Component {
     if (this.ethereum) {
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
-        localStorage.setItem('state', JSON.stringify(false));
-        localStorage.setItem('item', JSON.stringify(''));
-        localStorage.setItem('address', JSON.stringify(''));
+        localStorage.clear();
         window.location.reload();
       }.bind(this))
     }
   }
-
 
   render() {
     return (
@@ -77,8 +70,6 @@ class App extends Component {
                   localStorage.clear();
                 }} href="/"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}
-
-              {/* <NavItem><NavLink className="nav_btn" href="/sharepoint"><FontAwesomeIcon icon={faPaperPlane} size="2x" /></NavLink></NavItem> */}
             </Navbar>
             <Switch>
               <Route exact path='/' component={Root} />

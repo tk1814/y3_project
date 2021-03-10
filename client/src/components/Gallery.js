@@ -68,14 +68,10 @@ class Gallery extends Component {
     // Detects eth wallet account change 
     this.ethereum = window.ethereum
     if (this.ethereum) {
-      console.log('Window: ' + window.ethereum.selectedAddress)
-
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
         // ***LOGOUT WHEN ACCOUNT CHANGES***
-        localStorage.setItem('state', JSON.stringify(false));
-        localStorage.setItem('item', JSON.stringify(''));
-        localStorage.setItem('address', JSON.stringify(''));
+        localStorage.clear();
         this.redirectToLogin();
         window.location.reload();
       }.bind(this))
@@ -140,7 +136,7 @@ class Gallery extends Component {
 
           this.setState({ imageHashes })
 
-          // IMAGE LAYOUT %%%%%%%%%%%%
+          // Image layout
           let imageItems
           imageItems = this.state.imageHashes.map((image, index) => (
 
@@ -183,7 +179,7 @@ class Gallery extends Component {
           this.setState({ image_src })
         }
 
-        // FILES **************************
+        // Files
         let fileSolArray, fileNameSolArray, dateUploadFile, fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0];
@@ -213,17 +209,15 @@ class Gallery extends Component {
           this.setState({ fileNameSolArray })
         }
 
-        // Did the hashes, fileHashes is ready to display
         if (fileSolArray !== undefined) {
           let fileHashes = fileSolArray.slice();
           fileSolArray.forEach(function (item, index) {
             fileHashes[index] = bs58.encode(Buffer.from("1220" + item.slice(2), 'hex'));
-
           });
 
           this.setState({ fileHashes })
 
-          // FILE LAYOUT %%%%%%%%%%%%
+          // File layout
           let fileItems
           fileItems = this.state.fileHashes.map((file, index) => (
 
@@ -272,17 +266,15 @@ class Gallery extends Component {
     }
   }
 
-  // Called whenever a file is uploaded, converts it to appropriate format for IPFS
-  // stores the file in this component's state
+  // Convert uploaded file to appropriate format for IPFS and store in state
   captureFile = (event) => {
     event.stopPropagation()
     event.preventDefault()
-    const file = event.target.files[0]     // access file from user input
+    const file = event.target.files[0]     
     const fileName = event.target.files[0].name;
     this.setState({ fileName })
     const reader = new window.FileReader()
     reader.readAsArrayBuffer(file)
-    // after reader finishes, initialise buffer and store in component state
     reader.onloadend = () => {
       this.setState({ buffer: Buffer(reader.result) })
     }
@@ -406,7 +398,6 @@ class Gallery extends Component {
       remote(this.state.image_src[currentImgFileIndex].source, (err, res) => {
         this.setState({ filesize: prettyBytes(res) })
       })
-
 
     } else if (typeOfFile === 'file') {
 
@@ -553,7 +544,7 @@ class Gallery extends Component {
                         {(this.state.imageHashes.length !== 0) ? (
                           <div className="file_space mt-5">
                             {this.state.imageItems}
-                            {/* IMAGE DETAILS */}
+                            {/* Image details modal */}
                             {this.state.detailsModalIsOpen && fileType ?
                               <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
@@ -578,7 +569,7 @@ class Gallery extends Component {
                         {(this.state.fileHashes.length !== 0) ? (
                           <div className="file_space mt-5">
                             {this.state.fileItems}
-                            {/* FILE DETAILS */}
+                            {/* File details modal */}
                             {this.state.detailsModalIsOpen && !fileType ?
                               <ModalDetails className='whitespace_wrap'
                                 closeModal={this.closeDetailsModal}
