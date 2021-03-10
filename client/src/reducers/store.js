@@ -1,6 +1,4 @@
-import { createStore, combineReducers } from 'redux';
-import authenticationReducer from './authenticationReducer';
-// import counterReducer from './counter';
+import { createStore } from 'redux';
 
 function saveToLocalStorage(state) {
   try {
@@ -22,16 +20,14 @@ function loadFromLocalStorage() {
   }
 }
 
-// add other reducers to be combined
-const allReducers = combineReducers({
-  // isLogged: authenticationReducer  // 'state' was 'isLogged'
-});
+const authenticationReducer = (state = false) => {
+  return state;
+};
 
 const persistedState = loadFromLocalStorage()
 
-// *************** see warning in console when starting the app
 const store = createStore(
-  allReducers,
+  authenticationReducer,
   persistedState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
