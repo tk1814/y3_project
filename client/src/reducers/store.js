@@ -24,7 +24,7 @@ function loadFromLocalStorage() {
 
 // add other reducers to be combined
 const allReducers = combineReducers({
-  isLogged: authenticationReducer  // 'state' was 'isLogged'
+  // isLogged: authenticationReducer  // 'state' was 'isLogged'
 });
 
 const persistedState = loadFromLocalStorage()

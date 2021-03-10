@@ -4,9 +4,7 @@ import Web3 from "web3";
 import CredentialStore from '../contracts/CredentialStore.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
-// import { BsInfoCircle } from "react-icons/bs"; 
 import { RiUserShared2Line, RiInformationLine } from "react-icons/ri";
-// import moment from "moment"
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import Tabs from 'react-bootstrap/Tabs';
@@ -14,7 +12,6 @@ import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
 import ModalDetails from './ModalDetails';
 import Figure from 'react-bootstrap/Figure';
-// import photoMagician from "photo-magician";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const ipfsClient = require('ipfs-http-client')
@@ -228,7 +225,7 @@ class Gallery extends Component {
 
           // FILE LAYOUT %%%%%%%%%%%%
           let fileItems
-          fileItems = this.state.fileHashes.map((file, index) => (  // {"https://ipfs.io/ipfs/" + file}
+          fileItems = this.state.fileHashes.map((file, index) => (
 
             <div key={index} className="file_store mb-4">
               <React.Fragment>
@@ -242,7 +239,6 @@ class Gallery extends Component {
 
                 </div>
               </React.Fragment>
-
 
               <div className='caption'>
                 <a className='mb-4' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
@@ -303,18 +299,17 @@ class Gallery extends Component {
     if (buffer_data) {
       try {
         const file = await ipfs.add(this.state.buffer)
-        let file_hash = file.path //https://gateway.ipfs.io/ipfs/QmUaEA7Yt8Nx824hbkAHhABDWULnGcuKiXC7AECGkzMY72 //46
+        let file_hash = file.path //46
         let file_name = this.state.fileName;
 
-        // check if hash exists so the user does not pay to re-execute the contract <<<<<<<<<<<<<<<<<<
-
+        // check if hash exists so the user does not pay to re-execute the contract 
         if (file_name.match(/.(jpg|jpeg|gif)$/i) && this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
           alert('This image already exists. Please select a different one.');
         } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
           alert('This file already exists. Please select a different one.');
         } else {
 
-          let hash_decoded = bs58.decode(file_hash).slice(2); // 32 to be stored.toString()
+          let hash_decoded = bs58.decode(file_hash).slice(2); // 32
           let hex_filename = Web3.utils.asciiToHex(file_name)
 
           if (hex_filename.length > 66)
@@ -331,7 +326,6 @@ class Gallery extends Component {
                 window.location.reload();
               })
             }
-
           }
         }
       } catch (e) {
@@ -428,7 +422,6 @@ class Gallery extends Component {
           this.setState({ fileSharedWith })
         }
       }
-
     }
   }
 
@@ -446,7 +439,7 @@ class Gallery extends Component {
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { 
+      } else if (input_address.toLowerCase() === current_address.toLowerCase()) {
         alert('Cannot share images with yourself')
       } else {
 
@@ -551,8 +544,7 @@ class Gallery extends Component {
                         closeModal={this.closeModal}
                         isOpen={this.state.shareModalIsOpen}
                         handleSubmit={this.handleSubmit}
-                        shared={this.state.alreadyShared}
-                      /> : null}
+                        shared={this.state.alreadyShared} /> : null}
 
                     <Tabs className="file_space table"
                       defaultActiveKey="gallery" id="uncontrolled-tab-example">
@@ -611,23 +603,14 @@ class Gallery extends Component {
                     <ModalGateway>
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-
                           <Carousel
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{
-                              container: base => ({
-                                ...base, height: '100vh',
-                              }),
-                              view: base => ({
-                                ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': {
-                                  maxHeight: 'calc(100vh - 94px)',
-                                },
-                              })
-                            }}
-                          />
-                        </Modal>
-                      ) : ''}
+                              container: base => ({ ...base, height: '100vh', }),
+                              view: base => ({ ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', }, })
+                            }} />
+                        </Modal>) : ''}
                     </ModalGateway>
 
                     <div className="footer_space"></div>
@@ -638,7 +621,7 @@ class Gallery extends Component {
 
           </div>
           : (<div className="top_gallery_space" >
-            <h3>User not logged in to display images</h3>
+            <h3>User not logged in.</h3>
           </div>)}
       </div >
     );

@@ -8,18 +8,13 @@ import { Table } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ModalForm from './ModalForm';
-// import { Link } from 'react-router-dom' 
-// import Alert from 'react-bootstrap/Alert';
 import { RiUserShared2Line, RiInformationLine } from "react-icons/ri";
 import { BiSort } from "react-icons/bi";
 import ModalDetails from './ModalDetails';
 import ReactImageProcess from 'react-image-process';
-// import PDF from 'react-pdf-watermark';
-// import jsPDF from "jspdf";
-// import WebViewer from '@pdftron/pdfjs-express';
-// {/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script> */ }
 import photoMagician from "photo-magician";
-
+// import { Link } from 'react-router-dom' 
+// import Alert from 'react-bootstrap/Alert';
 
 class Sharepoint extends Component {
 
@@ -107,7 +102,7 @@ class Sharepoint extends Component {
         const contract = new web3.eth.Contract(CredentialStore.abi, networkData.address)
         this.setState({ contract })
 
-        // LOAD Shared images array
+        // Load Shared images array
         let imageSharedSolArray, imageNamesSharedSolArray, addressSharedwithUserSolArray, usernameSharedWithUserSolArray, dateSharedImage, viewOnlyImageArr;
         await contract.methods.getSharedImageArr().call({ from: this.state.account }).then((r) => {
           imageSharedSolArray = r[0]
@@ -137,7 +132,7 @@ class Sharepoint extends Component {
             this.setState({ addressSharedwithUserSolArray })
             this.setState({ usernameSharedWithUserSolArray })
 
-            // IMAGE LAYOUT %%%%%%%%%%%%
+            // Image layout
             let imageHashesSharedItems
             imageHashesSharedItems = this.state.imageHashesShared.map((image, index) => (
               <img key={index} onClick={() => this.toggleModal(index)} className="mr-4 mb-3 mt-4 img_item" src={`https://ipfs.infura.io/ipfs/${image}`} alt="inputFile" />
@@ -169,7 +164,7 @@ class Sharepoint extends Component {
 
 
 
-            // SHARED Watermarked IMAGE ITEMS 
+            // Shared Watermarked image items
             let imageItemsModal = [...image_shared_src];
             const magician = new photoMagician();
             for (let i = 0; i < image_shared_src.length; i++) {
@@ -196,7 +191,7 @@ class Sharepoint extends Component {
         });
 
 
-        // LOAD Shared files array %%%%%%%%%%%%%%%
+        // Load shared files array 
         let fileSharedSolArray, fileNamesSharedSolArray, fileAddressSharedwithUserSolArray, fileUsernameSharedWithUserSolArray, dateSharedFile, viewOnlyFileArr;
         await contract.methods.getSharedFileArr().call({ from: this.state.account }).then((r) => {
           fileSharedSolArray = r[0]
@@ -235,7 +230,7 @@ class Sharepoint extends Component {
             }
             this.setState({ file_shared_src })
 
-            // SHARED FILES ITEMS
+            // Shared file items
             const items = [];
             for (let i = 0; i < file_shared_src.length; i++) {
               items.push({
@@ -253,7 +248,7 @@ class Sharepoint extends Component {
 
 
 
-        // get images user shared with others &&&&&&&&&&&&&&&&&
+        // get images user shared with others 
         let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
         await contract.methods.get().call({ from: this.state.account }).then((r) => {
           username = r[2]
@@ -277,7 +272,7 @@ class Sharepoint extends Component {
           this.setState({ username })
         }
 
-        // get files user shared with others &&&&&&&&&&&&&&&&&
+        // get files user shared with others 
         let fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileAddressUserSharedWithSol = r[4]
@@ -490,7 +485,8 @@ class Sharepoint extends Component {
   redirectToPDFViewer = (itm, id) => {
     localStorage.setItem('item', JSON.stringify(itm));
     localStorage.setItem('address', JSON.stringify(this.state.items[id].Address));
-    window.open('/PdfViewer?id=' + id)
+    window.open('/PdfViewer')
+    // window.open('/PdfViewer?id=' + id)
   }
 
   render() {
@@ -513,7 +509,7 @@ class Sharepoint extends Component {
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                        <Carousel currentIndex={this.state.img_index} views={this.state.imageItemsModal} styles={{ //image_shared_src imageItemsModal
+                        <Carousel currentIndex={this.state.img_index} views={this.state.imageItemsModal} styles={{ //image_shared_src 
                           container: base => ({ ...base, height: '100vh', }),
                           view: base => ({ ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', }, })
                         }} />
@@ -577,12 +573,7 @@ class Sharepoint extends Component {
                                   <td>{item.id}</td>
                                   <td style={{ color: '#80C2AF' }}>{item.Name}</td>
                                   <td>
-
-                                    {!this.state.viewOnlyImageArr[item.id] &&
-
-                                      <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />}
-
-                                    {this.state.viewOnlyImageArr[item.id] &&
+                                    {this.state.viewOnlyImageArr[item.id] ?
                                       <ReactImageProcess
                                         mode="waterMark"
                                         waterMarkType="text"
@@ -592,8 +583,7 @@ class Sharepoint extends Component {
                                         fontColor="#fff"
                                         coordinate={[5, 50]}>
                                         <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />
-                                      </ReactImageProcess>}
-
+                                      </ReactImageProcess> : <img onClick={() => this.toggleModal(item.id)} className="img_shared" src={item.Image} alt="inputFile" />}
                                   </td>
                                   <td>{item.From}</td>
                                   <td>{item.Address}</td>
@@ -615,8 +605,7 @@ class Sharepoint extends Component {
                               ))}
                             </tbody>
                           </Table>
-                        </div>
-                      ) : <h3 className='mt-5'>No images shared with you.</h3>}
+                        </div>) : <h3 className='mt-5'>No images shared with you.</h3>}
                     </Tab>
                     <Tab eventKey="files" title="Shared files">
 
@@ -653,9 +642,7 @@ class Sharepoint extends Component {
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td>
-                                    {/* >>>>>>>>>>>>>>>>>>>>..... PDF VIEWER WITH WATERMARK <<<<<<<<<<<<<<<<<<<<<<< */}
                                     {this.state.viewOnlyFileArr[item.id] ?
-                                      // CORRECT Opens in protected view
                                       <button className="btn file_btn" onClick={() => this.redirectToPDFViewer(item.File, item.id)} target="_blank" rel="noopener noreferrer">{item.Name}</button>
                                       // <Link to={{ pathname: "/PdfViewer",  data: item.File  }} target="_blank">{item.Name}</Link>
                                       : <a href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>}

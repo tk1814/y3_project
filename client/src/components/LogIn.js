@@ -35,7 +35,7 @@ class LogIn extends Component {
     // Detects eth wallet account change 
     this.ethereum = window.ethereum
     if (this.ethereum) {
-      // already happens from the other function // window.ethereum.enable(); // important: do not change window.eth
+      // already happens  window.ethereum.enable(); from the other function // important: do not change window.eth
       console.log('Window: ' + window.ethereum.selectedAddress)
 
       this.ethereum.on('accountsChanged', function (accounts) {
@@ -152,7 +152,7 @@ class LogIn extends Component {
         this.setState({ showWarningNotAcceptedTerms: false })
         this.setState({ showWarningUsernameExists: false })
       }
-    } else if (this.state.inputUsername !== this.state.correctUsername) { //this.state.inputUsername.indexOf(' ') >= 0 ||
+    } else if (this.state.inputUsername !== this.state.correctUsername) {
       this.setState({ wrongUsrname: true })
       this.setState({ showWarningNotAcceptedTerms: false })
     }
@@ -203,9 +203,6 @@ class LogIn extends Component {
                         : <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>}
 
                     </form>
-
-                    {/* <button type='submit' className="btn mt-5 container log_in_btn"
-                                            onClick={(e) => { this.onSignUp(e) }}>Login</button> */}
 
                   </div>
 
