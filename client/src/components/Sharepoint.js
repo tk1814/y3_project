@@ -90,10 +90,6 @@ class Sharepoint extends Component {
         window.location.reload();
       }.bind(this))
     }
-    // disable right click menu
-    // document.addEventListener('contextmenu', (e) => {
-    //   e.preventDefault();
-    // });
   }
 
 

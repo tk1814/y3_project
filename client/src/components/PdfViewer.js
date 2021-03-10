@@ -32,15 +32,19 @@ class PdfViewer extends React.Component {
   }
 
   applyWatermark = (canvas, context) => {
-    context.globalAlpha = 0.30
-    context.font = '35px bold Arial'
+    context.globalAlpha = 0.20
+    context.font = '35px  Arial'
     context.translate(canvas.width / 2, canvas.height / 2)
     context.rotate(-Math.atan(canvas.height / canvas.width))
 
-    // const text = 'Strictly Confidential. Not to be circulated'
-    const text = JSON.parse(localStorage.getItem('address'))// + "\n" + 'View Only'
+    // const text = 'Strictly Confidential. Not to be circulated' 0.30 (55/2) bold
+    const text = JSON.parse(localStorage.getItem('address'))
     let metrics = context.measureText(text)
-    context.fillText(text, -metrics.width / 2, (55 / 2))
+    context.fillText(text, -metrics.width / 2, (5 / 2))
+
+    let text2 = 'View Only'
+    let metrics2 = context.measureText(text2)
+    context.fillText(text2, -metrics2.width / 2, (55 / 2))
   }
 
   render() {

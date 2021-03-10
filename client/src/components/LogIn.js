@@ -172,7 +172,10 @@ class LogIn extends Component {
                 {(!JSON.parse(localStorage.getItem('state'))) ? (
 
                   <div className="top_login_space">
-                    <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
+
+                    {!this.state.newUser ? <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
+                      : <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to sign up.</h3>}
+
                     <form onSubmit={(e) => { this.onSignUp(e) }}>
                       <label>
                         <input type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
@@ -196,7 +199,9 @@ class LogIn extends Component {
 
                       <br></br>
 
-                      <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>
+                      {this.state.newUser ? <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Sign Up</button>
+                        : <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>}
+
                     </form>
 
                     {/* <button type='submit' className="btn mt-5 container log_in_btn"
