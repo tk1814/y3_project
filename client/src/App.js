@@ -4,12 +4,13 @@ import Header from './components/Header';
 import LogIn from './components/LogIn';
 import Gallery from './components/Gallery';
 import Sharepoint from './components/Sharepoint';
+import About from './components/About';
 import { BrowserRouter, Switch, Route } from 'react-router-dom' // Link
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'; // NavbarText
-import { BsHouse, BsLock, BsUnlock, BsFolder } from "react-icons/bs"; // BsQuestionDiamond
+import { BsHouse, BsLock, BsUnlock, BsFolder, BsQuestion } from "react-icons/bs"; // BsQuestionDiamond
 import { BiShareAlt } from "react-icons/bi";
 import PdfViewer from './components/PdfViewer';
-// import { RiHome2Line } from "react-icons/ri";  
+// import { BsQuestion } from "react-icons/ri";  
 
 
 const Root = () => (
@@ -29,15 +30,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
-      imageItems: [],
-      fileName: 'Choose file',
-      memeHash: '',
-      imageHashes: [],
-      contract: null,
-      web3: null,
-      buffer: null,
       account: null
     }
   }
@@ -75,12 +68,10 @@ class App extends Component {
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" href="/gallery"><BsFolder size="2em" /></NavLink></NavItem>
                 : ''}
-              {/* {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" href="/filegallery"><BsFiles size="2em" /></NavLink></NavItem>
-                : ''} */}
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" href="/sharepoint"><BiShareAlt size="2em" /></NavLink></NavItem>
                 : ''}
+              <NavItem><NavLink className="nav_btn" href="/about"><BsQuestion size="2.2em" /></NavLink></NavItem>
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink className="nav_btn" onClick={() => {
                   localStorage.clear();
@@ -93,8 +84,8 @@ class App extends Component {
               <Route exact path='/' component={Root} />
               <Route path='/login' component={LogIn} />
               <Route path='/gallery' component={Gallery} />
-              {/* <Route path='/WaterMarkExample' component={WaterMarkExample} />  */}
-              <Route path='/PdfViewer' component={PdfViewer} /> 
+              <Route path='/about' component={About} />
+              <Route path='/PdfViewer' component={PdfViewer} />
               <Route path='/sharepoint' component={Sharepoint} />
               <Route path='/' component={Root} />
             </Switch>

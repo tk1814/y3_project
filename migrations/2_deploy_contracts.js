@@ -1,5 +1,5 @@
-const Meme = artifacts.require("./Meme.sol");
+const CredentialStore = artifacts.require("./CredentialStore.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Meme);
+  deployer.deploy(CredentialStore);
 };

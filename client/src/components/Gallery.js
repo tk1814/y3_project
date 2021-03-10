@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bs58 from 'bs58';
 import Web3 from "web3";
-import Meme from '../contracts/Meme.json';
+import CredentialStore from '../contracts/CredentialStore.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
 // import { BsInfoCircle } from "react-icons/bs"; 
@@ -94,14 +94,11 @@ class Gallery extends Component {
 
       this.setState({ account: accounts[0] })
       const networkId = await web3.eth.net.getId()
-      const networkData = Meme.networks[networkId]
+      const networkData = CredentialStore.networks[networkId]
 
       if (networkData) {
-        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        const contract = new web3.eth.Contract(CredentialStore.abi, networkData.address)
         this.setState({ contract })
-
-        // ----Minimise repetition btn Gallery and LogIn
-        // ----mby call loadWeb3 from LogIn.js
 
         let imageSolArray, imageNameSolArray, username, dateUploadImg, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
         await contract.methods.get().call({ from: this.state.account }).then((r) => {
@@ -444,12 +441,12 @@ class Gallery extends Component {
   closeModal = () => { this.setState({ shareModalIsOpen: false }); }
 
   handleSubmit = async (input_address, viewOnly) => {
-    console.log(viewOnly)
+
     let current_address = this.state.account
     try {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
-      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      } else if (input_address.toLowerCase() === current_address.toLowerCase()) { 
         alert('Cannot share images with yourself')
       } else {
 
@@ -467,53 +464,6 @@ class Gallery extends Component {
             this.setState({ alreadyShared: true })
           } else {
             this.setState({ alreadyShared: false })
-
-            // let hashh;
-            // if (viewOnly) {
-
-            //   //>>>>>... watermark here
-            //   const magician = new photoMagician();
-            //   magician.addWaterMark({
-            //     cover: `https://ipfs.infura.io/ipfs/${this.state.link_to_be_shared}`,
-            //     mode: "text",
-            //     waterMark: this.state.account,
-            //     fontBold: false,
-            //     fontSize: 20,
-            //     fontColor: "#396",
-            //     coordinate: [10, 20]
-            //   }).then(async(data) => {
-
-            //     console.log(typeof (data))
-
-            //     // var binary_string = window.atob(data);
-            //     // var len = binary_string.length;
-            //     // var bytes = new Uint8Array(len);
-            //     // for (var i = 0; i < len; i++) {
-            //     //   bytes[i] = binary_string.charCodeAt(i);
-            //     // }
-            //     // // return bytes.buffer;
-
-            //     var arrayBufferView = new Uint8Array( data );
-            //     // var blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
-            //     // var urlCreator = window.URL || window.webkitURL;
-            //     // var imageUrl = urlCreator.createObjectURL( blob );
-                
-
-            //     // const reader = new window.FileReader()
-            //     // reader.readAsArrayBuffer(bytes.buffer)
-            //     // const file = ipfs.add(Buffer(reader.result))
-            //     const file = await ipfs.add(data)
-            //     let file_hash = file.path
-            //     console.log(file_hash)
-            //     hashh = file_hash
-
-            //   }).catch((err) => {
-            //     console.error('add text WaterMark error', err);
-            //   })
-
-            //   console.log(hashh)
-            // }
-
 
             let hash_decoded = bs58.decode(this.state.link_to_be_shared).slice(2);
             let hex_filename = this.state.imageNameSolArray[this.state.currentImgFileIndex]
@@ -547,9 +497,6 @@ class Gallery extends Component {
           }
         }
       }
-
-      // empty the array to check whether images were selected next time
-      // this.setState({ link_to_be_shared: null })
 
     } catch (e) {
       // set to false to remove the warning for the next share

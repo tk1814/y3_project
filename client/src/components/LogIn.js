@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from "web3";
-import Meme from '../contracts/Meme.json';
+import CredentialStore from '../contracts/CredentialStore.json';
 import { withRouter } from 'react-router-dom';
 
 class LogIn extends Component {
@@ -59,10 +59,10 @@ class LogIn extends Component {
 
       this.setState({ account: accounts[0] })
       const networkId = await web3.eth.net.getId()
-      const networkData = Meme.networks[networkId]
+      const networkData = CredentialStore.networks[networkId]
 
       if (networkData) {
-        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        const contract = new web3.eth.Contract(CredentialStore.abi, networkData.address)
         this.setState({ contract })
 
         let username;
@@ -141,31 +141,21 @@ class LogIn extends Component {
           } else {
             this.setState({ showWarningUsernameExists: true })
             this.setState({ showWarningNotAcceptedTerms: false })
-
           }
-
-
         }
         else {
           this.setState({ showWarningNotAcceptedTerms: true })
           this.setState({ showWarningUsernameExists: false })
         }
-
-
       } else {
         this.setState({ usernameContainsWhitespace: true })
         this.setState({ showWarningNotAcceptedTerms: false })
         this.setState({ showWarningUsernameExists: false })
       }
-
-
     } else if (this.state.inputUsername !== this.state.correctUsername) { //this.state.inputUsername.indexOf(' ') >= 0 ||
       this.setState({ wrongUsrname: true })
       this.setState({ showWarningNotAcceptedTerms: false })
     }
-
-
-
   }
 
   handleOnChange = (event) => {

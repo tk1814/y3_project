@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bs58 from 'bs58';
 import Web3 from "web3";
-import Meme from '../contracts/Meme.json';
+import CredentialStore from '../contracts/CredentialStore.json';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 import { BiDownload } from "react-icons/bi";
 import { Table } from 'react-bootstrap';
@@ -105,10 +105,10 @@ class Sharepoint extends Component {
 
       this.setState({ account: accounts[0] })
       const networkId = await web3.eth.net.getId()
-      const networkData = Meme.networks[networkId]
+      const networkData = CredentialStore.networks[networkId]
 
       if (networkData) {
-        const contract = new web3.eth.Contract(Meme.abi, networkData.address)
+        const contract = new web3.eth.Contract(CredentialStore.abi, networkData.address)
         this.setState({ contract })
 
         // LOAD Shared images array

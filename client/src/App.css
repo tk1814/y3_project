@@ -389,6 +389,15 @@ html {
   background-size: cover;
 }
 
+.about_bg {
+    background-image: url(./bg/bg7.jpg);
+    opacity: 0.94; 
+    height: 750px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .table th, .table td {
   vertical-align: middle;
   padding-bottom: 10px;
@@ -420,6 +429,9 @@ html {
 .top_gallery_space { padding: 150px; }
 .space { height: 250px; }
 .smaller_space { height: 100px; }
+.small_top_space { padding: 25px; }
+.middle_about_space { padding: 50px; }
+
 
 
 .footer_space {
