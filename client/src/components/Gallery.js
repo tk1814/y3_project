@@ -270,7 +270,7 @@ class Gallery extends Component {
   captureFile = (event) => {
     event.stopPropagation()
     event.preventDefault()
-    const file = event.target.files[0]     
+    const file = event.target.files[0]
     const fileName = event.target.files[0].name;
     this.setState({ fileName })
     const reader = new window.FileReader()
@@ -285,40 +285,46 @@ class Gallery extends Component {
   // store the IPFS hash in the smart contract
   onSubmit = async (event) => {
     event.preventDefault()
-    console.log("Submitting file to ipfs...")
+    // console.log("Submitting file to ipfs...")
 
     let buffer_data = this.state.buffer
     if (buffer_data) {
       try {
-        const file = await ipfs.add(this.state.buffer)
-        let file_hash = file.path //46
+
         let file_name = this.state.fileName;
+        if (file_name.match(/.(jpg|jpeg|png|gif|pdf)$/i)) {
+          // Add to ipfs (off-chain)
+          const file = await ipfs.add(this.state.buffer)
+          let file_hash = file.path // 46
 
-        // check if hash exists so the user does not pay to re-execute the contract 
-        if (file_name.match(/.(jpg|jpeg|gif)$/i) && this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
-          alert('This image already exists. Please select a different one.');
-        } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
-          alert('This file already exists. Please select a different one.');
-        } else {
+          // check if hash exists so the user does not pay to re-execute the contract function
+          if (file_name.match(/.(jpg|jpeg|png|gif)$/i) && this.state.imageHashes.find(img_itm => img_itm === file_hash)) {
+            alert('This image already exists. Please select a different one.');
+          } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
+            alert('This file already exists. Please select a different one.');
+          } else {
 
-          let hash_decoded = bs58.decode(file_hash).slice(2); // 32
-          let hex_filename = Web3.utils.asciiToHex(file_name)
+            let hash_decoded = bs58.decode(file_hash).slice(2); // 32
+            let hex_filename = Web3.utils.asciiToHex(file_name)
 
-          if (hex_filename.length > 66)
-            alert("File name is too large to be stored in the blockchain, please try a shorter name.")
-          else {
+            if (hex_filename.length > 66)
+              alert("File name is too large to be stored in the blockchain, please try a shorter name.")
+            else {
 
-            if (file_name.match(/.(pdf)$/i)) {
-              await this.state.contract.methods.setFile(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
-                // refresh to get the new file array with get() of smart contract
-                window.location.reload();
-              })
-            } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
-              await this.state.contract.methods.set(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
-                window.location.reload();
-              })
+              if (file_name.match(/.(pdf)$/i)) {
+                await this.state.contract.methods.setFile(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
+                  // refresh to get the new file array with get() of smart contract
+                  window.location.reload();
+                })
+              } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                await this.state.contract.methods.set(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
+                  window.location.reload();
+                })
+              }
             }
           }
+        } else {
+          alert('File type is not supported. \nOnly pdf, jpg, jpeg, png, gif file types are supported.');
         }
       } catch (e) {
         console.log("Error: ", e)
