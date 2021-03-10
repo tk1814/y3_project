@@ -20,13 +20,16 @@ class LogIn extends Component {
       wrongUsrname: false,
       acceptTerms: false,
       showWarningNotAcceptedTerms: false,
-      newUser: false
+      newUser: false,
+      allUsernames: [],
+      showWarningUsernameExists: false,
+      usernameContainsWhitespace: false,
     }
     // this.onSignUp = this.onSignUp.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
   }
 
-  async componentDidMount() { 
+  async componentDidMount() {
     await this.loadNetworkData()
 
     // Detects eth wallet account change 
@@ -67,7 +70,7 @@ class LogIn extends Component {
           username = r[2]
         }).catch((err) => {
           console.log("New user");
-          this.setState({newUser: true})
+          this.setState({ newUser: true })
         });
 
         // if user created an account
@@ -75,7 +78,20 @@ class LogIn extends Component {
           console.log(username)
           this.setState({ acceptTerms: true })
           this.setState({ correctUsername: username })
+          this.setState({ showWarningUsernameExists: false })
         }
+
+        let allUsernames;
+        await contract.methods.getUsernames().call({ from: this.state.account }).then((r) => {
+          allUsernames = r
+        }).catch((err) => {
+          console.log(err);
+        });
+
+        if (allUsernames !== undefined) {
+          this.setState({ allUsernames })
+        }
+
       }
       else {
         window.alert('Smart contract not deployed to detected network.')
@@ -97,34 +113,59 @@ class LogIn extends Component {
     event.preventDefault();
 
     // if user not registered OR put correct username AND without whitespaces
-    if ((this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) && !/\s/.test(this.state.inputUsername)) {
+    if (this.state.correctUsername === "unregistered" || this.state.inputUsername === this.state.correctUsername) {
       this.setState({ wrongUsrname: false })
 
-      if (this.state.acceptTerms) {
-        this.setState({ showWarningNotAcceptedTerms: false })
-        this.setState({ wrongUsrname: false })
-        try {
-          // check username size dupls? 
-          await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername, 'Accepted Terms and Conditions: ' + Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
-            localStorage.setItem('state', JSON.stringify(true));
+      if (!/\s/.test(this.state.inputUsername)) {
+        this.setState({ usernameContainsWhitespace: false })
 
-            this.redirectToGallery();
-            window.location.reload();
-          })
-          event.preventDefault()
-        } catch (e) {
-          localStorage.setItem('state', JSON.stringify(false));
-          console.log('Error logging in', e)
+        if (this.state.acceptTerms) {
+          this.setState({ showWarningNotAcceptedTerms: false })
+          this.setState({ wrongUsrname: false })
+
+          if (this.state.correctUsername !== "unregistered" || !this.state.allUsernames.find(usrnm => usrnm === this.state.inputUsername)) {
+            this.setState({ showWarningUsernameExists: false })
+
+            try {
+              await this.state.contract.methods.signUpUserOrLogin(this.state.inputUsername, 'Accepted Terms and Conditions: ' + Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
+                localStorage.setItem('state', JSON.stringify(true));
+
+                this.redirectToGallery();
+                window.location.reload();
+              })
+              event.preventDefault()
+            } catch (e) {
+              localStorage.setItem('state', JSON.stringify(false));
+              console.log('Error logging in', e)
+            }
+          } else {
+            this.setState({ showWarningUsernameExists: true })
+            this.setState({ showWarningNotAcceptedTerms: false })
+
+          }
+
+
         }
+        else {
+          this.setState({ showWarningNotAcceptedTerms: true })
+          this.setState({ showWarningUsernameExists: false })
+        }
+
+
+      } else {
+        this.setState({ usernameContainsWhitespace: true })
+        this.setState({ showWarningNotAcceptedTerms: false })
+        this.setState({ showWarningUsernameExists: false })
       }
-      else {
-        this.setState({ showWarningNotAcceptedTerms: true })
-      }
+
 
     } else if (this.state.inputUsername !== this.state.correctUsername) { //this.state.inputUsername.indexOf(' ') >= 0 ||
       this.setState({ wrongUsrname: true })
       this.setState({ showWarningNotAcceptedTerms: false })
     }
+
+
+
   }
 
   handleOnChange = (event) => {
@@ -150,14 +191,19 @@ class LogIn extends Component {
                       <br></br>
 
                       {this.state.newUser &&
-                      <div>
-                      <input type="checkbox" id="agree" onChange={() => this.setState(state => ({ acceptTerms: !state.acceptTerms }))} />
-                      <label htmlFor="agree" style={{textIndent: '0.5em'}}><p> I agree to terms and conditions.*</p></label>
-                      </div>}
-                      
-                      {this.state.newUser && this.state.showWarningNotAcceptedTerms && <div className="err">You have not accepted terms and conditions, please accept to proceed.</div>}
+                        <div>
+                          <input type="checkbox" id="agree" onChange={() => this.setState(state => ({ acceptTerms: !state.acceptTerms }))} />
+                          <label htmlFor="agree" style={{ textIndent: '0.5em' }}><p> I agree to terms and conditions.*</p></label>
+                        </div>}
 
-                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified. <br></br> Or check that the username is without whitespaces.</div>}
+                      {this.state.newUser && this.state.showWarningNotAcceptedTerms && <div className="err">Please accept the terms and conditions to proceed.</div>}
+
+                      {this.state.newUser && this.state.showWarningUsernameExists && <div className="err">This username already exists, please choose a different one.</div>}
+
+                      {(this.state.wrongUsrname || this.state.newUser) && this.state.usernameContainsWhitespace && <div className="err"> Username must be without whitespaces.</div>}
+
+                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified</div>}
+
                       <br></br>
 
                       <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>
