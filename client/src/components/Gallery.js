@@ -235,7 +235,7 @@ class Gallery extends Component {
               </React.Fragment>
 
               <div className='caption'>
-                <a className='mb-4' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
+                <a className='mb-4 ml-2' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
                 <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
                 <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file', Web3.utils.hexToAscii(this.state.fileNameSolArray[index]).split('.').slice(0, -1).join('.')); }}><BiDownload size="1.5em" /></button>
               </div>

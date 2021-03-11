@@ -56,7 +56,9 @@ class Sharepoint extends Component {
       imageSharedWith: ['No one'],
       fileSharedWith: ['No one'],
       link_to_be_shared: '',
-      imageItemsModal: []
+      imageItemsModal: [],
+      imageNamesUserSharedWith: [],
+      fileNamesUserSharedWith: [],
     }
     // this.toggleModal = this.toggleModal.bind(this);
   }
@@ -238,12 +240,17 @@ class Sharepoint extends Component {
         });
 
         // get images user shared with others 
-        let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
+        let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol, imageNamesUserSharedWith;
         await contract.methods.get().call({ from: this.state.account }).then((r) => {
           username = r[2]
           imageAddressUserSharedWithSol = r[4]
           imageHashUserSharedWithSol = r[5]
+          imageNamesUserSharedWith = r[7]
         })
+
+        if (imageNamesUserSharedWith !== undefined) {
+          this.setState({ imageNamesUserSharedWith })
+        }
 
         if (imageAddressUserSharedWithSol !== undefined) {
           this.setState({ imageAddressUserSharedWithSol })
@@ -262,11 +269,16 @@ class Sharepoint extends Component {
         }
 
         // get files user shared with others 
-        let fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
+        let fileAddressUserSharedWithSol, fileHashUserSharedWithSol, fileNamesUserSharedWith;
         await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
           fileAddressUserSharedWithSol = r[4]
           fileHashUserSharedWithSol = r[5]
+          fileNamesUserSharedWith = r[6]
         })
+
+        if (fileNamesUserSharedWith !== undefined) {
+          this.setState({ fileNamesUserSharedWith })
+        }
 
         if (fileAddressUserSharedWithSol !== undefined) {
           this.setState({ fileAddressUserSharedWithSol })
@@ -413,37 +425,39 @@ class Sharepoint extends Component {
     if (typeOfFile === 'image') {
 
       const img = new Image();
-      img.src = this.state.imageItems[currentImgFileIndex].Image;
+      img.src = this.state.image_shared_src[currentImgFileIndex].source
       img.onload = () => {
         this.setState({ height: img.height })
         this.setState({ width: img.width })
       };
 
-      // populate array with addresses that the selected image was shared with 
+      // populate array with addresses that the selected image (hash & file name) was shared with 
       let imageSharedWith = [];
       for (let i = 0; i < this.state.imageAddressUserSharedWithSol.length; i++) {
-        if (this.state.imageHashUserSharedWith[i] === this.state.imageHashesShared[currentImgFileIndex]) {
+        if (this.state.imageHashUserSharedWith[i] === this.state.imageHashesShared[currentImgFileIndex]
+          && this.state.imageNamesUserSharedWith[i] === this.state.imageNamesSharedSolArray[currentImgFileIndex]) {
           imageSharedWith.push(this.state.imageAddressUserSharedWithSol[i])
           this.setState({ imageSharedWith })
         }
       }
 
       // get image size
-      remote(this.state.imageItems[currentImgFileIndex].Image, (err, res) => {
+      remote(this.state.image_shared_src[currentImgFileIndex].source, (err, res) => {
         this.setState({ filesize: prettyBytes(res) })
       })
 
     } else if (typeOfFile === 'file') {
 
       // get file size
-      remote(this.state.items[currentImgFileIndex].File, (err, res) => {
+      remote(this.state.file_shared_src[currentImgFileIndex].source, (err, res) => {
         this.setState({ filesize: prettyBytes(res) })
       })
 
-      // populate array with addresses that the selected file was shared with 
+      // populate array with addresses that the selected file (name & hash) was shared with 
       let fileSharedWith = [];
       for (let i = 0; i < this.state.fileAddressUserSharedWithSol.length; i++) {
-        if (this.state.fileHashUserSharedWith[i] === this.state.fileHashesShared[currentImgFileIndex]) {
+        if (this.state.fileHashUserSharedWith[i] === this.state.fileHashesShared[currentImgFileIndex]
+          && this.state.fileNamesUserSharedWith[i] === this.state.fileNamesSharedSolArray[currentImgFileIndex]) {
           fileSharedWith.push(this.state.fileAddressUserSharedWithSol[i])
           this.setState({ fileSharedWith })
         }

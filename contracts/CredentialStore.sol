@@ -41,9 +41,11 @@ contract CredentialStore is Ownable, AccessControl {
     // user shared files with:
     address[] imageAddressUserSharedWith;
     bytes32[] imageHashUserSharedWith;
+    bytes32[] imageNamesUserSharedWith;
 
     address[] fileAddressUserSharedWith;
     bytes32[] fileHashUserSharedWith;
+    bytes32[] fileNamesUserSharedWith;
   }
 
   mapping (address => userData) private idUserData;
@@ -76,6 +78,7 @@ contract CredentialStore is Ownable, AccessControl {
 
     idUserData[msg.sender].imageAddressUserSharedWith.push(_address);
     idUserData[msg.sender].imageHashUserSharedWith.push(_imageHash);
+    idUserData[msg.sender].imageNamesUserSharedWith.push(_imageName); 
     idUserData[_address].viewOnlyImage.push(_viewOnly);
   }
 
@@ -97,6 +100,7 @@ contract CredentialStore is Ownable, AccessControl {
 
     idUserData[msg.sender].fileAddressUserSharedWith.push(_address);
     idUserData[msg.sender].fileHashUserSharedWith.push(_fileHash);
+    idUserData[msg.sender].fileNamesUserSharedWith.push(_fileName); 
     idUserData[_address].viewOnlyFile.push(_viewOnly);
   }
 
@@ -123,18 +127,18 @@ contract CredentialStore is Ownable, AccessControl {
     idUserData[msg.sender].dateFileUpload.push(_date);
   }
 
-  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory) {  
+  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory, bytes32[] memory) {  
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames, idUserData[msg.sender].username, idUserData[msg.sender].dateImageUpload,
-    idUserData[msg.sender].imageAddressUserSharedWith, idUserData[msg.sender].imageHashUserSharedWith, idUserData[msg.sender].acceptTermsConditionsDate); 
+    idUserData[msg.sender].imageAddressUserSharedWith, idUserData[msg.sender].imageHashUserSharedWith, idUserData[msg.sender].acceptTermsConditionsDate, idUserData[msg.sender].imageNamesUserSharedWith); 
   }
 
-  function getFile() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory) {   
+  function getFile() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, bytes32[] memory) {   
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     return (idUserData[msg.sender].fileHashes, idUserData[msg.sender].fileNames, idUserData[msg.sender].username, idUserData[msg.sender].dateFileUpload,
-    idUserData[msg.sender].fileAddressUserSharedWith, idUserData[msg.sender].fileHashUserSharedWith); 
+    idUserData[msg.sender].fileAddressUserSharedWith, idUserData[msg.sender].fileHashUserSharedWith, idUserData[msg.sender].fileNamesUserSharedWith); 
   }
   
 }
