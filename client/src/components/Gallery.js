@@ -303,6 +303,7 @@ class Gallery extends Component {
           } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
             alert('This file already exists. Please select a different one.');
           } else {
+            console.log(file_hash)
 
             let hash_decoded = bs58.decode(file_hash).slice(2); // 32
             let hex_filename = Web3.utils.asciiToHex(file_name)
@@ -317,6 +318,8 @@ class Gallery extends Component {
                   window.location.reload();
                 })
               } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                console.log(hash_decoded, hex_filename)
+                console.log(typeof(hash_decoded))
                 await this.state.contract.methods.set(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
                   window.location.reload();
                 })
@@ -328,7 +331,7 @@ class Gallery extends Component {
         }
       } catch (e) {
         console.log("Error: ", e)
-        alert("Request was rejected.")
+        // alert("Request was rejected.")
       }
     } else {
       alert("No file was submitted. Please try again.")

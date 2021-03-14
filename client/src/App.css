@@ -100,10 +100,10 @@
   float: left;
 }
 
-.input_box:focus {
-  box-shadow: none;
-  border: none;
-}
+/* .input_box:focus {
+  box-shadow: #6e967a;
+  border: #6e967a;
+} */
 
 .disabled {
   color: #222!important;
