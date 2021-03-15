@@ -2,7 +2,6 @@ const { assert } = require("chai");
 const CredStore = artifacts.require("CredentialStore");
 const bs58 = require("bs58");
 const { expectEvent, expectRevert } = require('@openzeppelin/test-helpers');
-const truffleAssert = require('truffle-assertions');
 
 contract("Credential Store tests", async accounts => {
 
@@ -35,7 +34,6 @@ contract("Credential Store tests", async accounts => {
     let userSignUp1 = await instance.signUpUserOrLogin('testUsername1', 'Thu Mar 11 2021 15:53:27 GMT+0200 (Eastern European Standard Time)', { from: accounts[0] });
     let userSignUp2 = await instance.signUpUserOrLogin('testUsername2', 'Thu Mar 12 2021 16:23:37 GMT+0200 (Eastern European Standard Time)', { from: accounts[1] });
 
-    truffleAssert.eventEmitted(userSignUp1, 'RoleGranted');
     expectEvent(userSignUp1, 'RoleGranted');
     expectEvent(userSignUp2, 'RoleGranted');
 
