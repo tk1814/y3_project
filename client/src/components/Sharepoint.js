@@ -241,7 +241,7 @@ class Sharepoint extends Component {
 
         // get images user shared with others 
         let username, imageAddressUserSharedWithSol, imageHashUserSharedWithSol, imageNamesUserSharedWith;
-        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+        await contract.methods.getImages().call({ from: this.state.account }).then((r) => {
           username = r[2]
           imageAddressUserSharedWithSol = r[4]
           imageHashUserSharedWithSol = r[5]
@@ -270,7 +270,7 @@ class Sharepoint extends Component {
 
         // get files user shared with others 
         let fileAddressUserSharedWithSol, fileHashUserSharedWithSol, fileNamesUserSharedWith;
-        await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
+        await contract.methods.getFiles().call({ from: this.state.account }).then((r) => {
           fileAddressUserSharedWithSol = r[4]
           fileHashUserSharedWithSol = r[5]
           fileNamesUserSharedWith = r[6]

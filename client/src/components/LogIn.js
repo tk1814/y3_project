@@ -62,7 +62,7 @@ class LogIn extends Component {
         this.setState({ contract })
 
         let username;
-        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+        await contract.methods.getImages().call({ from: this.state.account }).then((r) => {
           username = r[2]
         }).catch((err) => {
           console.log("New user");

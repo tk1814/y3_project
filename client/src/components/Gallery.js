@@ -94,7 +94,7 @@ class Gallery extends Component {
         this.setState({ contract })
 
         let imageSolArray, imageNameSolArray, username, dateUploadImg, imageAddressUserSharedWithSol, imageHashUserSharedWithSol;
-        await contract.methods.get().call({ from: this.state.account }).then((r) => {
+        await contract.methods.getImages().call({ from: this.state.account }).then((r) => {
           imageSolArray = r[0];
           imageNameSolArray = r[1]
           username = r[2]
@@ -181,7 +181,7 @@ class Gallery extends Component {
 
         // Files
         let fileSolArray, fileNameSolArray, dateUploadFile, fileAddressUserSharedWithSol, fileHashUserSharedWithSol;
-        await contract.methods.getFile().call({ from: this.state.account }).then((r) => {
+        await contract.methods.getFiles().call({ from: this.state.account }).then((r) => {
           fileSolArray = r[0];
           fileNameSolArray = r[1]
           dateUploadFile = r[3]
@@ -285,7 +285,6 @@ class Gallery extends Component {
   // store the IPFS hash in the smart contract
   onSubmit = async (event) => {
     event.preventDefault()
-    // console.log("Submitting file to ipfs...")
 
     let buffer_data = this.state.buffer
     if (buffer_data) {
@@ -303,7 +302,6 @@ class Gallery extends Component {
           } else if (file_name.match(/.(pdf)$/i) && this.state.fileHashes.find(file_itm => file_itm === file_hash)) {
             alert('This file already exists. Please select a different one.');
           } else {
-            console.log(file_hash)
 
             let hash_decoded = bs58.decode(file_hash).slice(2); // 32
             let hex_filename = Web3.utils.asciiToHex(file_name)
@@ -314,13 +312,11 @@ class Gallery extends Component {
 
               if (file_name.match(/.(pdf)$/i)) {
                 await this.state.contract.methods.setFile(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
-                  // refresh to get the new file array with get() of smart contract
+                  // refresh to get the new file array
                   window.location.reload();
                 })
               } else if (file_name.match(/.(jpg|jpeg|png|gif)$/i)) {
-                console.log(hash_decoded, hex_filename)
-                console.log(typeof(hash_decoded))
-                await this.state.contract.methods.set(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
+                await this.state.contract.methods.setImage(hash_decoded, hex_filename, Date().toLocaleString()).send({ from: this.state.account }).then((r) => {
                   window.location.reload();
                 })
               }

@@ -45,9 +45,9 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 7545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
     },
     // Another network with more advanced options...
     // advanced: {
@@ -79,6 +79,13 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
+    reporter: 'eth-gas-reporter',
+    reporterOptions: {
+      excludeContracts: ['Migrations'],
+      currency: 'GBP',
+      coinmarketcap: '3962187c-2132-4bfd-8dd4-d6031f950eb3',
+      showTimeSpent: true
+    }
     // timeout: 100000
   },
 
@@ -87,13 +94,13 @@ module.exports = {
     solc: {
       version: "0.6.2",    // 0.5.1 Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
-      //  evmVersion: "byzantium"
-      // }
+      settings: {          // See the solidity docs for advice about optimization and evmVersion
+       optimizer: {
+         enabled: true,
+         runs: 1500
+       },
+       evmVersion: "byzantium"
+      }
     },
   },
 };

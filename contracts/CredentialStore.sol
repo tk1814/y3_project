@@ -15,8 +15,6 @@ contract CredentialStore is Ownable, AccessControl {
     string username;
     bool[] viewOnlyImage;
     bool[] viewOnlyFile;
-    // int256 newlySharedItems;
-    // if user does getSharedFileArr & getSharedImageArr means that user logged in and is in sharepoint 
 
     bytes32[] imageHashes;
     bytes32[] imageNames;
@@ -38,7 +36,6 @@ contract CredentialStore is Ownable, AccessControl {
     string[] dateImageSharedWithUser;
     string[] dateFileSharedWithUser;
 
-    // user shared files with:
     address[] imageAddressUserSharedWith;
     bytes32[] imageHashUserSharedWith;
     bytes32[] imageNamesUserSharedWith;
@@ -111,7 +108,7 @@ contract CredentialStore is Ownable, AccessControl {
     idUserData[msg.sender].fileUsernameSharedWithUser, idUserData[msg.sender].dateFileSharedWithUser, idUserData[msg.sender].viewOnlyFile); 
   }
 
-  function set(bytes32 _imageHash, bytes32 _imageName, string memory _date) public { 
+  function setImage(bytes32 _imageHash, bytes32 _imageName, string memory _date) public { 
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     idUserData[msg.sender].imageHashes.push(_imageHash);
@@ -127,14 +124,14 @@ contract CredentialStore is Ownable, AccessControl {
     idUserData[msg.sender].dateFileUpload.push(_date);
   }
 
-  function get() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory, bytes32[] memory) {  
+  function getImages() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, string memory, bytes32[] memory) {  
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     return (idUserData[msg.sender].imageHashes, idUserData[msg.sender].imageNames, idUserData[msg.sender].username, idUserData[msg.sender].dateImageUpload,
     idUserData[msg.sender].imageAddressUserSharedWith, idUserData[msg.sender].imageHashUserSharedWith, idUserData[msg.sender].acceptTermsConditionsDate, idUserData[msg.sender].imageNamesUserSharedWith); 
   }
 
-  function getFile() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, bytes32[] memory) {   
+  function getFiles() public view returns (bytes32[] memory, bytes32[] memory, string memory, string[] memory, address[] memory, bytes32[] memory, bytes32[] memory) {   
     require(hasRole(USER_ROLE, msg.sender), "Caller is not a user");
 
     return (idUserData[msg.sender].fileHashes, idUserData[msg.sender].fileNames, idUserData[msg.sender].username, idUserData[msg.sender].dateFileUpload,
