@@ -23,8 +23,8 @@ describe('Cypress', () => {
     cy.url().should('include', 'http://localhost:3000/login')
     window.localStorage.setItem('state', false)
     // window.localStorage.getItem('state');
-    cy.window().its('store').invoke('getState').should('exist')
-    cy.window().its('store').invoke('getState').should('deep.equal', false)
+    // cy.window().its('store').invoke('getState').should('exist')
+    // cy.window().its('store').invoke('getState').should('deep.equal', false)
 
     cy.waitForReact();
     cy.react('LogIn', { props: { newUser: 'false' } })
@@ -116,8 +116,8 @@ describe('Cypress', () => {
     cy.url().should('include', 'http://localhost:3000/login')
     window.localStorage.setItem('state', false)
     // window.localStorage.getItem('state');
-    cy.window().its('store').invoke('getState').should('exist')
-    cy.window().its('store').invoke('getState').should('deep.equal', false)
+    // cy.window().its('store').invoke('getState').should('exist')
+    // cy.window().its('store').invoke('getState').should('deep.equal', false)
 
     cy.waitForReact();
     cy.react('LogIn', { props: { newUser: 'false' } })

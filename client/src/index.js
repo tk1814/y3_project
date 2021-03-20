@@ -5,18 +5,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 // import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import store from './reducers/store';
+// import store from './reducers/store';
 
 ReactDOM.render(
-    <Provider store={store}>
+    // <Provider store={store}>
         <App />
-    </Provider>,
-    document.getElementById('root')
+    // </Provider>,
+    ,document.getElementById('root')
 );
 
-if (window.Cypress) {
-  window.store = store
-}
+// if (window.Cypress) {
+//   window.store = store
+// }
 
 // import { createStore } from 'redux';
 // import allReducer from './reducers'; 
