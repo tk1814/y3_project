@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@cypress/code-coverage": "^3.9.2",
+    "@cypress/instrument-cra": "^1.4.0",
+    "@cypress/react": "^4.16.4",
+    "@synthetixio/synpress": "^0.7.12",
+    "cypress-file-upload": "^5.0.2",
+    "cypress-react-selector": "^2.3.6"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "unzipper": "^0.10.11"
+  }
+}

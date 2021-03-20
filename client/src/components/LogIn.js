@@ -65,7 +65,6 @@ class LogIn extends Component {
         await contract.methods.getImages().call({ from: this.state.account }).then((r) => {
           username = r[2]
         }).catch((err) => {
-          console.log("New user");
           this.setState({ newUser: true })
         });
 
@@ -160,7 +159,7 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div className='login'>
+      <div className='login' id="login-data">
         <div className="container-fluid">
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
@@ -169,12 +168,12 @@ class LogIn extends Component {
 
                   <div className="top_login_space">
 
-                    {!this.state.newUser ? <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
-                      : <h3 className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to sign up.</h3>}
+                    {!this.state.newUser ? <h3 id="sign-label" className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
+                      : <h3 id="login-label" className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to sign up.</h3>}
 
                     <form onSubmit={(e) => { this.onSignUp(e) }}>
                       <label>
-                        <input type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
+                        <input id="input-usr" type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
                       </label>
 
                       <br></br>
@@ -185,24 +184,24 @@ class LogIn extends Component {
                           <label htmlFor="agree" style={{ textIndent: '0.5em' }}><p> I agree to terms and conditions.*</p></label>
                         </div>}
 
-                      {this.state.newUser && this.state.showWarningNotAcceptedTerms && <div className="err">Please accept the terms and conditions to proceed.</div>}
+                      {this.state.newUser && this.state.showWarningNotAcceptedTerms && <div id="terms-conditions" className="err">Please accept the terms and conditions to proceed.</div>}
 
-                      {this.state.newUser && this.state.showWarningUsernameExists && <div className="err">This username already exists, please choose a different one.</div>}
+                      {this.state.newUser && this.state.showWarningUsernameExists && <div id="username-exists" className="err">This username already exists, please choose a different one.</div>}
 
-                      {(this.state.wrongUsrname || this.state.newUser) && this.state.usernameContainsWhitespace && <div className="err"> Username must be without whitespaces.</div>}
+                      {(this.state.wrongUsrname || this.state.newUser) && this.state.usernameContainsWhitespace && <div id="no-spaces" className="err"> Username must be without whitespaces.</div>}
 
-                      {this.state.wrongUsrname && <div className="err">Your login credentials could not be verified</div>}
+                      {this.state.wrongUsrname && <div id="wrong-login" className="err">Your login credentials could not be verified.</div>}
 
                       <br></br>
 
-                      {this.state.newUser ? <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Sign Up</button>
-                        : <button type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>}
+                      {this.state.newUser ? <button id="submit-btn" type='submit' value="Submit" className="btn mt-3 container log_in_btn">Sign Up</button>
+                        : <button id="submit-btn" type='submit' value="Submit" className="btn mt-3 container log_in_btn">Login</button>}
 
                     </form>
 
                   </div>
 
-                ) : <h3>You are already logged in</h3>}
+                ) : <h3 id="logged-in">You are already logged in.</h3>}
               </div>
             </main>
           </div>

@@ -29,7 +29,7 @@ export default class ModalForm extends Component {
           <Modal.Body>
             <Form.Group >
               <Form.Label className='white-text'>Enter Public Address: </Form.Label>
-              <Form.Control className='input_box' type="text" onChange={this.handleChange} value={this.state.name} placeholder="" size="50" maxLength="42" required />
+              <Form.Control id='input-address' className='input_box' type="text" onChange={this.handleChange} value={this.state.name} placeholder="" size="50" maxLength="42" required />
 
               <br></br>
               <input className='ml-1' type="checkbox" id="agree" onChange={this.handleViewOnly} />
@@ -42,7 +42,7 @@ export default class ModalForm extends Component {
           </Modal.Body>
           <Modal.Footer>
             {/* {!this.props.shared &&  */}
-            <Button className='btn share_btn shadow-none' type="submit" onClick={() => this.props.handleSubmit(this.state.name, this.state.viewOnly)}>
+            <Button id='share-file' className='btn share_btn shadow-none' type="submit" onClick={() => this.props.handleSubmit(this.state.name, this.state.viewOnly)}>
               Share
           </Button>
           {/* } */}

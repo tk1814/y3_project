@@ -143,12 +143,12 @@ class Gallery extends Component {
             <Figure key={index} className="mr-4" style={{ textAlign: 'center' }} >
               <React.Fragment>
                 <div className="block-icon">
-                  <Figure.Image className="img"
+                  <Figure.Image className="img" id="uploaded-image"
                     alt="inputFile"
                     src={`https://ipfs.infura.io/ipfs/${image}`}
                     onClick={() => this.toggleModal(index)} />
 
-                  <button className="btn btn_download download_icon icon-tag" type="button"
+                  <button id="image-details" className="btn btn_download download_icon icon-tag" type="button"
                     onClick={() => this.openDetailsModal(index, 'image')}
                   ><RiInformationLine size="1.6em" /></button>
                 </div>
@@ -156,8 +156,8 @@ class Gallery extends Component {
 
               <Figure.Caption className='caption' >
                 <p className="ml-3 mt-2 p1 image_name">{Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.')}</p>
-                <button className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, image, 'image')}><RiUserShared2Line size="1.4em" /></button>
-                <button className="btn btn_download download_icon" type="button" onClick={() => {
+                <button id='share-btn' className="btn btn_download share_icon" type="button" onClick={() => this.openModal(index, image, 'image')}><RiUserShared2Line size="1.4em" /></button>
+                <button id='download-btn' className="btn btn_download download_icon" type="button" onClick={() => {
                   if (Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).match(/.(gif)/i))
                     this.downloadFile(`https://ipfs.infura.io/ipfs/${image}`, 'gif', Web3.utils.hexToAscii(this.state.imageNameSolArray[index]).split('.').slice(0, -1).join('.'));
                   else
@@ -228,7 +228,7 @@ class Gallery extends Component {
                     <Page pageNumber={1} scale={0.35} />
                   </Document>
 
-                  <button className="btn btn_download download_icon icon-tag" type="button"
+                  <button id="file-details" className="btn btn_download download_icon icon-tag" type="button"
                     onClick={() => this.openDetailsModal(index, 'file')}><RiInformationLine size="1.6em" style={{ color: '#000' }} /></button>
 
                 </div>
@@ -236,8 +236,8 @@ class Gallery extends Component {
 
               <div className='caption'>
                 <a className='mb-4 ml-2' style={{ color: '#80C2AF' }} href={`https://ipfs.infura.io/ipfs/${file}`} target="_blank" rel="noopener noreferrer">{Web3.utils.hexToAscii(this.state.fileNameSolArray[index])}</a>
-                <button className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
-                <button className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file', Web3.utils.hexToAscii(this.state.fileNameSolArray[index]).split('.').slice(0, -1).join('.')); }}><BiDownload size="1.5em" /></button>
+                <button id='share-file-btn' className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(index, file, 'file')}><RiUserShared2Line size="1.4em" /></button>
+                <button id='download-file-btn' className="btn btn_download download_icon" type="button" onClick={() => { this.downloadFile(`https://ipfs.infura.io/ipfs/${file}`, 'file', Web3.utils.hexToAscii(this.state.fileNameSolArray[index]).split('.').slice(0, -1).join('.')); }}><BiDownload size="1.5em" /></button>
               </div>
             </div>
 
@@ -330,7 +330,7 @@ class Gallery extends Component {
         // alert("Request was rejected.")
       }
     } else {
-      alert("No file was submitted. Please try again.")
+      alert("No file was selected. Please try again.")
       console.log('ERROR: No data to submit')
     }
   }
@@ -518,9 +518,9 @@ class Gallery extends Component {
                     <div className="content mr-auto ml-auto">
 
                       <form className="input-group mt-3" onSubmit={this.onSubmit} >
-                        <input type="file" accept="image/*, application/pdf" onChange={this.captureFile} className="custom-file-input" /> {/* mx-sm-3 */}
+                        <input id="upload-file" type="file" accept="image/*, application/pdf" onChange={this.captureFile} className="custom-file-input" /> {/* mx-sm-3 */}
                         <label className="custom-file-label radiu">{this.state.fileName}</label>
-                        <button type='submit' className="btn submit_btn mt-4 container input_box">Submit</button>
+                        <button id="submit-file" type='submit' className="btn submit_btn mt-4 container input_box">Submit</button>
                       </form>
 
                     </div>
@@ -596,7 +596,7 @@ class Gallery extends Component {
 
 
 
-                    <ModalGateway>
+                    <ModalGateway id='modal-gateway-gallery'>
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
                           <Carousel
@@ -617,7 +617,7 @@ class Gallery extends Component {
 
           </div>
           : (<div className="top_gallery_space" >
-            <h3>User not logged in.</h3>
+            <h3 id="not-logged-in">User not logged in.</h3>
           </div>)}
       </div >
     );

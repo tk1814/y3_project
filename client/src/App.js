@@ -17,8 +17,8 @@ const Root = () => (
       <h4>Simpler Safer Faster</h4>
       <h3 className="mt-4">Storing files on Ethereum has never been easier.</h3>
       {(JSON.parse(localStorage.getItem('state'))) ?
-        <a href="/gallery" className="btn start_btn mt-5" role="button">Get Started</a>
-        : <a href="/login" className="btn start_btn mt-5" role="button">Get Started</a>}
+        <a id="start-btn" href="/gallery" className="btn start_btn mt-5" role="button">Get Started</a>
+        : <a id="start-btn" href="/login" className="btn start_btn mt-5" role="button">Get Started</a>}
     </div>
   </div>
 );
@@ -50,23 +50,23 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <main>
-            <Navbar className="nav" expand="md">
+            <Navbar id="navbar" className="nav" expand="md">
               <NavbarBrand href="/"><Header subtitle="" /></NavbarBrand>
               <Nav className="mr-auto" navbar></Nav>
               <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /> </NavLink></NavItem>
 
               {(!JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" href="/login"><BsUnlock size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink id='login' className="nav_btn" href="/login"><BsUnlock size="2em" /></NavLink></NavItem>
                 : ''}
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" href="/gallery"><BsFolder size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink id="nav-gallery" className="nav_btn" href="/gallery"><BsFolder size="2em" /></NavLink></NavItem>
                 : ''}
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" href="/sharepoint"><BiShareAlt size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink id="nav-sharepoint" className="nav_btn" href="/sharepoint"><BiShareAlt size="2em" /></NavLink></NavItem>
                 : ''}
-              <NavItem><NavLink className="nav_btn" href="/about"><BsQuestion size="2.2em" /></NavLink></NavItem>
+              <NavItem><NavLink id="nav-about" className="nav_btn" href="/about"><BsQuestion size="2.2em" /></NavLink></NavItem>
               {(JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink className="nav_btn" onClick={() => {
+                <NavItem><NavLink id='logout' className="nav_btn" onClick={() => {
                   localStorage.clear();
                 }} href="/"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}

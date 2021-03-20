@@ -42,8 +42,8 @@ class PdfViewer extends React.Component {
     }
     return (
       <nav>
-        <button type='submit' disabled={this.state.disablePrevBtn} className="btn arrow_btn mb-1">{previousButton}</button>
-        <button type='submit' disabled={this.state.disableNextBtn} className="btn arrow_btn mb-1">{nextButton}</button>
+        <button id='previous-btn' type='submit' disabled={this.state.disablePrevBtn} className="btn arrow_btn mb-1">{previousButton}</button>
+        <button id='next-btn' type='submit' disabled={this.state.disableNextBtn} className="btn arrow_btn mb-1">{nextButton}</button>
       </nav>
     );
   }
@@ -87,9 +87,9 @@ class PdfViewer extends React.Component {
                   onPageRenderComplete={(pages, page) => this.setState({ page, pages })} />
                 {pagination}
               </div>
-              : <h3 className="mt-5">File not chosen to display.</h3>}
+              : <h3 id='file-not-chosen' className="mt-5">File not chosen to display.</h3>}
           </div>
-        ) : <h3 className="mt-5">User not logged in.</h3>}
+        ) : <h3 id='user-not-logged-in' className="mt-5">User not logged in.</h3>}
       </div>
     );
   }

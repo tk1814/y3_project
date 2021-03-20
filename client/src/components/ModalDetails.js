@@ -10,7 +10,7 @@ export default class ModalDetails extends Component {
       <Modal className='modal'
         show={this.props.isOpen}
         onHide={this.props.closeModal} >
-        <Modal.Header closeButton>
+        <Modal.Header id='details-modal-header' closeButton>
           <Modal.Title className='white-text'>{this.props.detailType}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
