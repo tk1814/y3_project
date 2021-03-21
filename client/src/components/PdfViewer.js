@@ -5,23 +5,6 @@ import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
 class PdfViewer extends React.Component {
   state = {};
 
-  componentDidMount() {
-    this.ethereum = window.ethereum
-    if (this.ethereum) {
-      this.ethereum.on('accountsChanged', function (accounts) {
-        this.setState({ account: accounts[0] })
-        localStorage.clear();
-        this.redirectToLogin();
-        window.location.reload();
-      }.bind(this))
-    }
-  }
-
-  redirectToLogin = () => {
-    const { history } = this.props;
-    if (history) history.push('/login');
-  }
-
   handlePrevious = () => {
     this.setState({ page: this.state.page - 1 });
   }

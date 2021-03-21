@@ -9,19 +9,6 @@ class About extends Component {
     }
   }
 
-  // async componentDidMount() {
-
-    // Detects metamask eth wallet account change 
-    // this.ethereum = window.ethereum
-    // if (this.ethereum) {
-    //   this.ethereum.on('accountsChanged', function (accounts) {
-    //     this.setState({ account: accounts[0] })
-    //     localStorage.clear();
-    //     window.location.reload();
-    //   }.bind(this))
-    // }
-  // }
-
   render() {
     return (
 
