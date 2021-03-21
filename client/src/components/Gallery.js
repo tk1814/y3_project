@@ -596,10 +596,10 @@ class Gallery extends Component {
 
 
 
-                    <ModalGateway id='modal-gateway-gallery'>
+                    <ModalGateway>
                       {this.state.modalIsOpen ? (
                         <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                          <Carousel
+                          <Carousel 
                             currentIndex={this.state.img_index}
                             views={this.state.image_src}
                             styles={{

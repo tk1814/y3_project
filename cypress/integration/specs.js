@@ -9,7 +9,13 @@ describe('Cypress', () => {
     cy.get('#nav-about').should('be.visible')
     cy.get("h3").contains("Storing files on Ethereum has never been easier.")
     cy.url().should('include', 'http://localhost:3000')
+
+    // cy.get('#start-btn').trigger('accountsChanged')
+    // cy.clearLocalStorage().then((ls) => {
+    //   expect(ls.getItem('state')).to.be.null
+    // })
     cy.get('#start-btn').click();
+
     window.localStorage.setItem('state', false)
     cy.visit('http://localhost:3000/login')
   })
@@ -80,6 +86,7 @@ describe('Cypress', () => {
         cy.wait(4000) //<<<<<<<<
         cy.get('#nav-gallery').should('be.visible')
         cy.get('#nav-sharepoint').should('be.visible')
+
       }
     })
   })
@@ -160,13 +167,13 @@ describe('Cypress', () => {
     // share-file-btn
     // import {}
 
-  //   // No public address was entered
+    //   // No public address was entered
     cy.get('#share-file-btn').click();
-  //   cy.on('window:alert',(txt)=>{
-  //     expect(txt).to.contains('No public address was entered. Please enter a public address.');
-  //  })
-  //   cy.get('#share-file').click()
-    
+    //   cy.on('window:alert',(txt)=>{
+    //     expect(txt).to.contains('No public address was entered. Please enter a public address.');
+    //  })
+    //   cy.get('#share-file').click()
+
     // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
     // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
     const wrong_address = "wrong"
@@ -174,38 +181,54 @@ describe('Cypress', () => {
     cy.get('#agree').click();
     cy.get('#share-file').click()
 
-
+    //>>>>>>>
+    // cy.get('#share-file-btn').click();
+    // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
+    // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
+    // cy.get('#share-file').click()
+    // //<<<<<<<
+    // cy.wait(8000)
 
     cy.get('#uncontrolled-tab-example-tab-gallery').click();
     cy.get('#download-btn').click({ timeout: 20000 })
 
     cy.on('uncaught:exception', (err, runnable) => {
-      // expect(err.message).to.include('something about the error')
       done()
       return false
     })
     cy.wait(3000)
-    // no file was chosen
-    // todo
-
     cy.visit('http://localhost:3000/about')
     cy.url().should('include', 'http://localhost:3000/about')
+
+    // cy.react('About', { props: { account: { name: 'email' } } }).type(
+    //   'john.doe@cypress.com'
+    // );
+
+
+
     cy.visit('http://localhost:3000')
     cy.url().should('include', 'http://localhost:3000')
     cy.get('#start-btn').click();
 
     cy.visit('http://localhost:3000/gallery')
 
-
     cy.get('#share-btn').click();
     const wrong_addr = "Theo"
     cy.get('#input-address').type(wrong_addr).should('have.value', wrong_addr)
-    cy.get('#agree').click();
-
-    // already shared with: 0x49b34364948c8839855446494E91d33bF578F8d3
+    cy.get('#agree').click(); // already shared with: 0x49b34364948c8839855446494E91d33bF578F8d3
     cy.get('#share-file').click()
-    cy.get('#uploaded-image').click();
 
+    //>>>>>>>
+    // cy.get('#share-btn').click();
+    // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
+    // cy.get('#share-file').click()
+    //<<<<<<<
+
+    // open image modal and close it
+    cy.get('#uploaded-image').click(); 
+    cy.get('body').trigger("keydown", { key: "esc" });
+
+    // cy.get('#nav-sharepoint').click();
     cy.visit('http://localhost:3000/sharepoint')
     cy.url().should('include', 'http://localhost:3000/sharepoint')
 
