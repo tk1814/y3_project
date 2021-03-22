@@ -31,8 +31,8 @@ describe('Cypress', () => {
   //   const accounts = window.ethereum.request({ method: 'eth_requestAccounts' }).then((r) => {
   //   console.log(res)
   //   })
- 
-    
+
+
   //   console.log(accounts[0])
   //   cy.react('App', { props: { account: { name: 'email' } } }).type(
   //     'john.doe@cypress.com'
@@ -108,7 +108,7 @@ describe('Cypress', () => {
         cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
         // UNCOMMENT 70% COVERAGE 
         cy.get('#submit-btn').click();
-        cy.wait(4000)
+        cy.wait(6000)
         cy.get('#nav-gallery').should('be.visible')
         cy.get('#nav-sharepoint').should('be.visible')
 
@@ -160,6 +160,7 @@ describe('Cypress', () => {
     cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
     // UNCOMMENT 70% COVERAGE 
     cy.get('#submit-btn').click();
+    cy.wait(6000)
     cy.get('#nav-gallery', { timeout: 20000 }).should('be.visible')
     cy.get('#nav-sharepoint').should('be.visible')
 
@@ -222,11 +223,25 @@ describe('Cypress', () => {
 
     // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
     // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
+
+    // Gallery: share file (wrong address)
     cy.get('#share-file-btn').click();
     const wrong_address = "wrong"
     cy.get('#input-address').type(wrong_address).should('have.value', wrong_address)
     cy.get('#agree').click();
     cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Wrong public address entered or Request was rejected.');
+    })
+
+    // Gallery: share file (already shared)
+    cy.get('#share-file-btn').click();
+    const already_shared_addr = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
+    cy.get('#input-address').type(already_shared_addr).should('have.value', already_shared_addr)
+    cy.get('#agree').click();
+    cy.get('#share-file').click()
+    cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
     //>>>>>>>
     // cy.get('#share-file-btn').click();
@@ -238,7 +253,6 @@ describe('Cypress', () => {
 
     cy.get('#uncontrolled-tab-example-tab-gallery').click();
     cy.get('#download-btn').click({ timeout: 20000 })
-
     cy.on('uncaught:exception', (err, runnable) => {
       done()
       return false
@@ -251,19 +265,29 @@ describe('Cypress', () => {
     //   'john.doe@cypress.com'
     // );
 
-
-
     cy.visit('http://localhost:3000')
     cy.url().should('include', 'http://localhost:3000')
     cy.get('#start-btn').click();
 
     cy.visit('http://localhost:3000/gallery')
 
+    // Gallery: share image (wrong address)
     cy.get('#share-btn').click();
     const wrong_addr = "Theo"
     cy.get('#input-address').type(wrong_addr).should('have.value', wrong_addr)
-    cy.get('#agree').click(); // already shared with: 0x49b34364948c8839855446494E91d33bF578F8d3
+    cy.get('#agree').click();
     cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Wrong public address entered or Request was rejected.');
+    })
+
+    // Gallery: share image (already shared)
+    cy.get('#share-btn').click();
+    cy.get('#input-address').type(already_shared_addr).should('have.value', already_shared_addr)
+    cy.get('#agree').click();
+    cy.get('#share-file').click()
+    cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
     //>>>>>>>
     // cy.get('#share-btn').click();
@@ -273,7 +297,8 @@ describe('Cypress', () => {
 
     // open image modal and close it
     cy.get('#uploaded-image').click();
-    cy.get('body').trigger("keydown", { key: "esc" });
+    cy.get('.react-images__header_button--close > .css-9s8aw7').click();
+    // cy.get('body').trigger("keydown", { key: "esc" });
 
     // cy.get('#nav-sharepoint').click();
     cy.visit('http://localhost:3000/sharepoint')
@@ -284,6 +309,14 @@ describe('Cypress', () => {
     // go back to original
     cy.get('#reverse-images').click();
 
+    // open and close normal image modal 
+    cy.get('#normal-image').click();
+    cy.get('.react-images__header_button--close > .css-9s8aw7').click();
+    // open and close view only image
+    cy.get('#view-only-image').click();
+    cy.get('.react-images__header_button--close > .css-9s8aw7').click();
+
+    // cy.get('body').trigger("keydown", { key: "esc" });
 
     cy.get('#image-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
@@ -295,13 +328,25 @@ describe('Cypress', () => {
     })
     cy.wait(3000)
 
+    // Sharepoint: share image (wrong address)
     cy.get('#share-btn').click();
     const wrong_addr_share = "Theo"
     cy.get('#input-address').type(wrong_addr_share).should('have.value', wrong_addr_share)
     cy.get('#agree').click();
-    // already shared with: 0x49b34364948c8839855446494E91d33bF578F8d3
     cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Wrong public address entered or Request was rejected.');
+    })
 
+    // Sharepoint: share image (already shared)
+    cy.get('#share-btn').click();
+    cy.get('#input-address').type(already_shared_addr).should('have.value', already_shared_addr)
+    cy.get('#agree').click();
+    cy.get('#share-file').click()
+    cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
+
+    // 0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a
 
     /////////
     cy.get('#uncontrolled-tab-example-tab-files').click();
@@ -311,23 +356,35 @@ describe('Cypress', () => {
     // go back to original
     cy.get('#reverse-files').click();
 
-    cy.get('#file-details').click();
+    // open and close file details modal
+    cy.get(':nth-child(2) > :nth-child(6) > #file-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
 
+    // download file
     cy.get('#download-file-btn').click({ timeout: 20000 })
     cy.on('uncaught:exception', (err, runnable) => {
-      // expect(err.message).to.include('something about the error')
       done()
       return false
     })
     cy.wait(3000)
 
+    // Sharepoint: share file (wrong address)
     cy.get('#share-file-btn').click();
     const wrong_addr_share_file = "Theo"
     cy.get('#input-address').type(wrong_addr_share_file).should('have.value', wrong_addr_share_file)
     cy.get('#agree').click();
-    // already shared with: 0x49b34364948c8839855446494E91d33bF578F8d3
     cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Wrong public address entered or Request was rejected.');
+    })
+
+    // Sharepoint: share image (already shared)
+    cy.get('#share-file-btn').click();
+    cy.get('#input-address').type(already_shared_addr).should('have.value', already_shared_addr)
+    cy.get('#agree').click();
+    cy.get('#share-file').click()
+    cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
     cy.get('#view-pdf')
       .should('have.attr', 'target', '_blank')

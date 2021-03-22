@@ -23,7 +23,7 @@ export default class ModalForm extends Component {
           show={this.props.isOpen}
           onHide={this.props.closeModal}>
 
-          <Modal.Header closeButton>
+          <Modal.Header id='share-modal-header' closeButton>
             <Modal.Title className='white-text'>Share File</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -36,7 +36,7 @@ export default class ModalForm extends Component {
               <label htmlFor="agree" style={{ textIndent: '0.5em' }}><p> View Only</p></label>
 
               <br></br>
-              {this.props.shared && <Form.Label className='err'>You have already shared this file with that user.</Form.Label>}
+              {this.props.shared && <Form.Label id='already-shared-warning' className='err'>You have already shared this file with that user.</Form.Label>}
 
             </Form.Group>
           </Modal.Body>
