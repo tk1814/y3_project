@@ -32,7 +32,7 @@
 
 .btn_download:hover {
   color: rgb(192, 192, 192);
-    /* 255, 255, 255); */
+    /* rgb(8, 9, 87); */
 }
 
 .btn_download {
@@ -296,7 +296,7 @@ html {
 .footer_space { height: 230px; }
 
 .logo {
-  height: 50px;
+  height: 60px;
 }
 
 .subtitle {

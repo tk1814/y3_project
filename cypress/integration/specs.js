@@ -21,6 +21,31 @@ describe('Cypress', () => {
   })
 
 
+  // it('change account - demo', () => {
+  //   cy.visit('http://localhost:3000')
+  //   // cy.get('#navbar').should('be.visible')
+  //   // cy.get('#nav-about').should('be.visible')
+  //   // cy.get("h3").contains("Storing files on Ethereum has never been easier.")
+  //   // cy.url().should('include', 'http://localhost:3000')
+
+  //   const accounts = window.ethereum.request({ method: 'eth_requestAccounts' }).then((r) => {
+  //   console.log(res)
+  //   })
+ 
+    
+  //   console.log(accounts[0])
+  //   cy.react('App', { props: { account: { name: 'email' } } }).type(
+  //     'john.doe@cypress.com'
+  //   );
+
+  //   // cy.get('#start-btn').trigger('accountsChanged')
+  //   // cy.clearLocalStorage().then((ls) => {
+  //   //   expect(ls.getItem('state')).to.be.null
+  //   // })
+
+  // })
+
+
   it('visits the login page', () => {
     cy.visit('http://localhost:3000/login')
     cy.get('#navbar').should('be.visible')
@@ -83,7 +108,7 @@ describe('Cypress', () => {
         cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
         // UNCOMMENT 70% COVERAGE 
         cy.get('#submit-btn').click();
-        cy.wait(4000) //<<<<<<<<
+        cy.wait(4000)
         cy.get('#nav-gallery').should('be.visible')
         cy.get('#nav-sharepoint').should('be.visible')
 
@@ -138,28 +163,46 @@ describe('Cypress', () => {
     cy.get('#nav-gallery', { timeout: 20000 }).should('be.visible')
     cy.get('#nav-sharepoint').should('be.visible')
 
+
+    // --- Upload images ---
+
+    // Long image name
+    cy.get('#upload-file').attachFile('testVeryVeryVeryLongImageName.jpg', { subjectType: 'drag-n-drop' });
+    cy.get('#submit-file').click({ timeout: 60000 });
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('File name is too large to be stored in the blockchain, please try a shorter name.');
+    })
+
+    // File type not supported - Gallery
     cy.get('#upload-file').attachFile('testWrongTypeFile.json', { subjectType: 'drag-n-drop' });
     cy.get('#submit-file').click({ timeout: 60000 });
     cy.on('window:confirm', (txt) => {
       expect(txt).to.contains('File type is not supported. \nOnly pdf, jpg, jpeg, png, gif file types are supported.');
     })
 
+    // No file was selected
     cy.get('#submit-file').click({ timeout: 60000 });
     cy.on('window:confirm', (txt) => {
       expect(txt).to.contains('No file was selected. Please try again.');
     })
 
+    // Upload Image
     cy.get('#upload-file').attachFile('testImage.jpeg', { subjectType: 'drag-n-drop' });
     cy.get('#submit-file').click({ timeout: 60000 });
 
+    // Upload File
     cy.get('#upload-file').attachFile('testFile.pdf', { subjectType: 'drag-n-drop' });
     cy.get('#submit-file').click({ timeout: 60000 });
 
-    // open and close modal
+    // open and close details modal
     cy.get('#image-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
 
+
+
+    // GALLERY V^
     cy.get('#uncontrolled-tab-example-tab-files').click();
+    // open and close file details modal
     cy.get('#file-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
     // download & share file
@@ -167,15 +210,19 @@ describe('Cypress', () => {
     // share-file-btn
     // import {}
 
-    //   // No public address was entered
-    cy.get('#share-file-btn').click();
-    //   cy.on('window:alert',(txt)=>{
-    //     expect(txt).to.contains('No public address was entered. Please enter a public address.');
-    //  })
-    //   cy.get('#share-file').click()
+    // No public address was entered
+    // cy.get('#share-file-btn').click();
+    // // CHANGE ADDRESS - TO SELF_ADDRESS
+    // const self_address = "0x392269BF0E8f9bC45A6E92d8D98631B2e31F48e5"
+    // cy.get('#input-address').type(self_address).should('have.value', self_address)
+    // cy.get('#share-file').click()
+    // cy.on('window:alert', (txt) => {
+    //   expect(txt).to.contains('This file already exists. Please select a different one.');
+    // })
 
     // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
     // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
+    cy.get('#share-file-btn').click();
     const wrong_address = "wrong"
     cy.get('#input-address').type(wrong_address).should('have.value', wrong_address)
     cy.get('#agree').click();
@@ -225,16 +272,21 @@ describe('Cypress', () => {
     //<<<<<<<
 
     // open image modal and close it
-    cy.get('#uploaded-image').click(); 
+    cy.get('#uploaded-image').click();
     cy.get('body').trigger("keydown", { key: "esc" });
 
     // cy.get('#nav-sharepoint').click();
     cy.visit('http://localhost:3000/sharepoint')
     cy.url().should('include', 'http://localhost:3000/sharepoint')
 
+    // reverse Images
+    cy.get('#reverse-images').click();
+    // go back to original
+    cy.get('#reverse-images').click();
+
+
     cy.get('#image-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
-
 
     cy.get('#download-btn').click({ timeout: 20000 })
     cy.on('uncaught:exception', (err, runnable) => {
@@ -242,7 +294,6 @@ describe('Cypress', () => {
       return false
     })
     cy.wait(3000)
-
 
     cy.get('#share-btn').click();
     const wrong_addr_share = "Theo"
@@ -254,6 +305,12 @@ describe('Cypress', () => {
 
     /////////
     cy.get('#uncontrolled-tab-example-tab-files').click();
+
+    // reverse Files
+    cy.get('#reverse-files').click();
+    // go back to original
+    cy.get('#reverse-files').click();
+
     cy.get('#file-details').click();
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
 
@@ -288,7 +345,9 @@ describe('Cypress', () => {
     cy.visit('http://localhost:3000/PdfViewer?0')
     cy.url().should('include', 'http://localhost:3000/PdfViewer?0')
 
-    cy.wait(7000)
+    cy.wait(5000)
+    cy.get('#next-btn').click({ timeout: 2000 })
+    cy.wait(5000)
     cy.get('#next-btn').click({ timeout: 2000 })
     cy.wait(5000)
     cy.get('#previous-btn').click({ timeout: 2000 })

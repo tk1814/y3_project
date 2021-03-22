@@ -545,7 +545,7 @@ class Sharepoint extends Component {
                                 <th>Image</th>
                                 <th>From</th>
                                 <th>Address</th>
-                                <th>Date <button className="btn btn_reverse" type="button" onClick={() => this.reverseItems('image')}><BiSort size="1.2em" /></button></th>
+                                <th>Date <button id='reverse-images' className="btn btn_reverse" type="button" onClick={() => this.reverseItems('image')}><BiSort size="1.2em" /></button></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -616,7 +616,7 @@ class Sharepoint extends Component {
                                 <th>File</th>
                                 <th>From</th>
                                 <th>Address</th>
-                                <th>Date <button className="btn btn_reverse" type="button" onClick={() => this.reverseItems('file')}><BiSort size="1.2em" /></button></th>
+                                <th>Date <button id='reverse-files' className="btn btn_reverse" type="button" onClick={() => this.reverseItems('file')}><BiSort size="1.2em" /></button></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

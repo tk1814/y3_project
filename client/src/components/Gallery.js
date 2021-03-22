@@ -331,7 +331,6 @@ class Gallery extends Component {
       }
     } else {
       alert("No file was selected. Please try again.")
-      console.log('ERROR: No data to submit')
     }
   }
 
