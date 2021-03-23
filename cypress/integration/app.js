@@ -1,4 +1,4 @@
-describe('Cypress', () => {
+describe('Test: Visit the app', () => {
 
   it('visits the app', () => {
     cy.visit('http://localhost:3000')

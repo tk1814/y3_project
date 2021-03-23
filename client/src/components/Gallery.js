@@ -261,8 +261,6 @@ class Gallery extends Component {
     } else {
       // return to homepage if MetaMask is not installed
       window.alert('Non-Ethereum browser detected. You should install MetaMask!')
-      // const { history } = this.props;
-      // if (history) history.push('/');
     }
   }
 
@@ -435,7 +433,7 @@ class Gallery extends Component {
       if (!input_address) {
         alert('No public address was entered. Please enter a public address.')
       } else if (input_address.toLowerCase() === current_address.toLowerCase()) {
-        alert('Cannot share images with yourself')
+        alert('Cannot share files with yourself.')
       } else {
 
         if (this.state.typeOfFile === 'image') {

@@ -1,4 +1,4 @@
-describe('Cypress', () => {
+describe('Test: Register and login', () => {
 
   it('visits the login page', () => {
     cy.visit('http://localhost:3000/login')
@@ -30,7 +30,7 @@ describe('Cypress', () => {
         cy.get('#input-usr').clear()
 
         // username with spaces
-        const input_spaces = "Th eo"
+        const input_spaces = "new user"
         cy.get('#input-usr').type(input_spaces).should('have.value', input_spaces)
         // accept terms & conditions
         cy.get('#agree').click();
@@ -41,12 +41,12 @@ describe('Cypress', () => {
         // username already exists
         cy.get('#input-usr').type(input).should('have.value', input)
         cy.get('#submit-btn').click();
-        cy.wait(6000)
         cy.get('#username-exists').contains("This username already exists, please choose a different one.");
 
-        // cy.get('#input-usr').clear()
-        // const correct_input = "Geo"
-        // cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
+        cy.get('#input-usr').clear()
+        const correct_input = "newUsername"
+        cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
+        cy.wait(6000)
         // cy.get('#submit-btn').click();
 
       } else { // login

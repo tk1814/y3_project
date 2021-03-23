@@ -1,4 +1,4 @@
-describe('Cypress', () => {
+describe('Test: Upload and share images and files', () => {
 
   it('uploads image', () => {
     cy.visit('http://localhost:3000/login')
@@ -72,7 +72,7 @@ describe('Cypress', () => {
       expect(txt).to.contains('Wrong public address entered or Request was rejected.');
     })
 
-    // Gallery: share file (already shared)
+    // Gallery: Share file (already shared)
     cy.get('#share-file-btn').click();
     const already_shared_addr = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
     cy.get('#input-address').type(already_shared_addr).should('have.value', already_shared_addr)
@@ -81,39 +81,23 @@ describe('Cypress', () => {
     cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
     cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
-
-    // No public address was entered
-    // cy.get('#share-file-btn').click();
-    // // CHANGE ADDRESS - TO SELF_ADDRESS
-    // const self_address = "0x392269BF0E8f9bC45A6E92d8D98631B2e31F48e5"
-    // cy.get('#input-address').type(self_address).should('have.value', self_address)
-    // cy.get('#share-file').click()
-    // cy.on('window:alert', (txt) => {
-    //   expect(txt).to.contains('This file already exists. Please select a different one.');
-    // })
-    // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
-    // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
-    //>>>>>>>
-    // cy.get('#share-file-btn').click();
-    // const demo_address = "0xA319A7A58f6d0dbE1F1621dD33E24a7a7c484d0a"
-    // cy.get('#input-address').type(demo_address).should('have.value', demo_address)
-    // cy.get('#share-file').click()
-    // //<<<<<<<
-    // cy.wait(8000)
-
-    // cy.react('About', { props: { account: { name: 'email' } } }).type(
-    //   'john.doe@cypress.com'
-    // );
-
-    /* temporary comment - should check if we need it
-    cy.get('#uncontrolled-tab-example-tab-gallery').click();
-    cy.get('#download-btn').click({ timeout: 20000 })
-    cy.on('uncaught:exception', (err, runnable) => {
-      done()
-      return false
+    // Gallery: Share file (No public address was entered)
+    cy.get('#share-file-btn').click();
+    cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('No public address was entered. Please enter a public address.');
     })
-    cy.wait(3000)
-    */
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
+
+    // Gallery: Share file (Cannot share files with yourself)
+    const test_self_address = '0x067cFF7BA21e57A9727077aeb4015E6527A0F41C'
+    cy.get('#share-file-btn').click();
+    cy.get('#input-address').type(test_self_address).should('have.value', test_self_address)
+    cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Cannot share files with yourself.');
+    })
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
     cy.visit('http://localhost:3000/about')
     cy.url().should('include', 'http://localhost:3000/about')
@@ -230,6 +214,23 @@ describe('Cypress', () => {
     cy.get('#agree').click();
     cy.get('#share-file').click()
     cy.get('#already-shared-warning').contains('You have already shared this file with that user.');
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
+
+    // Sharepoint: Share file (No public address was entered)
+    cy.get('#share-file-btn').click();
+    cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('No public address was entered. Please enter a public address.');
+    })
+    cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
+
+    // Sharepoint: Share file (Cannot share files with yourself)
+    cy.get('#share-file-btn').click();
+    cy.get('#input-address').type(test_self_address).should('have.value', test_self_address)
+    cy.get('#share-file').click()
+    cy.on('window:confirm', (txt) => {
+      expect(txt).to.contains('Cannot share files with yourself.');
+    })
     cy.get('#share-modal-header').click('topRight', { timeout: 60000 });
 
     // Sharepoint: Display normal pdf

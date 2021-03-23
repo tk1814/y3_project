@@ -1,4 +1,4 @@
-describe('Cypress', () => {
+describe('Test: Unauthorised app visit', () => {
 
   it('visits the gallery page & pdf viewer- not logged in', () => {
     cy.visit('http://localhost:3000/gallery')
