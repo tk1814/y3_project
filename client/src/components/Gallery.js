@@ -261,8 +261,8 @@ class Gallery extends Component {
     } else {
       // return to homepage if MetaMask is not installed
       window.alert('Non-Ethereum browser detected. You should install MetaMask!')
-      const { history } = this.props;
-      if (history) history.push('/');
+      // const { history } = this.props;
+      // if (history) history.push('/');
     }
   }
 
