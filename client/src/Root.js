@@ -50,16 +50,6 @@ class Root extends Component {
 
   async componentDidMount() {
 
-    // Detects metamask eth wallet account change 
-    this.ethereum = window.ethereum
-    if (this.ethereum) {
-      this.ethereum.on('accountsChanged', function (accounts) {
-        this.setState({ account: accounts[0] })
-        localStorage.clear();
-        window.location.reload();
-      }.bind(this))
-    }
-
     // get real time prices every 20 seconds
     this.loadData();
     setInterval(() => {

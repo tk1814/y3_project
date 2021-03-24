@@ -7,17 +7,11 @@ describe('Test: Register and login', () => {
 
     cy.url().should('include', 'http://localhost:3000/login')
     window.localStorage.setItem('state', false)
-    // window.localStorage.getItem('state');
-    // cy.window().its('store').invoke('getState').should('exist')
-    // cy.window().its('store').invoke('getState').should('deep.equal', false)
-
     cy.waitForReact();
     cy.react('LogIn', { props: { newUser: 'false' } })
-
     cy.get('#login-data').should('be.visible');
 
     cy.get('h3').then(($h3) => {
-      console.log($h3.text())
 
       // new user
       if ($h3.text().includes('Connect your MetaMask account with only one click. Enter your username to sign up.')) {
@@ -47,7 +41,7 @@ describe('Test: Register and login', () => {
         const correct_input = "newUsername"
         cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
         cy.wait(6000)
-        // cy.get('#submit-btn').click();
+        cy.get('#submit-btn').click(); // register
 
       } else { // login
 
@@ -61,8 +55,7 @@ describe('Test: Register and login', () => {
         cy.get('#input-usr').clear()
         const correct_input = "Theodora"
         cy.get('#input-usr').type(correct_input).should('have.value', correct_input)
-        // UNCOMMENT 70% COVERAGE 
-        cy.get('#submit-btn').click();
+        cy.get('#submit-btn').click();  // login
         cy.wait(6000)
         cy.get('#nav-gallery').should('be.visible')
         cy.get('#nav-sharepoint').should('be.visible')

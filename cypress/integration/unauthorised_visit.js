@@ -4,9 +4,7 @@ describe('Test: Unauthorised app visit', () => {
     cy.visit('http://localhost:3000/gallery')
 
     cy.get('#navbar').should('be.visible')
-
     cy.url().should('include', 'http://localhost:3000/gallery')
-
     window.localStorage.setItem('state', false)
 
     cy.waitForReact();

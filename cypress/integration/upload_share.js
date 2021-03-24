@@ -104,13 +104,14 @@ describe('Test: Upload and share images and files', () => {
 
     cy.visit('http://localhost:3000')
     cy.url().should('include', 'http://localhost:3000')
+    cy.wait(3000)
     cy.get('#start-btn').click();
 
     cy.visit('http://localhost:3000/gallery')
 
     // Gallery: Download image
-    cy.get('#download-btn').click({ timeout: 20000 })
-
+    cy.get('#download-btn').click({ timeout: 40000 })
+ 
     // Gallery: Share image (wrong address) 
     cy.get('#share-btn').click();
     const wrong_addr = "Theo"
@@ -154,12 +155,11 @@ describe('Test: Upload and share images and files', () => {
     cy.get('#details-modal-header').click('topRight', { timeout: 60000 });
 
     // Sharepoint: Download image
-    cy.get('#download-btn').click({ timeout: 20000 })
+    cy.get('#download-btn').click({ timeout: 50000 })
     cy.on('uncaught:exception', (err, runnable) => {
       done()
       return false
     })
-    cy.wait(3000)
 
     // Sharepoint: Share image (wrong address)
     cy.get('#share-btn').click();
@@ -269,6 +269,7 @@ describe('Test: Upload and share images and files', () => {
     // Logout 
     cy.get('#logout').click();
     cy.url().should('include', 'http://localhost:3000')
+    cy.wait(22000)
 
     // Clear user data
     cy.clearLocalStorage().then((ls) => {
