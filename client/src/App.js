@@ -45,7 +45,7 @@ class App extends Component {
               <NavItem><NavLink className="mr-auto nav_btn" href="/"><BsHouse size="2em" /> </NavLink></NavItem>
 
               {(!JSON.parse(localStorage.getItem('state'))) ?
-                <NavItem><NavLink id='login' className="nav_btn" href="/login"><BsUnlock size="2em" /></NavLink></NavItem>
+                <NavItem><NavLink id='login' className="nav_btn" href="/login"><BsLock size="2em" /></NavLink></NavItem>
                 : ''}
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink id="nav-gallery" className="nav_btn" href="/gallery"><BsFolder size="2em" /></NavLink></NavItem>
@@ -57,7 +57,7 @@ class App extends Component {
               {(JSON.parse(localStorage.getItem('state'))) ?
                 <NavItem><NavLink id='logout' className="nav_btn" onClick={() => {
                   localStorage.clear();
-                }} href="/"><BsLock size="2em" /></NavLink></NavItem>
+                }} href="/"><BsUnlock size="2em" /></NavLink></NavItem>
                 : ''}
             </Navbar>
             <Switch>
