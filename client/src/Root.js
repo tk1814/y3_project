@@ -78,17 +78,17 @@ class Root extends Component {
                 <p>&nbsp;</p>
 
                 <div style={{ flexDirection: 'row', alignItems: 'center', display: 'flex', fontWeight: 'bold', fontSize: '1.15em' }}>
-                  <h1 className='mr-5'> <FcStackOfPhotos size="5em" /> <br></br><br></br> Upload images</h1>
-                  <h1 className='mr-5'> <FcDocument size="5em" /> <br></br><br></br> Store documents</h1>
-                  <h1 className='mr-5' > <FaEthereum style={{ color: '#6e967a' }} size="5em" /> <br></br><br></br> Interact with ethereum</h1>
-                  <h1 className='mr-5'> <FcShare size="5em" /> <br></br><br></br> Share certificates</h1>
-                  <h1 className='mr-5'> <FcLock size="5em" /> <br></br><br></br> Secure your files</h1>
+                  <h1 className='mr-5'> <FcStackOfPhotos size="5em" /> <br></br><br></br> Upload Images</h1>
+                  <h1 className='mr-5'> <FcDocument size="5em" /> <br></br><br></br> Store Documents</h1>
+                  <h1 className='mr-5' > <FaEthereum style={{ color: '#6e967a' }} size="5em" /> <br></br><br></br> Interact with Ethereum</h1>
+                  <h1 className='mr-5'> <FcShare size="5em" /> <br></br><br></br> Share Certificates</h1>
+                  <h1 className='mr-5'> <FcLock size="5em" /> <br></br><br></br> Secure your Files</h1>
                 </div>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
 
                 <div className='small_space mb-5'>
-                  <div className='h7 mb-3 mt-5'>CURRENT ETH PRICE (1 ether) <FcSalesPerformance size="2em" /></div>
+                  <div className='h7 mb-3 mt-5'>CURRENT ETH PRICE (1 ETHER) <FcSalesPerformance size="2em" /></div>
                   {this.state.prices_els}
                   <h6 className='mt-4 '>Last updated: {this.state.last_update}</h6>
                 </div>
