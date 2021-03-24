@@ -1,8 +1,5 @@
-/* body,html */
-/* align-items: center; */
-
 .App {
-  text-align: center; /* color: #CEF9F2; #C0C0C0; */
+  text-align: center; 
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -22,7 +19,6 @@
 
 .btn_reverse:hover {
   color: rgb(192, 192, 192);
-    /* 255, 255, 255); */
 }
 
 .btn_reverse {
@@ -32,12 +28,10 @@
 
 .btn_download:hover {
   color: rgb(192, 192, 192);
-    /* rgb(8, 9, 87); */
 }
 
 .btn_download {
   color: #fff;
-  /* rgb(192, 192, 192); */
 }
 
 .whitespace_wrap {
@@ -46,10 +40,6 @@
 
 .modal-content {
   background-color: rgb(77, 76, 76) ;
-}
-
-.modal-backdrop {
-  /* background-color: green; */
 }
 
 .white-text {
@@ -70,7 +60,6 @@
   font-size: 1.3em;
   border: none;
 }
-/* .nav-link:hover{} */
 
 .file_store {
   text-align: center;
@@ -99,11 +88,6 @@
   color: #fff; 
   float: left;
 }
-
-/* .input_box:focus {
-  box-shadow: #6e967a;
-  border: #6e967a;
-} */
 
 .disabled {
   color: #222!important;
@@ -167,8 +151,6 @@ a:hover {
 }
 
 .img {
-  /* margin: 0 16px; */
-  /* float: left; */
   width:  215px;
   height: 185px;
   object-fit: cover;
@@ -186,8 +168,6 @@ a:hover {
   top: 0;
   right: 0;
   z-index: 1;
-  /* width: 10px !important; */
-  /* height: 10px !important; */
 }
 
 .img_shared {
@@ -200,15 +180,7 @@ a:hover {
   height: 20%;
   width: 20%;
   border-radius: 3px;
-  /* display: inline-block; */
 }
-
-h5 {
-  font-size: 1.2em;
-  color:rgb(192, 192, 192);
-  font-weight: 500;
-}
-
 
 .log_in_btn {
   background-color: #6e967a;
@@ -225,7 +197,7 @@ h5 {
 }
 
 .nav_btn {
-  color: #6e967a; /* 9AEDED CEF9F2 80C2AF 669073 */
+  color: #6e967a; 
 }
 
 .nav_btn:hover {
@@ -310,7 +282,7 @@ html {
 }
 
 .subtitle {
-  color: #6e967a; /* CEF9F2 80C2AF rgb(145, 145, 145) */
+  color: #6e967a; 
   font-size: 1.6em;
 }
 
@@ -322,13 +294,29 @@ p, h2 {
   color: #fff;
   font-size: 1.75em;
   font-weight: 400;
+  font-family: gibson-semibold,Arial,sans-serif;
 }
 
 h6 {
   font-size: 0.9em;
   color:rgb(192, 192, 192);
   font-weight: 500;
-  white-space: pre;  
+  white-space: pre; 
+}
+
+h5 {
+  font-size: 1.2em;
+  color:rgb(192, 192, 192);
+  font-weight: 500;
+  font-family: gibson-semibold,Arial,sans-serif;
+}
+
+h1 {
+  font-size: 1.2em;
+  color:#cccccc;
+  font-weight: 500;
+  font-family: gibson-semibold,Arial,sans-serif;
+  font-weight: bold;
 }
 
 .p1 {
@@ -344,25 +332,19 @@ h4 {
   color: #fff;
   font-size: 3.5em;
   font-weight: bold;
-  /* font-family: gibson-semibold,Arial,sans-serif; */
+  font-family: gibson-semibold,Arial,sans-serif;
 }
 
 h3 {
   color: #fff;
   font-size: 2.0em;
-  /* font-family: gibson-semibold,Arial,sans-serif; */
-  /* font-weight: bold; */
+  font-family: gibson-semibold,Arial,sans-serif;
+  font-weight: bold;
 }
 
 .nav {
- /*222 2A2D34 2A2F3A #414141 #C0C0C0 99FFFF rgb(19,  115, 161)*/
   background-color: #1e1e1e; 
   height: 60px;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-title {
@@ -372,9 +354,4 @@ h3 {
 
 .App-intro {
   font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

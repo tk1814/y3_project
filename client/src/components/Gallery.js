@@ -488,7 +488,6 @@ class Gallery extends Component {
       // set to false to remove the warning for the next share
       this.setState({ alreadyShared: false })
       this.closeModal();
-      // console.log(e);
       alert("Wrong public address entered or Request was rejected.")
     }
   }

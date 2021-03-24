@@ -70,7 +70,6 @@ class LogIn extends Component {
 
         // if user created an account
         if (username !== undefined) {
-          console.log(username)
           this.setState({ acceptTerms: true })
           this.setState({ correctUsername: username })
           this.setState({ showWarningUsernameExists: false })

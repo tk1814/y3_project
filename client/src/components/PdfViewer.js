@@ -32,7 +32,7 @@ class PdfViewer extends React.Component {
   }
 
   applyWatermark = (canvas, context) => {
-    context.globalAlpha = 0.20 // 0.30 (55/2) bold
+    context.globalAlpha = 0.20
     context.font = '35px  Arial'
     context.translate(canvas.width / 2, canvas.height / 2)
     context.rotate(-Math.atan(canvas.height / canvas.width))

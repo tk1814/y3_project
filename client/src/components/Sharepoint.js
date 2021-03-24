@@ -13,7 +13,6 @@ import { BiSort } from "react-icons/bi";
 import ModalDetails from './ModalDetails';
 import ReactImageProcess from 'react-image-process';
 import photoMagician from "photo-magician";
-// import Alert from 'react-bootstrap/Alert';
 
 class Sharepoint extends Component {
 
@@ -60,7 +59,6 @@ class Sharepoint extends Component {
       imageNamesUserSharedWith: [],
       fileNamesUserSharedWith: [],
     }
-    // this.toggleModal = this.toggleModal.bind(this);
   }
 
   redirectToLogin = () => {
@@ -505,7 +503,7 @@ class Sharepoint extends Component {
                   <ModalGateway>
                     {this.state.modalIsOpen ? (
                       <Modal onClose={() => this.toggleModal(this.state.img_index)}>
-                        <Carousel currentIndex={this.state.img_index} views={this.state.imageItemsModal} styles={{ //image_shared_src 
+                        <Carousel currentIndex={this.state.img_index} views={this.state.imageItemsModal} styles={{  
                           container: base => ({ ...base, height: '100vh', }),
                           view: base => ({ ...base, alignItems: 'center', display: 'flex ', height: 'calc(100vh - 54px)', justifyContent: 'center', '& > img': { maxHeight: 'calc(100vh - 94px)', }, })
                         }} />
@@ -513,15 +511,6 @@ class Sharepoint extends Component {
                   </ModalGateway>
 
                   <div className="smaller_space"></div>
-
-                  {/* <div style={{ maxWidth: 500 }}>
-                    { ['primary', //  'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark',
-                      ].map((variant, idx) => (
-                        <Alert key={idx} variant={variant}>
-                          This is a {variant} alert—check it out!
-                        </Alert> )) }
-                  </div> */}
-
                   {this.state.shareModalIsOpen ?
                     <ModalForm
                       closeModal={this.closeModal}
@@ -640,7 +629,6 @@ class Sharepoint extends Component {
                                   <td>
                                     {this.state.viewOnlyFileArr[item.id] ?
                                       <button id='view-only-pdf' className="btn file_btn" onClick={() => this.redirectToPDFViewer(item.File, item.id)} target="_blank" rel="noopener noreferrer">{item.Name}</button>
-                                      // <Link to={{ pathname: "/PdfViewer",  data: item.File  }} target="_blank">{item.Name}</Link>
                                       : <a id='view-pdf' href={item.File} target="_blank" rel="noopener noreferrer" style={{ color: '#80C2AF' }}>{item.Name}</a>}
                                   </td>
                                   <td>{item.From}</td>
