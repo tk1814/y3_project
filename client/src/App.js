@@ -5,23 +5,12 @@ import LogIn from './components/LogIn';
 import Gallery from './components/Gallery';
 import Sharepoint from './components/Sharepoint';
 import About from './components/About';
+import Root from './Root';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { BsHouse, BsLock, BsUnlock, BsFolder, BsQuestion } from "react-icons/bs";
 import { BiShareAlt } from "react-icons/bi";
 import PdfViewer from './components/PdfViewer';
-
-const Root = () => (
-  <div className="general_bg">
-    <div className="top_space">
-      <h4>Simpler Safer Faster</h4>
-      <h3 className="mt-4">Storing files on Ethereum has never been easier.</h3>
-      {(JSON.parse(localStorage.getItem('state'))) ?
-        <a id="start-btn" href="/gallery" className="btn start_btn mt-5" role="button">Get Started</a>
-        : <a id="start-btn" href="/login" className="btn start_btn mt-5" role="button">Get Started</a>}
-    </div>
-  </div>
-);
 
 class App extends Component {
 
@@ -82,25 +71,9 @@ class App extends Component {
             </Switch>
           </main>
         </BrowserRouter>
-
-        {/* see later carousel */}
-        {/* <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-              <Carousel views={images} onClickImage={this.toggleModal} />
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-              </div>
-            </main>
-          </div>
-        </div> */}
-
       </div>
     );
   }
-
-
 }
 
 export default App;

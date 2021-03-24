@@ -284,6 +284,16 @@ html {
   background-size: cover;
 }
 
+.prices {
+  border-style: solid;
+  border-color: #6e967a;
+}
+
+.price_box {
+  width: 700px;
+  margin: auto;
+}
+
 .simple_bg { background-color: #222; }
 .top_space { padding: 200px; }
 .top_login_space { padding: 130px; }
@@ -306,6 +316,19 @@ html {
 
 p, h2 {
   color: #6e967a;
+}
+
+.h7 {
+  color: #fff;
+  font-size: 1.75em;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: 0.9em;
+  color:rgb(192, 192, 192);
+  font-weight: 500;
+  white-space: pre;  
 }
 
 .p1 {
