@@ -3,7 +3,7 @@ import './App.css';
 import { FaEthereum, FaCanadianMapleLeaf } from "react-icons/fa";
 import { FcDocument, FcLock, FcStackOfPhotos, FcShare, FcSalesPerformance } from "react-icons/fc";
 import { IoLogoBitcoin } from "react-icons/io";
-import { BiEuro, BiPound } from "react-icons/bi";
+import { BiEuro, BiPound, BiDollar } from "react-icons/bi";
 import { CgSwiss } from "react-icons/cg"; 
 import { GiAustralia } from "react-icons/gi"; 
 
@@ -32,7 +32,7 @@ class Root extends Component {
 
           <h5 className='mb-3 mt-3 mr-3 ml-3 '>
             {index === 0 && <IoLogoBitcoin size="2em" />}
-            {index === 1 && <FaEthereum size="2em" />} 
+            {index === 1 && <BiDollar size="2em" />} 
             {index === 2 && <BiEuro size="2em" />} 
             {index === 3 && <GiAustralia size="2em" />} 
             {index === 4 && <CgSwiss size="2em" />} 
