@@ -198,6 +198,18 @@ class LogIn extends Component {
 
                     </form>
 
+                    {this.state.newUser &&
+                      <div style={{ textIndent: '0.5em' }}>
+                        <div className='footer_space mb-3'></div>
+                        <p style={{ color: '#56755f' }}>*
+                          <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://ethereum.org/en/terms-of-use/' target='_blank' rel="noopener noreferrer">
+                            Ethereum</a> and <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://metamask.io/terms.html' target='_blank' rel="noopener noreferrer">
+                            Metamask</a> conditions apply.
+                        </p>
+                      </div>}
+
+
+
                   </div>
 
                 ) : <h3 id="logged-in">You are already logged in.</h3>}
