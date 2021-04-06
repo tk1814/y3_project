@@ -25,8 +25,6 @@ class LogIn extends Component {
       showWarningUsernameExists: false,
       usernameContainsWhitespace: false,
     }
-    // this.onSignUp = this.onSignUp.bind(this);
-    // this.handleOnChange = this.handleOnChange.bind(this);
   }
 
   async componentDidMount() {
@@ -35,7 +33,6 @@ class LogIn extends Component {
     // Detects eth wallet account change 
     this.ethereum = window.ethereum
     if (this.ethereum) {
-      // already happens  window.ethereum.enable(); from the other function // important: do not change window.eth
       this.ethereum.on('accountsChanged', function (accounts) {
         this.setState({ account: accounts[0] })
         localStorage.clear();
@@ -201,15 +198,12 @@ class LogIn extends Component {
                     {this.state.newUser &&
                       <div style={{ textIndent: '0.5em' }}>
                         <div className='footer_space mb-3'></div>
-                        <p style={{ color: '#56755f' }}>*
-                          <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://ethereum.org/en/terms-of-use/' target='_blank' rel="noopener noreferrer">
-                            Ethereum</a> and <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://metamask.io/terms.html' target='_blank' rel="noopener noreferrer">
-                            Metamask</a> conditions apply.
+                        <p style={{ color: '#56755f' }}>* Click <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://ethereum.org/en/terms-of-use/' target='_blank' rel="noopener noreferrer">
+                          here</a> to read the terms of use (
+                            <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://metamask.io/terms.html' target='_blank' rel="noopener noreferrer">
+                            Metamask</a> terms also apply).
                         </p>
                       </div>}
-
-
-
                   </div>
 
                 ) : <h3 id="logged-in">You are already logged in.</h3>}

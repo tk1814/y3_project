@@ -520,7 +520,7 @@ class Sharepoint extends Component {
 
                   <Tabs className="file_space table"
                     defaultActiveKey="gallery" id="uncontrolled-tab-example">
-                    <Tab eventKey="gallery" title="Shared images">
+                    <Tab eventKey="gallery" title="Shared Gallery">
 
                       {(this.state.imageHashesShared.length !== 0) ? (
                         <div style={{ display: 'table-cell' }}>
@@ -592,7 +592,7 @@ class Sharepoint extends Component {
                           </Table>
                         </div>) : <h3 className='mt-5'>No images shared with you.</h3>}
                     </Tab>
-                    <Tab eventKey="files" title="Shared files">
+                    <Tab eventKey="files" title="Shared Library">
 
                       {(this.state.fileHashesShared.length !== 0) ? (
                         <div>

@@ -565,7 +565,7 @@ class Gallery extends Component {
                         ) : <h3 className="mt-5">No images to display, try uploading one.</h3>}
 
                       </Tab>
-                      <Tab eventKey="files" title="Files">
+                      <Tab eventKey="files" title="Library">
 
                         {(this.state.fileHashes.length !== 0) ? (
                           <div className="file_space mt-5">
