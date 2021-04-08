@@ -44,7 +44,7 @@ contract("Blockchain Credential Store tests", async accounts => {
     assert.equal(actual, expected);
   });
 
-  describe("Reverting state - Access Cotrol", () => {
+  describe("Reverting state - Access Control", () => {
 
     it("Test: revert state when accessing images without permission", async () => {
       await expectRevert(instance.getImages({ from: accounts[5] }), 'Caller is not a user');

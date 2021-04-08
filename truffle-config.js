@@ -79,13 +79,13 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
-    reporter: 'eth-gas-reporter',
-    reporterOptions: {
-      excludeContracts: ['Migrations'],
-      currency: 'GBP',
-      coinmarketcap: '3962187c-2132-4bfd-8dd4-d6031f950eb3',
-      showTimeSpent: true
-    }
+    // reporter: 'eth-gas-reporter',
+    // reporterOptions: {
+    //   excludeContracts: ['Migrations'],
+    //   currency: 'GBP',
+    //   coinmarketcap: '3962187c-2132-4bfd-8dd4-d6031f950eb3',
+    //   showTimeSpent: true
+    // }
     // timeout: 100000
   },
 
