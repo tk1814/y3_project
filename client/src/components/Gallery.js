@@ -543,7 +543,7 @@ class Gallery extends Component {
                       <Tab eventKey="gallery" title="Gallery">
 
                         {(this.state.imageHashes.length !== 0) ? (
-                          <div className="file_space mt-5">
+                          <div className="file_space mt-5 gall_space">
                             {this.state.imageItems}
                             {/* Image details modal */}
                             {this.state.detailsModalIsOpen && fileType ?
@@ -568,7 +568,7 @@ class Gallery extends Component {
                       <Tab eventKey="files" title="Library">
 
                         {(this.state.fileHashes.length !== 0) ? (
-                          <div className="file_space mt-5">
+                          <div className="file_space mt-5 gall_space">
                             {this.state.fileItems}
                             {/* File details modal */}
                             {this.state.detailsModalIsOpen && !fileType ?

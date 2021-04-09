@@ -72,6 +72,12 @@
   margin-right: 170px;
 }
 
+.gall_space {
+  width: 1200px ; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .submit_btn {
   background-color: #6e967a;
   color: #fff;
