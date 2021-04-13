@@ -15,17 +15,17 @@ class About extends Component {
       <div className="about_bg">
         <div className="small_top_space"></div>
 
-        <h4 className="">How To </h4>
+        {/* <h3 className="">How to join the Ethereum network</h3> */}
+        <div className="h9">How to access the application</div>
+
 
         <div className="middle_about_space"></div>
 
-        <div className="mt-3 h8">1. Download the Metamask plugin <a style={{color: '#6e967a'}} href='https://metamask.io/download'>here</a> </div>
+        <div className="mt-3 h8">1. Download the Metamask plugin <a style={{color: '#6e967a'}} href='https://metamask.io/download' target="_blank" rel="noopener noreferrer">here</a> </div>
         <div className="mt-3 h8">2. Create a MetaMask account </div>
         <div className="mt-3 h8">3. Add funds to your account </div>
         <div className="mt-3 h8">4. Go to the Login page and enter your username to sign up</div>
         <div className="mt-3 h8">5. You are ready to upload and share your files </div>
-        {/* <h3 className="mt-3"></h3> */}
-
 
       </div >
     );

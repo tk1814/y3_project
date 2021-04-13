@@ -269,12 +269,15 @@ html {
 }
 
 .prices {
-  border-style: solid;
-  border-color: #6e967a;
+  /* border-style: solid; */
+  /* border-color: #6e967a; */
+  border-radius: 8px;
+  background-color: rgb(45,45,45);
+  width: 1050px;
 }
 
 .price_box {
-  width: 700px;
+  width: 1050px;
   margin: auto;
 }
 
@@ -325,10 +328,10 @@ h5 {
 
 h1 {
   font-size: 1.2em;
-  color:#cccccc;
+  color:#fff;
   font-weight: 500;
   font-family: gibson-semibold,Arial,sans-serif;
-  font-weight: bold;
+  /* font-weight: bold;  ccccccc */
 }
 
 .p1 {
@@ -347,16 +350,30 @@ h4 {
   font-family: gibson-semibold,Arial,sans-serif;
 }
 
+.h9 {
+  color: #fff;
+  font-size: 2.9em;
+  font-weight: bold;
+  font-family: gibson-semibold,Arial,sans-serif;
+}
+
+.h10 {
+  color: #fff;
+  font-size: 2.1em;
+  /* font-weight: bold; */
+  font-family: gibson-semibold,Arial,sans-serif;
+}
+
 h3 {
   color: #fff;
   font-size: 2.0em;
   font-family: gibson-semibold,Arial,sans-serif;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .h8 {
   color: #fff;
-  font-size: 1.6em;
+  font-size: 1.8em;
   font-family: gibson-semibold,Arial,sans-serif;
   /* font-weight: bold; */
 }

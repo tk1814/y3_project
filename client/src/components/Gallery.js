@@ -506,7 +506,9 @@ class Gallery extends Component {
           <div>
             <div className="top_gallery_space">
               <h4>Hello {this.state.username},</h4>
-              <h3 className="mt-4">Upload a file</h3>
+              <h3 className="mt-4">Your connection was successful.</h3>
+              <h3 className="">You can now upload and share images and files.</h3>
+
 
               <div className="container-fluid mt-4">
                 <div className="row">

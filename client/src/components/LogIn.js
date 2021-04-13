@@ -164,12 +164,13 @@ class LogIn extends Component {
 
                   <div className="top_login_space">
 
-                    {!this.state.newUser ? <h3 id="sign-label" className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to login.</h3>
-                      : <h3 id="login-label" className="mt-4">Connect your MetaMask account with only one click.<br></br> Enter your username to sign up.</h3>}
+                    <div className="h10">Connect your MetaMask account with just one click.</div>
+                    {!this.state.newUser ? <h3 id="sign-label">Enter your username to login.</h3>
+                      : <h3 id="login-label">Please follow the instructions on the <a href='/About' style={{color: '#6e967a', display:'inline'}} rel="noopener noreferrer">How To</a> page.<br></br> Enter your username to sign up.</h3>}
 
                     <form onSubmit={(e) => { this.onSignUp(e) }}>
                       <label>
-                        <input id="input-usr" type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder=" " maxLength="16" required />
+                        <input id="input-usr" type="text" value={this.state.username} className="mt-5 container username_input" onChange={this.handleOnChange} size="20" placeholder="" maxLength="16" required />
                       </label>
 
                       <br></br>
@@ -197,7 +198,7 @@ class LogIn extends Component {
 
                     {this.state.newUser &&
                       <div style={{ textIndent: '0.5em' }}>
-                        <div className='footer_space mb-3'></div>
+                        <div className='footer_space'></div>
                         <p style={{ color: '#56755f' }}>* Click <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://ethereum.org/en/terms-of-use/' target='_blank' rel="noopener noreferrer">
                           here</a> to read the terms of use (
                             <a style={{ color: '#6e967a', textDecoration: 'underline' }} href='https://metamask.io/terms.html' target='_blank' rel="noopener noreferrer">

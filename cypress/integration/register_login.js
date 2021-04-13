@@ -14,7 +14,7 @@ describe('Test: Register and login', () => {
     cy.get('h3').then(($h3) => {
 
       // new user
-      if ($h3.text().includes('Connect your MetaMask account with only one click. Enter your username to sign up.')) {
+      // if ($h3.text().includes('Connect your MetaMask account with just one click. Enter your username to sign up.')) {
 
         // terms & conditions not accepted
         const input = "Theodora"
