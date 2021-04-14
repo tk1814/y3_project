@@ -15,10 +15,7 @@ class About extends Component {
       <div className="about_bg">
         <div className="small_top_space"></div>
 
-        {/* <h3 className="">How to join the Ethereum network</h3> */}
         <div className="h9">How to connect to the application</div>
-
-
         <div className="middle_about_space"></div>
 
         <div className="mt-3 h8">1. Download the Metamask plugin <a style={{color: '#6e967a'}} href='https://metamask.io/download' target="_blank" rel="noopener noreferrer">here</a> </div>

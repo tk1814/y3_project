@@ -66,12 +66,8 @@ class Root extends Component {
       <div className="general_bg">
         <div className="top_space">
 
-          {/* <h4>Decentralised Storage is Here</h4>
-          <h3 className="mt-4">Storing files on Ethereum has never been easier. </h3>
-          <div className="h9">Simpler Safer Faster</div> */}
-           <h4>Simpler Safer Faster</h4>
+          <h4>Simpler Safer Faster</h4>
           <h3 className="mt-4">Storing files on Ethereum has never been easier.</h3>
-          {/* <h3 className="mt-3">Join the network.</h3> */}
 
           {(JSON.parse(localStorage.getItem('state'))) ?
             <a id="start-btn" href="/gallery" className="btn start_btn mt-5" role="button">Get Started</a>
@@ -82,7 +78,6 @@ class Root extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto white-text">
-                {/* <br></br> */}
                 <br></br>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
@@ -103,14 +98,6 @@ class Root extends Component {
                   <br></br>
                 </div>
                 <h6 className='mt-3'>Last updated: {this.state.last_update}</h6>
-
-
-                {/* <div className='small_space prices' style={{   alignItems: 'center' }}>
-                  <div className='h7  mt-5'>CURRENT ETH PRICE (1 ETHER) <FcSalesPerformance size="2em" /></div>
-                  {this.state.prices_els}
-                  <br></br>
-                </div>
-                <h6 className='mt-1 '>Last updated: {this.state.last_update}</h6> */}
 
                 <div className='smaller_space'></div>
               </div>
