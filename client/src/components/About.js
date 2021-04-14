@@ -16,7 +16,7 @@ class About extends Component {
         <div className="small_top_space"></div>
 
         {/* <h3 className="">How to join the Ethereum network</h3> */}
-        <div className="h9">How to access the application</div>
+        <div className="h9">How to connect to the application</div>
 
 
         <div className="middle_about_space"></div>

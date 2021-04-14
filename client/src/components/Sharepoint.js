@@ -576,15 +576,15 @@ class Sharepoint extends Component {
                                   <td>
                                     <button id="image-details" className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(item.id, 'image')}><RiInformationLine size="1.6em" /></button>
                                   </td>
+                                  <td>{!this.state.viewOnlyImageArr[item.id] &&
+                                    <button id='share-btn' className="btn btn_download share_icon" type="button" onClick={() => this.openModal(item.id, 'image')}><RiUserShared2Line size="1.4em" /></button>}
+                                  </td>
                                   <td>{!this.state.viewOnlyImageArr[item.id] && <button id='download-btn' className="btn btn_download download_icon" type="button" onClick={() => {
                                     if (item.Name.match(/.(gif)/i))
                                       this.downloadFile(item.Image, 'gif', item.Name);
                                     else
                                       this.downloadFile(item.Image, 'image', item.Name);
                                   }}><BiDownload size="1.8em" /></button>}
-                                  </td>
-                                  <td>{!this.state.viewOnlyImageArr[item.id] &&
-                                    <button id='share-btn' className="btn btn_download share_icon" type="button" onClick={() => this.openModal(item.id, 'image')}><RiUserShared2Line size="1.4em" /></button>}
                                   </td>
                                 </tr>
                               ))}
@@ -635,10 +635,10 @@ class Sharepoint extends Component {
                                   <td>{item.Address}</td>
                                   <td>{item.Date}</td>
                                   <td><button id='file-details' className="btn btn_download download_icon" type="button" onClick={() => this.openDetailsModal(item.id, 'file')}><RiInformationLine size="1.6em" /></button></td>
+                                  <td>{!this.state.viewOnlyFileArr[item.id] && <button id='share-file-btn' className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(item.id, 'file')}><RiUserShared2Line size="1.4em" /></button>}</td>
                                   <td>{!this.state.viewOnlyFileArr[item.id] && <button id='download-file-btn' className="btn btn_download download_icon" type="button" onClick={() => {
                                     this.downloadFile(item.File, 'file', item.Name);
                                   }}><BiDownload size="1.8em" /></button>} </td>
-                                  <td>{!this.state.viewOnlyFileArr[item.id] && <button id='share-file-btn' className="btn btn_download ml-3 share_icon" type="button" onClick={() => this.openModal(item.id, 'file')}><RiUserShared2Line size="1.4em" /></button>}</td>
                                 </tr>
                               ))}
                             </tbody>
